@@ -1,13 +1,22 @@
 # DartMeltySoundFont
 
-DartMeltySoundFont is a SoundFont synthesizer (i.e. '.sf2' files) written in Dart.
+DartMeltySoundFont is a SoundFont synthesizer (i.e. '.sf2' player) written in pure Dart.
 
-It is a port of MeltySynth (C#) written by Nobuaki Tanaka, to Dart.
+It is a port of MeltySynth (C#, MIT License) written by Nobuaki Tanaka, to Dart.
 
 https://github.com/sinshu/meltysynth
 
+## Dependencies
 
-Example code to synthesize a simple chord:
+This package has no dependencies.
+
+## Maintanence
+
+Apart from breaking changes to the Dart language (rare), this package has no external dependencies and should work on any Dart SDK >=2.12 indefinitely. This package was written against Dart SDK 2.16.1.
+
+## Example
+
+Ssynthesize a simple chord:
 
 ```
 
@@ -43,7 +52,6 @@ synth.renderMonoInt16(buf16);
 
 ## Features
 
-* No dependencies
 * No memory allocation in the rendering process.
 
 * __Wave synthesis__
