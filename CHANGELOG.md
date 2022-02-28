@@ -1,5 +1,9 @@
 # 1.0.3
 
+Files need to go in 'lib' folder. Not a 'src' folder.
+
+# 1.0.3
+
 Update readme.
 
 # 1.0.2
