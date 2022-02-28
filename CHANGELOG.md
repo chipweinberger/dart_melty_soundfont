@@ -1,4 +1,8 @@
-# 1.0.3
+# 1.0.5
+
+Fix imports in example.
+
+# 1.0.4
 
 Files need to go in 'lib' folder. Not a 'src' folder.
 
