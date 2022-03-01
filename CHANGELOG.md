@@ -1,3 +1,7 @@
+# 1.0.6
+
+Add package header. Update Readme. again rename lib->src. Seems to not have been comitted. 
+
 # 1.0.5
 
 Fix imports in example.

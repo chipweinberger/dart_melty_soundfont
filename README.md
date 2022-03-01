@@ -21,10 +21,7 @@ Ssynthesize a simple chord:
 ```
 
 // Necessary Imports
-import 'package:dart_melty_soundfont/synthesizer.dart';
-import 'package:dart_melty_soundfont/synthesizer_settings.dart';
-import 'package:dart_melty_soundfont/audio_renderer_ex.dart';
-import 'package:dart_melty_soundfont/array_int16.dart';
+import 'package:dart_melty_soundfont/dart_melty_soundfont.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 // Create the synthesizer.

@@ -5,8 +5,6 @@
 
 import 'dart:typed_data';
 
-import 'soundfont_math.dart';
-
 import 'binary_reader.dart';
 
 
