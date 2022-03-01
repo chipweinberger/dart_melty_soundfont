@@ -5,8 +5,6 @@
 
 import 'dart:math';
 
-import 'package:flutter/services.dart';
-
 import 'soundfont.dart';
 import 'channel.dart';
 import 'voice.dart';
