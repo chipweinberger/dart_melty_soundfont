@@ -4,6 +4,7 @@
 
 
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'soundfont.dart';
 import 'channel.dart';
