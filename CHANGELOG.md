@@ -1,3 +1,7 @@
+# 1.0.7
+
+Missing import 'dart:typed_data' 
+
 # 1.0.6
 
 Add package header. Update Readme. again rename lib->src. Seems to not have been comitted. 
