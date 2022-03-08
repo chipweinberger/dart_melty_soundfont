@@ -37,8 +37,15 @@ Synthesizer synth = Synthesizer.loadByteData(bytes,
 
 int instruments = synth.soundFont.presets.length;
 
-// You might need to select the specific instrument
+// you might need to select the instrument, like so:
 for (int i = 0; i < instruments; i++){
+  Preset p = synth.soundFont.presets[i];
+  synth.processMidiMessage(
+     channel:i % 16, 
+     command:0xB0, // control change
+     data1: 0, //bank select
+     data2:p.bankNumber, 
+   );
   synth.processMidiMessage(
      channel:i % 16, 
      command:0xC0, //program change
