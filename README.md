@@ -35,11 +35,25 @@ Synthesizer synth = Synthesizer.loadByteData(bytes,
         enableReverbAndChorus: true,
     ));
 
+int instruments = synth.soundFont.presets.length;
+
+// You might need to select the specific instrument
+for (int i = 0; i < instruments; i++){
+  synth.processMidiMessage(
+     channel:i % 16, 
+     command:0xC0, //program change
+     data1:p.patchNumber, 
+     data2:0
+   );
+}
+
 // Turn on some notes
-synth.noteOn(channel: 0, key: 72, velocity: 120);
-synth.noteOn(channel: 0, key: 76, velocity: 120);
-synth.noteOn(channel: 0, key: 79, velocity: 120);
-synth.noteOn(channel: 0, key: 82, velocity: 127);
+for (int i = 0; i < instruments; i++ {
+   synth.noteOn(channel: i % 16, key: 72, velocity: 120);
+   synth.noteOn(channel: i % 16, key: 76, velocity: 120);
+   synth.noteOn(channel: i % 16, key: 79, velocity: 120);
+   synth.noteOn(channel: i % 16, key: 82, velocity: 120);
+}
 
 // Render the waveform (3 seconds)
 ArrayInt16 buf16 = ArrayInt16.zeros(numShorts: 44100 * 3);

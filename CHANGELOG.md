@@ -1,3 +1,7 @@
+# 1.0.8
+
+Make example code select an instrument.
+
 # 1.0.7
 
 Missing import 'dart:typed_data' 
