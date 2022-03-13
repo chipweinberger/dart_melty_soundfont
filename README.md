@@ -12,14 +12,13 @@ This package has no dependencies.
 
 ## Maintanence
 
-Apart from breaking changes to the Dart language (rare), this package has no external dependencies and should work on any Dart SDK >=2.12 indefinitely. This package was written against Dart SDK 2.16.1.
+Apart from breaking changes to the Dart language (rare), since this package has no dependencies it should work on any Dart SDK >=2.12 indefinitely. This package was written against Dart SDK 2.16.1.
 
 ## Example
 
 Ssynthesize a simple chord:
 
 ```
-
 // Necessary Imports
 import 'package:dart_melty_soundfont/dart_melty_soundfont.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -35,32 +34,29 @@ Synthesizer synth = Synthesizer.loadByteData(bytes,
         enableReverbAndChorus: true,
     ));
 
-int instruments = synth.soundFont.presets.length;
+// you might want to select the patchNumber & bankNumber
+// of the instrument you want to play, if it's not 0.
+//
+// Look through synth.soundFont.presets[X].patchNumber & bankNumber
+// for all valid instrument choices.
+//
+// Example for setting patchNumer:
+//
+// int patchNumber = synth.soundFont.presets[0].patchNumber 
+// synth.processMidiMessage(
+//  channel:0, 
+//  command:0xC0, //program change//
+//  data1:patchNumber, 
+//  data2:0
+// );
 
-// you might need to select the instrument, like so:
-for (int i = 0; i < instruments; i++){
-  Preset p = synth.soundFont.presets[i];
-  synth.processMidiMessage(
-     channel:i % 16, 
-     command:0xB0, // control change
-     data1: 0, //bank select
-     data2:p.bankNumber, 
-   );
-  synth.processMidiMessage(
-     channel:i % 16, 
-     command:0xC0, //program change
-     data1:p.patchNumber, 
-     data2:0
-   );
-}
 
 // Turn on some notes
-for (int i = 0; i < instruments; i++ {
-   synth.noteOn(channel: i % 16, key: 72, velocity: 120);
-   synth.noteOn(channel: i % 16, key: 76, velocity: 120);
-   synth.noteOn(channel: i % 16, key: 79, velocity: 120);
-   synth.noteOn(channel: i % 16, key: 82, velocity: 120);
-}
+synth.noteOn(channel: 0, key: 72, velocity: 120);
+synth.noteOn(channel: 0, key: 76, velocity: 120);
+synth.noteOn(channel: 0, key: 79, velocity: 120);
+synth.noteOn(channel: 0, key: 82, velocity: 120);
+
 
 // Render the waveform (3 seconds)
 ArrayInt16 buf16 = ArrayInt16.zeros(numShorts: 44100 * 3);
