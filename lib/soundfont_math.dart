@@ -3,11 +3,21 @@ import 'dart:core';
 import 'dart:math';
 
 int castToByte(int v) {
-  return v & 0xFF;
+  int m = v & 0xFF;
+  if (m >= 128){
+    // handle two's compliment
+    m = -128 + (m - 128);
+  }
+  return m;
 }
 
 int castToShort(int v) {
-  return v & 0xFFFF;
+  int m = v & 0xFFFF;
+  if (m >= 32768){
+    // handle two's compliment
+    m = -32768 + (m - 32768);
+  }
+  return m;
 }
 
 class SoundFontMath

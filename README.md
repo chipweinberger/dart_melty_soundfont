@@ -45,9 +45,19 @@ Synthesizer synth = Synthesizer.loadByteData(bytes,
 // int patchNumber = synth.soundFont.presets[0].patchNumber 
 // synth.processMidiMessage(
 //  channel:0, 
-//  command:0xC0, //program change//
+//  command:0xC0, // 0xC0 = program changes
 //  data1:patchNumber, 
 //  data2:0
+// );
+//
+// Example for setting bankNumber:
+//
+// int bankNumber = synth.soundFont.presets[0].bankNumber 
+// synth.processMidiMessage(
+//  channel:0, 
+//  command:0xB0, // 0xB0 = control change
+//  data1:0x00,   // 0x00 = bank select
+//  data2:bankNumber,
 // );
 
 

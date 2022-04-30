@@ -1,3 +1,7 @@
+# 1.1.0
+
+Fixed bug that caused negative SoundFont parameters to be interpreted as large integers. Some SoundFonts would throw errors due to this, or sound very odd.
+
 # 1.0.10
 
 Readme
