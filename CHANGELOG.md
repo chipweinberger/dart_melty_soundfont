@@ -1,3 +1,7 @@
+# 1.1.2
+
+Readme
+
 # 1.1.1
 
 Relax SampleEndLoop check, as some non-spec-compliant SoundFonts use a value of zero as a special case.

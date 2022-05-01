@@ -12,7 +12,9 @@ This package has no dependencies.
 
 ## Maintanence
 
-Apart from breaking changes to the Dart language (rare), since this package has no dependencies it should work on any Dart SDK >=2.12 indefinitely. This package was written against Dart SDK 2.16.1.
+This project was specifically designed to not require maintaence, in large part by not having any dependencies. Apart from breaking changes to the Dart language (rare), it should be solid code that works for decades. It will work on any Dart SDK sdk>=2.12 && sdk<3.0 indefinitely. 
+
+This package was written against Dart SDK 2.16.1.
 
 ## Example
 
