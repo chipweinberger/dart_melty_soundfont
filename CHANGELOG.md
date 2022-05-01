@@ -1,3 +1,7 @@
+# 1.1.1
+
+Relax SampleEndLoop check, as some non-spec-compliant SoundFonts use a value of zero as a special case.
+
 # 1.1.0
 
 Fixed bug that caused negative SoundFont parameters to be interpreted as large integers. Some SoundFonts would throw errors due to this, or sound very odd.

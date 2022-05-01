@@ -110,7 +110,7 @@ class SoundFont {
         throw "The end position of the sample '${sample.name}' is out of range.";
       }
 
-      if (!(0 < sample.endLoop && sample.endLoop <= sampleCount)) {
+      if (!(0 <= sample.endLoop && sample.endLoop <= sampleCount)) {
         throw "The loop end position of the sample '${sample.name}' is out of range.";
       }
     }
@@ -138,8 +138,7 @@ class SoundFont {
           throw "'sampleEnd' is out of range. '${region.sample.name}'.'${instrument.name}'.";
         }
         
-        if (!(0 < region.sampleEndLoop() &&
-            region.sampleEndLoop() <= sampleCount)) {
+        if (!(0 <= region.sampleEndLoop() && region.sampleEndLoop() <= sampleCount)) {
           throw "'sampleEndLoop' is out of range. '${region.sample.name}'.'${instrument.name}'.";
         }
 
