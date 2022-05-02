@@ -100,7 +100,9 @@ class Oscillator
                 if (t > 0)
                 {
                   // clear slice
-                  block.fillRange(t, block.length - t, 0.0);
+                  block.fillRange(t, // startIdx
+                                  block.length, // endIdx
+                                  0.0); // value
                   return true;
                 }
                 else

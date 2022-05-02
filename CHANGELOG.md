@@ -1,3 +1,7 @@
+# 1.1.3
+
+Fixed bug in Oscillator code that could cause out of bounds write error.
+
 # 1.1.2
 
 Readme
