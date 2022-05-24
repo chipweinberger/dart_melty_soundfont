@@ -18,7 +18,7 @@ This package was written against Dart SDK 2.16.1.
 
 ## Example
 
-Ssynthesize a simple chord:
+Synthesize a simple chord:
 
 ```
 // Necessary Imports
@@ -75,6 +75,14 @@ ArrayInt16 buf16 = ArrayInt16.zeros(numShorts: 44100 * 3);
 
 synth.renderMonoInt16(buf16);
 ```
+
+## Playing Sound
+
+This library does not audibly make sound, it only generates the PCM waveform. 
+
+To actually hear something, you need to pass the generated PCM waveform to your device's speakers. I recommend using [raw_sound](https://pub.dev/packages/raw_sound) or [Web Audio](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) for that task, depending on your platform.
+
+See [raw_sound's PCM audio example](https://pub.dev/packages/raw_sound/example), for iOS and Android.
 
 ## Features
 
