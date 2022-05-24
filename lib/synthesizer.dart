@@ -219,7 +219,7 @@ class Synthesizer
                         break;
 
                     case 0x21: // Modulation Fine
-                        channelInfo.setModulationCoarse(data2);
+                        channelInfo.setModulationFine(data2);
                         break;
 
                     case 0x06: // Data Entry Coarse

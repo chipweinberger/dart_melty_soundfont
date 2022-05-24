@@ -1,3 +1,7 @@
+# 1.1.5
+
+'setModulationFine' would not always work, due to typo.
+
 # 1.1.4
 
 Readme.
