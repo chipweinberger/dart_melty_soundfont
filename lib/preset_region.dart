@@ -2,7 +2,7 @@ import 'zone.dart';
 import 'soundfont_math.dart';
 import 'src/generator.dart';
 import 'src/generator_type.dart';
-import 'instrument.dart';
+import 'src/instrument.dart';
 
 /// Represents a preset region.
 /// A preset region indicates how the parameters of the instrument should be modified in the preset.
@@ -14,7 +14,7 @@ class PresetRegion {
   PresetRegion({required this.instrument, required this.gs});
 
   factory PresetRegion.defaultPresetRegion() {
-    return PresetRegion(instrument: Instrument.defaultInstrument(), gs: {});
+    return PresetRegion(instrument: Instrument.defaults, gs: {});
   }
 
   factory PresetRegion.fromLists(
@@ -48,7 +48,7 @@ class PresetRegion {
 
       inst = instruments[id];
     } else {
-      inst = Instrument.defaultInstrument();
+      inst = Instrument.defaults;
     }
 
     return PresetRegion(instrument: inst, gs: gs);

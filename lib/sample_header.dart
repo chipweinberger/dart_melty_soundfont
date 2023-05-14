@@ -31,32 +31,31 @@ class SampleHeader {
   final int link; // uint16
   final SampleType type;
 
-  SampleHeader(
-      {required this.name,
-      required this.start,
-      required this.end,
-      required this.startLoop,
-      required this.endLoop,
-      required this.sampleRate,
-      required this.originalPitch,
-      required this.pitchCorrection,
-      required this.link,
-      required this.type});
+  SampleHeader({
+    required this.name,
+    required this.start,
+    required this.end,
+    required this.startLoop,
+    required this.endLoop,
+    required this.sampleRate,
+    required this.originalPitch,
+    required this.pitchCorrection,
+    required this.link,
+    required this.type,
+  });
 
-  factory SampleHeader.defaultSampleHeader() {
-    return SampleHeader(
-      name: 'Default',
-      start: 0,
-      end: 0,
-      startLoop: 0,
-      endLoop: 0,
-      sampleRate: 0,
-      originalPitch: 0,
-      pitchCorrection: 0,
-      link: 0,
-      type: SampleType.none,
-    );
-  }
+  static SampleHeader defaults = SampleHeader(
+    name: 'Default',
+    start: 0,
+    end: 0,
+    startLoop: 0,
+    endLoop: 0,
+    sampleRate: 0,
+    originalPitch: 0,
+    pitchCorrection: 0,
+    link: 0,
+    type: SampleType.none,
+  );
 
   factory SampleHeader.fromReader(BinaryReader reader) {
     String name = reader.readFixedLengthString(20);

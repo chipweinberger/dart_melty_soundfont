@@ -26,4 +26,6 @@ class Zone {
 
     return zones;
   }
+
+  static Zone empty = Zone(generators: []);
 }

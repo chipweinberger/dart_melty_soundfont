@@ -1,7 +1,7 @@
 import 'preset_region.dart';
 import 'preset_info.dart';
 import 'zone.dart';
-import 'instrument.dart';
+import 'src/instrument.dart';
 
 /// Represents a preset in the SoundFont.
 class Preset {

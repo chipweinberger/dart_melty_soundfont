@@ -1,6 +1,6 @@
 import 'src/generator.dart';
-import 'instrument.dart';
-import 'instrument_info.dart';
+import 'src/instrument.dart';
+import 'src/instrument_info.dart';
 import 'modulator.dart';
 import 'preset.dart';
 import 'preset_info.dart';
@@ -91,8 +91,11 @@ class SoundFontParameters {
     List<Zone> instrumentZones =
         Zone.create(instrumentBag, instrumentGenerators);
 
-    List<Instrument> instruments =
-        Instrument.create(instrumentInfos, instrumentZones, sampleHeaders);
+    List<Instrument> instruments = Instrument.create(
+      instrumentInfos,
+      instrumentZones,
+      sampleHeaders,
+    );
 
     List<Zone> presetZones = Zone.create(presetBag, presetGenerators);
 

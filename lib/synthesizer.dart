@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'src/channel.dart';
 import 'src/chorus.dart';
-import 'instrument_region.dart';
+import 'src/instrument_region.dart';
 import 'preset.dart';
 import 'preset_region.dart';
 import 'region_pair.dart';

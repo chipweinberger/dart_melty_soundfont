@@ -1,4 +1,4 @@
-import 'instrument_region.dart';
+import 'src/instrument_region.dart';
 import 'synthesizer.dart';
 import 'voice.dart';
 
@@ -28,7 +28,7 @@ class VoiceCollection extends Iterable<Voice> {
 
     double lowestPriority = double.maxFinite;
 
-    int exclusiveClass = region.exclusiveClass();
+    int exclusiveClass = region.exclusiveClass;
 
     if (exclusiveClass == 0) {
       for (var i = 0; i < _activeVoiceCount; i++) {

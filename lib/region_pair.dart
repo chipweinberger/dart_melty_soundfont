@@ -1,5 +1,5 @@
 ﻿import 'src/generator_type.dart';
-import 'instrument_region.dart';
+import 'src/instrument_region.dart';
 import 'loop_mode.dart';
 import 'preset_region.dart';
 import 'soundfont_math.dart';
@@ -11,24 +11,24 @@ class RegionPair {
   RegionPair({required this.preset, required this.instrument});
 
   int getGen(GeneratorType type) {
-    return instrument.getGen(type) + preset.getGen(type);
+    return instrument[type] + preset.getGen(type);
   }
 
-  int sampleStart() => instrument.sampleStart();
+  int sampleStart() => instrument.sampleStart;
 
-  int sampleEnd() => instrument.sampleEnd();
+  int sampleEnd() => instrument.sampleEnd;
 
-  int sampleStartLoop() => instrument.sampleStartLoop();
+  int sampleStartLoop() => instrument.sampleStartLoop;
 
-  int sampleEndLoop() => instrument.sampleEndLoop();
+  int sampleEndLoop() => instrument.sampleEndLoop;
 
-  int startAddressOffset() => instrument.startAddressOffset();
+  int startAddressOffset() => instrument.startAddressOffset;
 
-  int endAddressOffset() => instrument.endAddressOffset();
+  int endAddressOffset() => instrument.endAddressOffset;
 
-  int startLoopAddressOffset() => instrument.startLoopAddressOffset();
+  int startLoopAddressOffset() => instrument.startLoopAddressOffset;
 
-  int endLoopAddressOffset() => instrument.endLoopAddressOffset();
+  int endLoopAddressOffset() => instrument.endLoopAddressOffset;
 
   int modulationLfoToPitch() => getGen(GeneratorType.ModulationLfoToPitch);
 
@@ -124,13 +124,13 @@ class RegionPair {
   int fineTune() =>
       getGen(GeneratorType.FineTune) + instrument.sample.pitchCorrection;
 
-  LoopMode sampleModes() => instrument.sampleModes();
+  LoopMode sampleModes() => instrument.sampleModes;
 
   int scaleTuning() => getGen(GeneratorType.ScaleTuning);
 
-  int exclusiveClass() => instrument.exclusiveClass();
+  int exclusiveClass() => instrument.exclusiveClass;
 
-  int rootKey() => instrument.rootKey();
+  int rootKey() => instrument.rootKey;
 
   // int KeyRangeStart => getGen(GeneratorParameterType.KeyRange) & 0xFF;
   // int KeyRangeEnd => (getGen(GeneratorParameterType.KeyRange) >> 8) & 0xFF;

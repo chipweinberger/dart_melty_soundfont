@@ -1,9 +1,9 @@
 ﻿import 'dart:typed_data';
 
-import 'instrument_region.dart';
+import 'src/instrument_region.dart';
 import 'sample_header.dart';
 import 'preset.dart';
-import 'instrument.dart';
+import 'src/instrument.dart';
 import 'src/binary_reader.dart';
 import 'src/binary_reader_ex.dart';
 import 'soundfont_info.dart';
@@ -111,26 +111,25 @@ class SoundFont {
 
     for (Instrument instrument in instruments) {
       for (InstrumentRegion region in instrument.regions) {
-        if (!(0 <= region.sampleStart() &&
-            region.sampleStart() < sampleCount)) {
+        if (!(0 <= region.sampleStart && region.sampleStart < sampleCount)) {
           throw "'sampleStart' is out of range. '${region.sample.name}'.'${instrument.name}'.";
         }
 
-        if (!(0 <= region.sampleStartLoop() &&
-            region.sampleStartLoop() < sampleCount)) {
+        if (!(0 <= region.sampleStartLoop &&
+            region.sampleStartLoop < sampleCount)) {
           throw "'sampleStartLoop' is out of range. '${region.sample.name}'.'${instrument.name}'.";
         }
 
-        if (!(0 < region.sampleEnd() && region.sampleEnd() <= sampleCount)) {
+        if (!(0 < region.sampleEnd && region.sampleEnd <= sampleCount)) {
           throw "'sampleEnd' is out of range. '${region.sample.name}'.'${instrument.name}'.";
         }
 
-        if (!(0 <= region.sampleEndLoop() &&
-            region.sampleEndLoop() <= sampleCount)) {
+        if (!(0 <= region.sampleEndLoop &&
+            region.sampleEndLoop <= sampleCount)) {
           throw "'sampleEndLoop' is out of range. '${region.sample.name}'.'${instrument.name}'.";
         }
 
-        switch (region.sampleModes()) {
+        switch (region.sampleModes) {
           case LoopMode.noLoop:
           case LoopMode.continuous:
           case LoopMode.loopUntilNoteOff:

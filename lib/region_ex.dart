@@ -3,7 +3,7 @@ import 'volume_envelope.dart';
 import 'modulation_envelope.dart';
 import 'lfo.dart';
 import 'src/utils/array_int16.dart';
-import 'instrument_region.dart';
+import 'src/instrument_region.dart';
 import 'region_pair.dart';
 import 'preset_region.dart';
 import 'soundfont_math.dart';
