@@ -1,154 +1,125 @@
-﻿
+import 'instrument_region.dart';
 import 'synthesizer.dart';
 import 'voice.dart';
-import 'instrument_region.dart';
 
-class VoiceCollection extends Iterable<Voice>
-{
-    final Synthesizer synthesizer;
+class VoiceCollection extends Iterable<Voice> {
+  final Synthesizer synthesizer;
 
-    final List<Voice> voices;
+  final List<Voice> voices;
 
-    int _activeVoiceCount = 0;
+  int _activeVoiceCount = 0;
 
-    VoiceCollection({required this.synthesizer, required this.voices});
+  VoiceCollection({required this.synthesizer, required this.voices});
 
-    factory VoiceCollection.create(Synthesizer synthesizer, int maxActiveVoiceCount)
-    {
-        List<Voice> voices = [];
+  factory VoiceCollection.create(
+      Synthesizer synthesizer, int maxActiveVoiceCount) {
+    List<Voice> voices = [];
 
-        for(int i = 0; i < maxActiveVoiceCount; i++) {
-
-          voices.add(Voice(synthesizer));
-
-        }
-
-        return VoiceCollection(synthesizer: synthesizer, voices: voices);
+    for (int i = 0; i < maxActiveVoiceCount; i++) {
+      voices.add(Voice(synthesizer));
     }
 
-    Voice? requestNew(InstrumentRegion region, int channel)
-    {
-        Voice? free;
-        Voice? low;
+    return VoiceCollection(synthesizer: synthesizer, voices: voices);
+  }
 
-        double lowestPriority = double.maxFinite;
+  Voice? requestNew(InstrumentRegion region, int channel) {
+    Voice? free;
+    Voice? low;
 
-        int exclusiveClass = region.exclusiveClass();
+    double lowestPriority = double.maxFinite;
 
-        if (exclusiveClass == 0)
-        {
-            for (var i = 0; i < _activeVoiceCount; i++)
-            {
-                var voice = voices[i];
+    int exclusiveClass = region.exclusiveClass();
 
-                if (voice.priority() < lowestPriority)
-                {
-                    lowestPriority = voice.priority();
-                    low = voice;
-                }
-            }
+    if (exclusiveClass == 0) {
+      for (var i = 0; i < _activeVoiceCount; i++) {
+        var voice = voices[i];
+
+        if (voice.priority() < lowestPriority) {
+          lowestPriority = voice.priority();
+          low = voice;
         }
-        else
-        {
-            for (var i = 0; i < _activeVoiceCount; i++)
-            {
-                var voice = voices[i];
+      }
+    } else {
+      for (var i = 0; i < _activeVoiceCount; i++) {
+        var voice = voices[i];
 
-                if (voice.exclusiveClass() == exclusiveClass && voice.channel() == channel)
-                {
-                    voice.kill();
-                    free = voice;
-                }
-                if (voice.priority() < lowestPriority)
-                {
-                    lowestPriority = voice.priority();
-                    low = voice;
-                }
-            }
+        if (voice.exclusiveClass() == exclusiveClass &&
+            voice.channel() == channel) {
+          voice.kill();
+          free = voice;
         }
-
-        if (free != null)
-        {
-            return free;
+        if (voice.priority() < lowestPriority) {
+          lowestPriority = voice.priority();
+          low = voice;
         }
-
-        if (_activeVoiceCount < voices.length)
-        {
-            free = voices[_activeVoiceCount];
-            _activeVoiceCount++;
-            return free;
-        }
-        else
-        {
-            return low;
-        }
+      }
     }
 
-    void process()
-    {
-        var i = 0;
-
-        while (true)
-        {
-            if (i == _activeVoiceCount)
-            {
-                return;
-            }
-
-            if (voices[i].process())
-            {
-                i++;
-            }
-            else
-            {
-                _activeVoiceCount--;
-
-                var tmp = voices[i];
-                voices[i] = voices[_activeVoiceCount];
-                voices[_activeVoiceCount] = tmp;
-            }
-        }
+    if (free != null) {
+      return free;
     }
 
-    void clear()
-    {
-        _activeVoiceCount = 0;
+    if (_activeVoiceCount < voices.length) {
+      free = voices[_activeVoiceCount];
+      _activeVoiceCount++;
+      return free;
+    } else {
+      return low;
     }
+  }
 
-    @override
-    VoiceIterator get iterator {
-      return VoiceIterator(collection: this);
+  void process() {
+    var i = 0;
+
+    while (true) {
+      if (i == _activeVoiceCount) {
+        return;
+      }
+
+      if (voices[i].process()) {
+        i++;
+      } else {
+        _activeVoiceCount--;
+
+        var tmp = voices[i];
+        voices[i] = voices[_activeVoiceCount];
+        voices[_activeVoiceCount] = tmp;
+      }
     }
+  }
 
-    int activeVoiceCount() => _activeVoiceCount;
+  void clear() {
+    _activeVoiceCount = 0;
+  }
 
+  @override
+  VoiceIterator get iterator {
+    return VoiceIterator(collection: this);
+  }
+
+  int activeVoiceCount() => _activeVoiceCount;
 }
 
+class VoiceIterator implements Iterator<Voice> {
+  final VoiceCollection collection;
 
-class VoiceIterator extends Iterator<Voice> 
-{
-    final VoiceCollection collection;
+  int _index = 0;
+  Voice? _current;
 
-    int _index = 0;
-    Voice? _current;
+  VoiceIterator({required this.collection});
 
-    VoiceIterator({required this.collection});
+  @override
+  bool moveNext() {
+    if (_index < collection.activeVoiceCount()) {
+      _current = collection.voices[_index];
+      _index++;
 
-    @override
-    bool moveNext() {
-        if (_index < collection.activeVoiceCount())
-        {
-            _current = collection.voices[_index];
-            _index++;
-            
-            return true;
-        } else {
-            return false;
-        }
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    @override 
-    Voice get current => _current!;
+  @override
+  Voice get current => _current!;
 }
-
-

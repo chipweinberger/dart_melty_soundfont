@@ -1,3 +1,8 @@
+# 1.2.0
+
+- (@rodydavis): Rewrite of the library to match C# library more closely
+- (@rodydavis): Adding tests as found in C# library
+
 # 1.1.5
 
 'setModulationFine' would not always work, due to typo.

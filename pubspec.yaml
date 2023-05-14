@@ -1,9 +1,13 @@
 name: dart_melty_soundfont
 description: A Soundfont synthesizer (i.e. '.sf2' player) written in pure Dart.
-version: 1.1.5
-author: Chip Weinberger <weinberger.c@gmail.com>
+version: 1.2.0
+maintainer: Chip Weinberger <weinberger.c@gmail.com>
 homepage: https://github.com/chipweinberger/DartMeltySoundFont
 
-
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.14.0 <3.0.0"
+
+dev_dependencies:
+  test: ^1.24.1
+  darq: ^1.2.1
+  fftea: ^1.3.1

@@ -1,8 +1,8 @@
-﻿import 'soundfont_math.dart';
-import 'loop_mode.dart';
-import 'generator_type.dart';
-import 'preset_region.dart';
+﻿import 'generator_type.dart';
 import 'instrument_region.dart';
+import 'loop_mode.dart';
+import 'preset_region.dart';
+import 'soundfont_math.dart';
 
 class RegionPair {
   final PresetRegion preset;

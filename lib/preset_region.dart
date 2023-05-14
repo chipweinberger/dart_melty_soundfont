@@ -1,4 +1,4 @@
-﻿import 'zone.dart';
+import 'zone.dart';
 import 'soundfont_math.dart';
 import 'generator.dart';
 import 'generator_type.dart';
@@ -20,8 +20,7 @@ class PresetRegion {
   factory PresetRegion.fromLists(
       {required List<Generator> global,
       required List<Generator> local,
-      required List<Instrument> instruments})
-  {
+      required List<Instrument> instruments}) {
     // initialize default values
     Map<GeneratorType, int> gs = {};
     for (GeneratorType gType in GeneratorType.values) {
@@ -41,7 +40,6 @@ class PresetRegion {
     Instrument inst;
 
     if (instruments.isNotEmpty) {
-
       int? id = gs[GeneratorType.instrument];
 
       if (id == null || id < 0 || id >= instruments.length) {
@@ -49,9 +47,7 @@ class PresetRegion {
       }
 
       inst = instruments[id];
-
     } else {
-
       inst = Instrument.defaultInstrument();
     }
 
@@ -59,21 +55,17 @@ class PresetRegion {
   }
 
   static List<PresetRegion> create(
-      List<Zone> zones, List<Instrument> instruments) 
-  {
+      List<Zone> zones, List<Instrument> instruments) {
     Zone? global;
 
     // Is the first one the global zone?
     if (zones[0].generators.isEmpty ||
         zones[0].generators.last.type != GeneratorType.instrument) {
-
       // The first one is the global zone.
       global = zones[0];
-
     }
 
     if (global != null) {
-
       // The global zone is regarded as the base setting of subsequent zones.
       List<PresetRegion> regions = [];
 
@@ -86,7 +78,6 @@ class PresetRegion {
             instruments: instruments));
       }
       return regions;
-
     } else {
       // No global zone.
       List<PresetRegion> regions = [];
@@ -95,9 +86,7 @@ class PresetRegion {
 
       for (var i = 0; i < count; i++) {
         regions.add(PresetRegion.fromLists(
-            global: [],
-            local: zones[i].generators,
-            instruments: instruments));
+            global: [], local: zones[i].generators, instruments: instruments));
       }
       return regions;
     }
@@ -253,5 +242,4 @@ class PresetRegion {
   // int EndLoopAddressOffset =>
   //  32768 * gs[GeneratorType.EndLoopAddressCoarseOffset] +
   //  gs[GeneratorType.EndLoopAddressOffset];
-
 }

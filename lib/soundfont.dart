@@ -1,16 +1,16 @@
-﻿
-import 'dart:typed_data';
+﻿import 'dart:typed_data';
 
 import 'instrument_region.dart';
-import 'array_int16.dart';
 import 'sample_header.dart';
 import 'preset.dart';
 import 'instrument.dart';
-import 'binary_reader.dart';
+import 'src/binary_reader.dart';
+import 'src/binary_reader_ex.dart';
 import 'soundfont_info.dart';
 import 'soundfont_sample_data.dart';
 import 'soundfont_parameters.dart';
 import 'loop_mode.dart';
+import 'src/utils/array_int16.dart';
 
 class SoundFont {
   final SoundFontInfo info;
@@ -28,31 +28,22 @@ class SoundFont {
   final List<Preset> presets;
   final List<Instrument> instruments;
 
-  SoundFont(
-      {required this.info,
-      required this.bitsPerSample,
-      required this.waveData,
-      required this.sampleHeaders,
-      required this.presets,
-      required this.instruments});
-
-  /// Loads a SoundFont from the file.
-  factory SoundFont.fromFile(String path) {
-    
-    BinaryReader reader = BinaryReader.fromFile(path);
-
-    return SoundFont.fromBinaryReader(reader);
-  }
+  SoundFont({
+    required this.info,
+    required this.bitsPerSample,
+    required this.waveData,
+    required this.sampleHeaders,
+    required this.presets,
+    required this.instruments,
+  });
 
   factory SoundFont.fromByteData(ByteData bytes) {
-    
     BinaryReader reader = BinaryReader.fromByteData(bytes);
 
     return SoundFont.fromBinaryReader(reader);
   }
 
   factory SoundFont.fromBinaryReader(BinaryReader reader) {
-
     String chunkId = reader.readFourCC();
     if (chunkId != "RIFF") {
       throw "The RIFF chunk was not found.";
@@ -92,12 +83,10 @@ class SoundFont {
   }
 
   void _checkSamples() {
-
     // This offset is to ensure that out of range access is safe.
     var sampleCount = waveData.bytes.lengthInBytes - 4;
 
     for (SampleHeader sample in sampleHeaders) {
-
       if (!(0 <= sample.start && sample.start < sampleCount)) {
         throw "The start position of the sample '${sample.name}' is out of range.";
       }
@@ -117,13 +106,11 @@ class SoundFont {
   }
 
   void _checkRegions() {
-    
     // This offset is to ensure that out of range access is safe.
     var sampleCount = waveData.bytes.lengthInBytes - 4;
 
     for (Instrument instrument in instruments) {
       for (InstrumentRegion region in instrument.regions) {
-
         if (!(0 <= region.sampleStart() &&
             region.sampleStart() < sampleCount)) {
           throw "'sampleStart' is out of range. '${region.sample.name}'.'${instrument.name}'.";
@@ -137,8 +124,9 @@ class SoundFont {
         if (!(0 < region.sampleEnd() && region.sampleEnd() <= sampleCount)) {
           throw "'sampleEnd' is out of range. '${region.sample.name}'.'${instrument.name}'.";
         }
-        
-        if (!(0 <= region.sampleEndLoop() && region.sampleEndLoop() <= sampleCount)) {
+
+        if (!(0 <= region.sampleEndLoop() &&
+            region.sampleEndLoop() <= sampleCount)) {
           throw "'sampleEndLoop' is out of range. '${region.sample.name}'.'${instrument.name}'.";
         }
 

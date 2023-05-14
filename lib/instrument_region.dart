@@ -1,14 +1,13 @@
-﻿import 'zone.dart';
-import 'loop_mode.dart';
-import 'soundfont_math.dart';
-import 'sample_header.dart';
 import 'generator.dart';
 import 'generator_type.dart';
+import 'loop_mode.dart';
+import 'sample_header.dart';
+import 'soundfont_math.dart';
+import 'zone.dart';
 
 /// Represents an instrument region.
 /// An instrument region contains all the parameters necessary to synthesize a note.
 class InstrumentRegion {
-  
   final SampleHeader sample;
   final Map<GeneratorType, int> gs;
 
@@ -18,7 +17,6 @@ class InstrumentRegion {
       {required List<Generator> global,
       required List<Generator> local,
       required List<SampleHeader> samples}) {
-
     // initialize default values
     Map<GeneratorType, int> gs = {};
     for (GeneratorType gType in GeneratorType.values) {
@@ -67,8 +65,8 @@ class InstrumentRegion {
     return InstrumentRegion(gs: gs, sample: sampleH);
   }
 
-  static List<InstrumentRegion> create(List<Zone> zones, List<SampleHeader> samples) {
-    
+  static List<InstrumentRegion> create(
+      List<Zone> zones, List<SampleHeader> samples) {
     Zone? global;
 
     // Is the first one the global zone?
@@ -99,9 +97,7 @@ class InstrumentRegion {
 
       for (var i = 0; i < count; i++) {
         regions.add(InstrumentRegion.fromLists(
-            global: [], 
-            local: zones[i].generators, 
-            samples: samples));
+            global: [], local: zones[i].generators, samples: samples));
       }
       return regions;
     }
