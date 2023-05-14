@@ -5,7 +5,7 @@ maintainer: Chip Weinberger <weinberger.c@gmail.com>
 homepage: https://github.com/chipweinberger/DartMeltySoundFont
 
 environment:
-  sdk: ">=2.14.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dev_dependencies:
   test: ^1.24.1

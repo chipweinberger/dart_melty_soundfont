@@ -1,17 +1,13 @@
-import 'src/binary_reader.dart';
+import 'binary_reader.dart';
 import 'generator_type.dart';
 
 class Generator {
-  final GeneratorType type;
-  final int value; // ushort
+  late final GeneratorType _type;
+  late final int _value; // ushort
 
-  Generator(this.type, this.value);
-
-  factory Generator.fromReader(BinaryReader reader) {
-    GeneratorType type = generatorTypeFromInt(reader.readUInt16());
-    int value = reader.readUInt16();
-
-    return Generator(type, value);
+  Generator(BinaryReader reader) {
+    _type = generatorTypeFromInt(reader.readUInt16())!;
+    _value = reader.readUInt16();
   }
 
   static List<Generator> readFromChunk(BinaryReader reader, int size) {
@@ -25,12 +21,15 @@ class Generator {
     List<Generator> generators = [];
 
     for (var i = 0; i < count; i++) {
-      generators.add(Generator.fromReader(reader));
+      generators.add(Generator(reader));
     }
 
     // The last one is the terminator.
-    Generator.fromReader(reader);
+    Generator(reader);
 
     return generators;
   }
+
+  GeneratorType get type => _type;
+  int get value => _value;
 }

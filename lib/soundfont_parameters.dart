@@ -1,4 +1,4 @@
-import 'generator.dart';
+import 'src/generator.dart';
 import 'instrument.dart';
 import 'instrument_info.dart';
 import 'modulator.dart';

@@ -1,4 +1,4 @@
-﻿import 'generator_type.dart';
+﻿import 'src/generator_type.dart';
 import 'instrument_region.dart';
 import 'loop_mode.dart';
 import 'preset_region.dart';
@@ -30,103 +30,103 @@ class RegionPair {
 
   int endLoopAddressOffset() => instrument.endLoopAddressOffset();
 
-  int modulationLfoToPitch() => getGen(GeneratorType.modulationLfoToPitch);
+  int modulationLfoToPitch() => getGen(GeneratorType.ModulationLfoToPitch);
 
-  int vibratoLfoToPitch() => getGen(GeneratorType.vibratoLfoToPitch);
+  int vibratoLfoToPitch() => getGen(GeneratorType.VibratoLfoToPitch);
 
   int modulationEnvelopeToPitch() =>
-      getGen(GeneratorType.modulationEnvelopeToPitch);
+      getGen(GeneratorType.ModulationEnvelopeToPitch);
 
   double initialFilterCutoffFrequency() => SoundFontMath.centsToHertz(
-      getGen(GeneratorType.initialFilterCutoffFrequency).toDouble());
+      getGen(GeneratorType.InitialFilterCutoffFrequency).toDouble());
 
-  double initialFilterQ() => 0.1 * getGen(GeneratorType.initialFilterQ);
+  double initialFilterQ() => 0.1 * getGen(GeneratorType.InitialFilterQ);
 
   int modulationLfoToFilterCutoffFrequency() =>
-      getGen(GeneratorType.modulationLfoToFilterCutoffFrequency);
+      getGen(GeneratorType.ModulationLfoToFilterCutoffFrequency);
 
   int modulationEnvelopeToFilterCutoffFrequency() =>
-      getGen(GeneratorType.modulationEnvelopeToFilterCutoffFrequency);
+      getGen(GeneratorType.ModulationEnvelopeToFilterCutoffFrequency);
 
   double modulationLfoToVolume() =>
-      0.1 * getGen(GeneratorType.modulationLfoToVolume);
+      0.1 * getGen(GeneratorType.ModulationLfoToVolume);
 
-  double chorusEffectsSend() => 0.1 * getGen(GeneratorType.chorusEffectsSend);
+  double chorusEffectsSend() => 0.1 * getGen(GeneratorType.ChorusEffectsSend);
 
-  double reverbEffectsSend() => 0.1 * getGen(GeneratorType.reverbEffectsSend);
+  double reverbEffectsSend() => 0.1 * getGen(GeneratorType.ReverbEffectsSend);
 
-  double pan() => 0.1 * getGen(GeneratorType.pan);
+  double pan() => 0.1 * getGen(GeneratorType.Pan);
 
   double delayModulationLfo() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.delayModulationLfo).toDouble());
+      getGen(GeneratorType.DelayModulationLfo).toDouble());
 
   double frequencyModulationLfo() => SoundFontMath.centsToHertz(
-      getGen(GeneratorType.frequencyModulationLfo).toDouble());
+      getGen(GeneratorType.FrequencyModulationLfo).toDouble());
 
   double delayVibratoLfo() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.delayVibratoLfo).toDouble());
+      getGen(GeneratorType.DelayVibratoLfo).toDouble());
 
   double frequencyVibratoLfo() => SoundFontMath.centsToHertz(
-      getGen(GeneratorType.frequencyVibratoLfo).toDouble());
+      getGen(GeneratorType.FrequencyVibratoLfo).toDouble());
 
   double delayModulationEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.delayModulationEnvelope).toDouble());
+      getGen(GeneratorType.DelayModulationEnvelope).toDouble());
 
   double attackModulationEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.attackModulationEnvelope).toDouble());
+      getGen(GeneratorType.AttackModulationEnvelope).toDouble());
 
   double holdModulationEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.holdModulationEnvelope).toDouble());
+      getGen(GeneratorType.HoldModulationEnvelope).toDouble());
 
   double decayModulationEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.decayModulationEnvelope).toDouble());
+      getGen(GeneratorType.DecayModulationEnvelope).toDouble());
 
   double sustainModulationEnvelope() =>
-      0.1 * getGen(GeneratorType.sustainModulationEnvelope);
+      0.1 * getGen(GeneratorType.SustainModulationEnvelope);
 
   double releaseModulationEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.releaseModulationEnvelope).toDouble());
+      getGen(GeneratorType.ReleaseModulationEnvelope).toDouble());
 
   int keyNumberToModulationEnvelopeHold() =>
-      getGen(GeneratorType.keyNumberToModulationEnvelopeHold);
+      getGen(GeneratorType.KeyNumberToModulationEnvelopeHold);
 
   int keyNumberToModulationEnvelopeDecay() =>
-      getGen(GeneratorType.keyNumberToModulationEnvelopeDecay);
+      getGen(GeneratorType.KeyNumberToModulationEnvelopeDecay);
 
   double delayVolumeEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.delayVolumeEnvelope).toDouble());
+      getGen(GeneratorType.DelayVolumeEnvelope).toDouble());
 
   double attackVolumeEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.attackVolumeEnvelope).toDouble());
+      getGen(GeneratorType.AttackVolumeEnvelope).toDouble());
 
   double holdVolumeEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.holdVolumeEnvelope).toDouble());
+      getGen(GeneratorType.HoldVolumeEnvelope).toDouble());
 
   double decayVolumeEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.decayVolumeEnvelope).toDouble());
+      getGen(GeneratorType.DecayVolumeEnvelope).toDouble());
 
   double sustainVolumeEnvelope() =>
-      0.1 * getGen(GeneratorType.sustainVolumeEnvelope);
+      0.1 * getGen(GeneratorType.SustainVolumeEnvelope);
 
   double releaseVolumeEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.releaseVolumeEnvelope).toDouble());
+      getGen(GeneratorType.ReleaseVolumeEnvelope).toDouble());
 
   int keyNumberToVolumeEnvelopeHold() =>
-      getGen(GeneratorType.keyNumberToVolumeEnvelopeHold);
+      getGen(GeneratorType.KeyNumberToVolumeEnvelopeHold);
 
   int keyNumberToVolumeEnvelopeDecay() =>
-      getGen(GeneratorType.keyNumberToVolumeEnvelopeDecay);
+      getGen(GeneratorType.KeyNumberToVolumeEnvelopeDecay);
 
-  double initialAttenuation() => 0.1 * getGen(GeneratorType.initialAttenuation);
+  double initialAttenuation() => 0.1 * getGen(GeneratorType.InitialAttenuation);
 
-  int coarseTune() => getGen(GeneratorType.coarseTune);
+  int coarseTune() => getGen(GeneratorType.CoarseTune);
 
   int fineTune() =>
-      getGen(GeneratorType.fineTune) + instrument.sample.pitchCorrection;
+      getGen(GeneratorType.FineTune) + instrument.sample.pitchCorrection;
 
   LoopMode sampleModes() => instrument.sampleModes();
 
-  int scaleTuning() => getGen(GeneratorType.scaleTuning);
+  int scaleTuning() => getGen(GeneratorType.ScaleTuning);
 
   int exclusiveClass() => instrument.exclusiveClass();
 
