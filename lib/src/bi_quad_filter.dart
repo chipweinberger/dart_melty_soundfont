@@ -1,35 +1,25 @@
 import 'dart:math';
-import 'synthesizer.dart';
+import '../synthesizer.dart';
 
 class BiQuadFilter {
-  final double resonancePeakOffset = 1.0 - (1.0 / sqrt(2.0));
+  final double resonancePeakOffset = 1 - (1 / sqrt(2));
 
   final Synthesizer synthesizer;
 
   bool _active = false;
 
-  double _a0 = 0.0;
-  double _a1 = 0.0;
-  double _a2 = 0.0;
-  double _a3 = 0.0;
-  double _a4 = 0.0;
+  double _a0 = 0;
+  double _a1 = 0;
+  double _a2 = 0;
+  double _a3 = 0;
+  double _a4 = 0;
 
-  double _x1 = 0.0;
-  double _x2 = 0.0;
-
-  double _y1 = 0.0;
-  double _y2 = 0.0;
+  double _x1 = 0;
+  double _x2 = 0;
+  double _y1 = 0;
+  double _y2 = 0;
 
   BiQuadFilter(this.synthesizer);
-
-  void _setCoefficients(
-      double a0, double a1, double a2, double b0, double b1, double b2) {
-    _a0 = b0 / a0;
-    _a1 = b1 / a0;
-    _a2 = b2 / a0;
-    _a3 = a1 / a0;
-    _a4 = a2 / a0;
-  }
 
   void clearBuffer() {
     _x1 = 0;
@@ -66,12 +56,9 @@ class BiQuadFilter {
   void process(List<double> block) {
     if (_active) {
       for (var t = 0; t < block.length; t++) {
-        var input = block[t];
-        var output = (_a0 * input) +
-            (_a1 * _x1) +
-            (_a2 * _x2) -
-            (_a3 * _y1) -
-            (_a4 * _y2);
+        final input = block[t];
+        final output =
+            _a0 * input + _a1 * _x1 + _a2 * _x2 - _a3 * _y1 - _a4 * _y2;
 
         _x2 = _x1;
         _x1 = input;
@@ -86,5 +73,20 @@ class BiQuadFilter {
       _y2 = _x2;
       _y1 = _x1;
     }
+  }
+
+  void _setCoefficients(
+    double a0,
+    double a1,
+    double a2,
+    double b0,
+    double b1,
+    double b2,
+  ) {
+    _a0 = b0 / a0;
+    _a1 = b1 / a0;
+    _a2 = b2 / a0;
+    _a3 = a1 / a0;
+    _a4 = a2 / a0;
   }
 }

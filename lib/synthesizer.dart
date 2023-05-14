@@ -1,7 +1,7 @@
 ﻿import 'dart:math';
 import 'dart:typed_data';
 
-import 'channel.dart';
+import 'src/channel.dart';
 import 'chorus.dart';
 import 'instrument_region.dart';
 import 'preset.dart';
@@ -171,7 +171,7 @@ class Synthesizer extends IAudioRenderer {
     List<Channel> channels = [];
 
     for (int i = 0; i < channelCount; i++) {
-      channels.add(Channel.create(synth, i == percussionChannel));
+      channels.add(Channel(synth, i == percussionChannel));
     }
 
     synth.channels = channels;
@@ -314,7 +314,7 @@ class Synthesizer extends IAudioRenderer {
 
     var channelInfo = channels[channel];
 
-    var presetId = (channelInfo.bankNumber() << 16) | channelInfo.patchNumber();
+    var presetId = (channelInfo.bankNumber << 16) | channelInfo.patchNumber;
 
     Preset? preset = _presetLookup[presetId];
 

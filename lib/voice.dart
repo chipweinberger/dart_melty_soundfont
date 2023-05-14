@@ -2,13 +2,13 @@ import 'modulation_envelope.dart';
 import 'volume_envelope.dart';
 import 'lfo.dart';
 import 'oscillator.dart';
-import 'bi_quad_filter.dart';
+import 'src/bi_quad_filter.dart';
 import 'synthesizer.dart';
 import 'region_pair.dart';
 import 'soundfont_math.dart';
 import 'region_ex.dart';
 import 'dart:math';
-import 'channel.dart';
+import 'src/channel.dart';
 
 enum VoiceState { playing, releaseRequested, released }
 
@@ -166,10 +166,10 @@ class Voice {
     _modLfo.process();
 
     var vibPitchChange =
-        (0.01 * channelInfo.modulation() + _vibLfoToPitch) * _vibLfo.value();
+        (0.01 * channelInfo.modulation + _vibLfoToPitch) * _vibLfo.value();
     var modPitchChange =
         _modLfoToPitch * _modLfo.value() + _modEnvToPitch * _modEnv.value();
-    var channelPitchChange = channelInfo.tune() + channelInfo.pitchBend();
+    var channelPitchChange = channelInfo.tune + channelInfo.pitchBend;
 
     var pitch = _key + vibPitchChange + modPitchChange + channelPitchChange;
 
@@ -206,7 +206,7 @@ class Voice {
     _previousChorusSend = _currentChorusSend;
 
     // According to the GM spec, the following value should be squared.
-    var ve = channelInfo.volume() * channelInfo.expression();
+    var ve = channelInfo.volume * channelInfo.expression;
     var channelGain = ve * ve;
 
     double mixGain = _noteGain * channelGain * _volEnv.value();
@@ -216,7 +216,7 @@ class Voice {
       mixGain *= SoundFontMath.decibelsToLinear(decibels);
     }
 
-    double angle = (pi / 200.0) * (channelInfo.pan() + _instrumentPan + 50.0);
+    double angle = (pi / 200.0) * (channelInfo.pan + _instrumentPan + 50.0);
 
     if (angle <= 0.0) {
       _currentMixGainLeft = mixGain;
@@ -230,9 +230,9 @@ class Voice {
     }
 
     _currentReverbSend =
-        (channelInfo.reverbSend() + _instrumentReverb).clamp(0, 1);
+        (channelInfo.reverbSend + _instrumentReverb).clamp(0, 1);
     _currentChorusSend =
-        (channelInfo.chorusSend() + _instrumentChorus).clamp(0, 1);
+        (channelInfo.chorusSend + _instrumentChorus).clamp(0, 1);
 
     if (_voiceLength == 0) {
       _previousMixGainLeft = _currentMixGainLeft;
@@ -251,8 +251,7 @@ class Voice {
       return;
     }
 
-    if (_voiceState == VoiceState.releaseRequested &&
-        !channelInfo.holdPedal()) {
+    if (_voiceState == VoiceState.releaseRequested && !channelInfo.holdPedal) {
       _volEnv.release();
       _modEnv.release();
       _oscillator.release();

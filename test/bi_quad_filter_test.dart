@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:darq/darq.dart';
-import 'package:dart_melty_soundfont/bi_quad_filter.dart';
+import 'package:dart_melty_soundfont/src/bi_quad_filter.dart';
 import 'package:dart_melty_soundfont/synthesizer.dart';
 import 'package:test/test.dart';
 import 'package:fftea/fftea.dart';
