@@ -2,7 +2,7 @@
 import 'dart:typed_data';
 
 import 'src/channel.dart';
-import 'chorus.dart';
+import 'src/chorus.dart';
 import 'instrument_region.dart';
 import 'preset.dart';
 import 'preset_region.dart';
@@ -133,11 +133,12 @@ class Synthesizer extends IAudioRenderer {
 
     Chorus? chorus = rc == false
         ? null
-        : Chorus.create(
+        : Chorus(
             sampleRate: settings.sampleRate,
             delay: 0.002,
             depth: 0.0019,
-            frequency: 0.4);
+            frequency: 0.4,
+          );
 
     Synthesizer synth = Synthesizer(
       soundFont: soundFont,
@@ -456,10 +457,11 @@ class Synthesizer extends IAudioRenderer {
       }
 
       _chorus!.process(
-          inputLeft: _chorusInputLeft!,
-          inputRight: _chorusInputRight!,
-          outputLeft: _chorusOutputLeft!,
-          outputRight: _chorusOutputRight!);
+        inputLeft: _chorusInputLeft!,
+        inputRight: _chorusInputRight!,
+        outputLeft: _chorusOutputLeft!,
+        outputRight: _chorusOutputRight!,
+      );
 
       multiplyAdd(
         masterVolume,
