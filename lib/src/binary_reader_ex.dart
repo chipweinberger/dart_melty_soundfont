@@ -54,7 +54,7 @@ extension BinaryReaderEx on BinaryReader {
     return (b1 << 24) | (b2 << 16) | (b3 << 8) | b4;
   }
 
-  int readMidiVariablelength() {
+  int readMidiVariableLength() {
     var acc = 0;
     var count = 0;
     while (true) {
@@ -69,5 +69,32 @@ extension BinaryReaderEx on BinaryReader {
       }
     }
     return acc;
+  }
+
+  int readIntVariableLength() {
+    var acc = 0;
+    var count = 0;
+    while (true) {
+      var value = readByte();
+      acc = (acc << 7) | (value & 127);
+      if ((value & 128) == 0) {
+        break;
+      }
+      count++;
+      if (count == 4) {
+        throw "The length of the value must be equal to or less than 4.";
+      }
+    }
+    return acc;
+  }
+
+  int readByte() {
+    ByteData? data = read(1);
+
+    if (data == null) {
+      throw 'no more data';
+    }
+
+    return data.getUint8(0);
   }
 }

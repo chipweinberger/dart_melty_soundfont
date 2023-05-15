@@ -41,6 +41,10 @@ class Span<T> {
   Span<T> span(int start, [int? length]) {
     return Span<T>(_list, this.index(start), length);
   }
+
+  Span<T> slice(int start, [int? length]) {
+    return span(start, length);
+  }
 }
 
 extension ListUtils<T> on List<T> {

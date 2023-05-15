@@ -9,7 +9,7 @@ import 'src/binary_reader_ex.dart';
 import 'soundfont_info.dart';
 import 'soundfont_sample_data.dart';
 import 'soundfont_parameters.dart';
-import 'loop_mode.dart';
+import 'src/loop_mode.dart';
 import 'src/utils/array_int16.dart';
 
 class SoundFont {
@@ -130,9 +130,9 @@ class SoundFont {
         }
 
         switch (region.sampleModes) {
-          case LoopMode.noLoop:
-          case LoopMode.continuous:
-          case LoopMode.loopUntilNoteOff:
+          case LoopMode.NoLoop:
+          case LoopMode.Continuous:
+          case LoopMode.LoopUntilNoteOff:
             break;
           default:
             throw "invalid loop mode. '${region.sample.name}'.'${instrument.name}'.";

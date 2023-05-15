@@ -6,3 +6,5 @@ class Short {
 
   const Short(this.value);
 }
+
+const int INT_MAX_VALUE = -1 >>> 1;

@@ -4,7 +4,7 @@ class BinaryReader {
   final Uint8List bytes;
   int pos = 0;
 
-  BinaryReader({required this.bytes});
+  BinaryReader(this.bytes);
 
   factory BinaryReader.fromByteData(ByteData data) {
     Uint8List u8 = Uint8List(data.lengthInBytes);
@@ -14,7 +14,7 @@ class BinaryReader {
       u8[i] = data.getUint8(i);
     }
 
-    return BinaryReader(bytes: u8);
+    return BinaryReader(u8);
   }
 
   // read the next X bytes

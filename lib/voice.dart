@@ -1,6 +1,6 @@
 import 'modulation_envelope.dart';
 import 'volume_envelope.dart';
-import 'lfo.dart';
+import 'src/lfo.dart';
 import 'oscillator.dart';
 import 'src/bi_quad_filter.dart';
 import 'synthesizer.dart';
@@ -166,9 +166,9 @@ class Voice {
     _modLfo.process();
 
     var vibPitchChange =
-        (0.01 * channelInfo.modulation + _vibLfoToPitch) * _vibLfo.value();
+        (0.01 * channelInfo.modulation + _vibLfoToPitch) * _vibLfo.value;
     var modPitchChange =
-        _modLfoToPitch * _modLfo.value() + _modEnvToPitch * _modEnv.value();
+        _modLfoToPitch * _modLfo.value + _modEnvToPitch * _modEnv.value();
     var channelPitchChange = channelInfo.tune + channelInfo.pitchBend;
 
     var pitch = _key + vibPitchChange + modPitchChange + channelPitchChange;
@@ -179,7 +179,7 @@ class Voice {
 
     if (_dynamicCutoff) {
       var cents =
-          _modLfoToCutoff * _modLfo.value() + _modEnvToCutoff * _modEnv.value();
+          _modLfoToCutoff * _modLfo.value + _modEnvToCutoff * _modEnv.value();
       var factor = SoundFontMath.centsToMultiplyingFactor(cents);
       var newCutoff = factor * _cutoff;
 
@@ -212,7 +212,7 @@ class Voice {
     double mixGain = _noteGain * channelGain * _volEnv.value();
 
     if (_dynamicVolume) {
-      var decibels = _modLfoToVolume * _modLfo.value();
+      var decibels = _modLfoToVolume * _modLfo.value;
       mixGain *= SoundFontMath.decibelsToLinear(decibels);
     }
 

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'loop_mode.dart';
+import 'src/loop_mode.dart';
 import 'src/utils/array_int16.dart';
 import 'synthesizer.dart';
 
@@ -8,7 +8,7 @@ class Oscillator {
   final Synthesizer synthesizer;
 
   ArrayInt16 _data = ArrayInt16.empty();
-  LoopMode _loopMode = LoopMode.noLoop;
+  LoopMode _loopMode = LoopMode.NoLoop;
   int _end = 0;
   int _startLoop = 0;
   int _endLoop = 0;
@@ -47,7 +47,7 @@ class Oscillator {
     _pitchChangeScale = 0.01 * scaleTuning;
     _sampleRateRatio = sampleRate / synthesizer.sampleRate;
 
-    if (loopMode == LoopMode.noLoop) {
+    if (loopMode == LoopMode.NoLoop) {
       _looping = false;
     } else {
       _looping = true;
@@ -57,7 +57,7 @@ class Oscillator {
   }
 
   void release() {
-    if (_loopMode == LoopMode.loopUntilNoteOff) {
+    if (_loopMode == LoopMode.LoopUntilNoteOff) {
       _looping = false;
     }
   }

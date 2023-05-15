@@ -1,6 +1,6 @@
 ﻿import 'src/generator_type.dart';
 import 'src/instrument_region.dart';
-import 'loop_mode.dart';
+import 'src/loop_mode.dart';
 import 'preset_region.dart';
 import 'soundfont_math.dart';
 
