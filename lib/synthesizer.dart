@@ -1,6 +1,7 @@
 ﻿import 'dart:math';
 import 'dart:typed_data';
 
+import 'dart_melty_soundfont.dart';
 import 'src/channel.dart';
 import 'src/chorus.dart';
 import 'src/instrument_region.dart';
@@ -530,4 +531,12 @@ class Synthesizer extends IAudioRenderer {
   }
 
   int activeVoiceCount() => _voices.activeVoiceCount();
+}
+
+extension SynthesizerEx on Synthesizer {
+  Uint8List pcm(int seconds) {
+    final buf16 = ArrayInt16.zeros(numShorts: 44100 * seconds);
+    renderMonoInt16(buf16);
+    return buf16.bytes.buffer.asUint8List();
+  }
 }
