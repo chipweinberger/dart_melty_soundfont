@@ -1,5 +1,5 @@
-﻿import 'src/binary_reader.dart';
-import 'src/binary_reader_ex.dart';
+﻿import 'binary_reader.dart';
+import 'binary_reader_ex.dart';
 
 class PresetInfo {
   final String name;

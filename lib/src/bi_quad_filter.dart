@@ -1,5 +1,5 @@
 import 'dart:math';
-import '../synthesizer.dart';
+import 'synthesizer.dart';
 
 class BiQuadFilter {
   final double resonancePeakOffset = 1 - (1 / sqrt(2));

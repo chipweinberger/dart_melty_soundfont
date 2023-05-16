@@ -1,6 +1,6 @@
 ﻿import 'package:dart_melty_soundfont/src/utils/span.dart';
 
-import 'src/utils/array_int16.dart';
+import 'utils/array_int16.dart';
 import 'synthesizer.dart';
 
 /// Provides utility methods to convert the format of samples.

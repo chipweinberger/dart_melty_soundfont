@@ -1,5 +1,5 @@
-import 'src/binary_reader.dart';
-import 'src/binary_reader_ex.dart';
+import 'binary_reader.dart';
+import 'binary_reader_ex.dart';
 import 'soundfont_version.dart';
 
 /// The information of a SoundFont.

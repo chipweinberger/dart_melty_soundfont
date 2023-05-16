@@ -1,4 +1,4 @@
-import '../soundfont_math.dart';
+import 'soundfont_math.dart';
 import 'midi_file_loop_type.dart';
 
 /// @internal

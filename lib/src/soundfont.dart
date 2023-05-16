@@ -1,16 +1,16 @@
 ﻿import 'dart:typed_data';
 
-import 'src/instrument_region.dart';
+import 'instrument_region.dart';
 import 'sample_header.dart';
 import 'preset.dart';
-import 'src/instrument.dart';
-import 'src/binary_reader.dart';
-import 'src/binary_reader_ex.dart';
+import 'instrument.dart';
+import 'binary_reader.dart';
+import 'binary_reader_ex.dart';
 import 'soundfont_info.dart';
 import 'soundfont_sample_data.dart';
 import 'soundfont_parameters.dart';
-import 'src/loop_mode.dart';
-import 'src/utils/array_int16.dart';
+import 'loop_mode.dart';
+import 'utils/array_int16.dart';
 
 class SoundFont {
   final SoundFontInfo info;

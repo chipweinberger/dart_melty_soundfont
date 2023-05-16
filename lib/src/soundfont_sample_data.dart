@@ -1,6 +1,6 @@
-﻿import 'src/binary_reader.dart';
-import 'src/binary_reader_ex.dart';
-import 'src/utils/array_int16.dart';
+﻿import 'binary_reader.dart';
+import 'binary_reader_ex.dart';
+import 'utils/array_int16.dart';
 
 class SoundFontSampleData {
   final int bitsPerSample;

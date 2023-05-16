@@ -1,20 +1,19 @@
 ﻿import 'dart:math';
 import 'dart:typed_data';
 
-import 'dart_melty_soundfont.dart';
-import 'src/channel.dart';
-import 'src/chorus.dart';
-import 'src/instrument_region.dart';
+import '../dart_melty_soundfont.dart';
+import 'channel.dart';
+import 'chorus.dart';
+import 'instrument_region.dart';
 import 'preset.dart';
 import 'preset_region.dart';
 import 'region_pair.dart';
 import 'reverb.dart';
 import 'soundfont.dart';
 import 'soundfont_math.dart';
-import 'src/array_math.dart';
-import 'src/i_audio_renderer.dart';
-import 'src/utils/span.dart';
-import 'synthesizer_settings.dart';
+import 'array_math.dart';
+import 'i_audio_renderer.dart';
+import 'utils/span.dart';
 import 'voice.dart';
 import 'voice_collection.dart';
 

@@ -10,7 +10,7 @@ MidiFile midiFileFromPath(String path) {
   return MidiFile(reader: reader);
 }
 
-Future<MidiFile> soundFontFromPathAsync(String path) async {
+Future<MidiFile> midiFileFromPathAsync(String path) async {
   final file = File(path);
   final bytes = await file.readAsBytes();
   final reader = BinaryReader(bytes);

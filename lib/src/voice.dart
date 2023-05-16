@@ -1,14 +1,14 @@
 import 'modulation_envelope.dart';
 import 'volume_envelope.dart';
-import 'src/lfo.dart';
+import 'lfo.dart';
 import 'oscillator.dart';
-import 'src/bi_quad_filter.dart';
+import 'bi_quad_filter.dart';
 import 'synthesizer.dart';
 import 'region_pair.dart';
 import 'soundfont_math.dart';
 import 'region_ex.dart';
 import 'dart:math';
-import 'src/channel.dart';
+import 'channel.dart';
 
 enum VoiceState { playing, releaseRequested, released }
 

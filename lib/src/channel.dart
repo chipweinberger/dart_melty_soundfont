@@ -1,5 +1,5 @@
-import '../soundfont_math.dart';
-import '../synthesizer.dart';
+import 'soundfont_math.dart';
+import 'synthesizer.dart';
 
 class Channel {
   final Synthesizer synthesizer;

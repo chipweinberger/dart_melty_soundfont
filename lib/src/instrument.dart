@@ -1,7 +1,7 @@
 import 'instrument_info.dart';
 import 'instrument_region.dart';
-import '../sample_header.dart';
-import '../zone.dart';
+import 'sample_header.dart';
+import 'zone.dart';
 import 'utils/span.dart';
 
 /// <summary>

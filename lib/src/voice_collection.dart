@@ -1,4 +1,4 @@
-import 'src/instrument_region.dart';
+import 'instrument_region.dart';
 import 'synthesizer.dart';
 import 'voice.dart';
 

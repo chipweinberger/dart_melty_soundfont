@@ -1,4 +1,4 @@
-import 'src/generator.dart';
+import 'generator.dart';
 import 'zone_info.dart';
 
 class Zone {

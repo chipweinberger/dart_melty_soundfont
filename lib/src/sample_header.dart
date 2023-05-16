@@ -1,6 +1,6 @@
 ﻿import 'sample_type.dart';
-import 'src/binary_reader.dart';
-import 'src/binary_reader_ex.dart';
+import 'binary_reader.dart';
+import 'binary_reader_ex.dart';
 
 /// Represents a sample in the SoundFont.
 class SampleHeader {

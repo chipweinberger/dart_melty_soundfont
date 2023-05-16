@@ -1,7 +1,7 @@
 import 'loop_mode.dart';
-import '../sample_header.dart';
-import '../soundfont_math.dart';
-import '../zone.dart';
+import 'sample_header.dart';
+import 'soundfont_math.dart';
+import 'zone.dart';
 import 'generator.dart';
 import 'generator_type.dart';
 import 'instrument.dart';

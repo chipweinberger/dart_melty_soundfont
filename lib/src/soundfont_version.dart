@@ -1,4 +1,4 @@
-﻿import 'src/binary_reader.dart';
+﻿import 'binary_reader.dart';
 
 /// Reperesents the version of a SoundFont.
 class SoundFontVersion {

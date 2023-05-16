@@ -1,12 +1,12 @@
-import 'src/generator.dart';
-import 'src/instrument.dart';
-import 'src/instrument_info.dart';
+import 'generator.dart';
+import 'instrument.dart';
+import 'instrument_info.dart';
 import 'modulator.dart';
 import 'preset.dart';
 import 'preset_info.dart';
 import 'sample_header.dart';
-import 'src/binary_reader.dart';
-import 'src/binary_reader_ex.dart';
+import 'binary_reader.dart';
+import 'binary_reader_ex.dart';
 import 'zone.dart';
 import 'zone_info.dart';
 

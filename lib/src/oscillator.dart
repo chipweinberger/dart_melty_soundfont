@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'src/loop_mode.dart';
-import 'src/utils/array_int16.dart';
+import 'loop_mode.dart';
+import 'utils/array_int16.dart';
 import 'synthesizer.dart';
 
 class Oscillator {

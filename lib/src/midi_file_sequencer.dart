@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
-import '../synthesizer.dart';
+import 'synthesizer.dart';
 import 'i_audio_renderer.dart';
 import 'midi_file.dart';
 import 'midi_message.dart';

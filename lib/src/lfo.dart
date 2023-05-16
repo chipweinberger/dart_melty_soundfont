@@ -1,4 +1,4 @@
-import '../synthesizer.dart';
+import 'synthesizer.dart';
 
 class Lfo {
   final Synthesizer synthesizer;

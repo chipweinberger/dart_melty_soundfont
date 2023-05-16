@@ -1,5 +1,5 @@
-import 'package:dart_melty_soundfont/soundfont.dart';
-import 'package:dart_melty_soundfont/soundfont_io.dart';
+import 'package:dart_melty_soundfont/src/soundfont.dart';
+import 'package:dart_melty_soundfont/src/soundfont_io.dart';
 
 class TestSettings {
   static List<Map<String, SoundFont>> soundFonts = [

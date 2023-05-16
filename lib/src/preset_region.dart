@@ -1,8 +1,8 @@
 import 'zone.dart';
 import 'soundfont_math.dart';
-import 'src/generator.dart';
-import 'src/generator_type.dart';
-import 'src/instrument.dart';
+import 'generator.dart';
+import 'generator_type.dart';
+import 'instrument.dart';
 
 /// Represents a preset region.
 /// A preset region indicates how the parameters of the instrument should be modified in the preset.
