@@ -45,6 +45,8 @@ class Span<T> {
   Span<T> slice(int start, [int? length]) {
     return span(start, length);
   }
+
+  List<T> list() => _list;
 }
 
 extension ListUtils<T> on List<T> {

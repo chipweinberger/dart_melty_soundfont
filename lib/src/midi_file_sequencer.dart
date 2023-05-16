@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'dart:math';
+import 'dart:typed_data';
 
 import '../synthesizer.dart';
 import 'i_audio_renderer.dart';
 import 'midi_file.dart';
+import 'midi_message.dart';
 import 'utils/span.dart';
 
 /// <summary>
@@ -30,10 +33,19 @@ class MidiFileSequencer extends IAudioRenderer {
   /// Gets or sets the method to alter MIDI messages during playback.
   /// If null, MIDI messages will be sent to the synthesizer without any change.
   /// </summary>
-  MessageHook? onSendMessage;
+  final _messageController = StreamController<Message>();
+
+  late ByteData _blockLeft;
+  late ByteData _blockRight;
 
   MidiFileSequencer(this.synthesizer) {
+    _blockLeft = ByteData(Float32List.bytesPerElement * synthesizer.blockSize);
+    _blockRight = ByteData(Float32List.bytesPerElement * synthesizer.blockSize);
     speed = 1;
+  }
+
+  Stream<Message>? get onMidiMessage {
+    return _messageController.stream;
   }
 
   /// <summary>
@@ -81,7 +93,15 @@ class MidiFileSequencer extends IAudioRenderer {
       final dstRem = left.length - wrote;
       final rem = min(srcRem, dstRem);
 
-      synthesizer.render(left.slice(wrote, rem), right.slice(wrote, rem));
+      var blockLeft = Float32List.view(_blockLeft.buffer, 0, rem).toSpan();
+      var blockRight = Float32List.view(_blockRight.buffer, 0, rem).toSpan();
+      synthesizer.render(blockLeft, blockRight);
+      // synthesizer.render(left.slice(wrote, rem), right.slice(wrote, rem));
+
+      for (int i = 0; i < rem; i++) {
+        left[wrote + i] = blockLeft[i];
+        right[wrote + i] = blockRight[i];
+      }
 
       _blockWrote += rem;
       wrote += rem;
@@ -96,22 +116,13 @@ class MidiFileSequencer extends IAudioRenderer {
       final msg = _midiFile!.messages[_msgIndex];
       if (time <= _currentTime) {
         if (msg.type == MessageType.Normal) {
-          if (onSendMessage == null) {
-            synthesizer.processMidiMessage(
-              channel: msg.channel,
-              command: msg.command,
-              data1: msg.data1,
-              data2: msg.data2,
-            );
-          } else {
-            onSendMessage!(
-              synthesizer,
-              msg.channel,
-              msg.command,
-              msg.data1,
-              msg.data2,
-            );
-          }
+          _messageController.add(msg);
+          synthesizer.processMidiMessage(
+            channel: msg.channel,
+            command: msg.command,
+            data1: msg.data1,
+            data2: msg.data2,
+          );
         } else if (_loop) {
           if (msg.type == MessageType.LoopStart) {
             _loopIndex = _msgIndex;
@@ -167,19 +178,3 @@ class MidiFileSequencer extends IAudioRenderer {
     }
   }
 }
-
-/// <summary>
-/// Represents the method that is called each time a MIDI message is processed during playback.
-/// </summary>
-/// <param name="synthesizer">The synthesizer handled by the sequencer.</param>
-/// <param name="channel">The channel to which the message will be sent.</param>
-/// <param name="command">The type of the message.</param>
-/// <param name="data1">The first data part of the message.</param>
-/// <param name="data2">The second data part of the message.</param>
-typedef MessageHook = void Function(
-  Synthesizer synthesizer,
-  int channel,
-  int command,
-  int data1,
-  int data2,
-);

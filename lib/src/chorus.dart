@@ -1,15 +1,15 @@
 import 'dart:math';
 
 class Chorus {
-  late final List<double> _bufferL;
-  late final List<double> _bufferR;
+  List<double> _bufferL = [];
+  List<double> _bufferR = [];
 
-  late final List<double> _delayTable;
+  List<double> _delayTable = [];
 
-  late final int _bufferIndex;
+  int _bufferIndex = 0;
 
-  late final int _delayTableIndexL;
-  late final int _delayTableIndexR;
+  int _delayTableIndexL = 0;
+  int _delayTableIndexR = 0;
 
   Chorus({
     required int sampleRate,

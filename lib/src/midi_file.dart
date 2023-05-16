@@ -1,11 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:dart_melty_soundfont/src/utils/short.dart';
-
-import '../soundfont_math.dart';
 import 'binary_reader.dart';
 import 'binary_reader_ex.dart';
 import 'midi_file_loop_type.dart';
+import 'midi_message.dart';
 
 /// <summary>
 /// Represents a standard MIDI file.
@@ -80,13 +78,22 @@ class MidiFile {
   // and the timing of MIDI messages will be wrong.
   // This method makes TimeSpan without rounding.
   static Duration getTimeSpanFromSeconds(double value) {
-    final ticksPerSecond = 10000000;
-    // A time period expressed in 100-nanosecond units.
-    final ticks = (value * ticksPerSecond).toInt();
-    final microseconds = ticks ~/ 10;
-    final duration = Duration(microseconds: microseconds);
-    print('$value -> ${microseconds} -> ${duration.inSeconds}');
-    return duration;
+    return Duration(
+        microseconds: (Duration.millisecondsPerSecond *
+                Duration.microsecondsPerMillisecond *
+                value)
+            .toInt());
+  }
+
+  static int _checkedAdd(int a, int b) {
+    var sum = a + b;
+    if (a > 0 && b > 0 && sum < 0) {
+      throw "int OverflowException(positive: true)";
+    }
+    if (a < 0 && b < 0 && sum > 0) {
+      throw "OverflowException(positive: false)";
+    }
+    return sum;
   }
 
   static ReadTrackResult readTrack(
@@ -108,11 +115,11 @@ class MidiFile {
     var lastStatus = 0; // byte
 
     while (true) {
-      final delta = reader.readIntVariableLength();
-      final first = reader.readByte();
+      final delta = reader.readMidiVariableLength();
+      final first = reader.readUInt8();
 
       try {
-        tick = tick + delta; // TODO: checked
+        tick = _checkedAdd(tick, delta);
       } catch (e) {
         throw 'Long MIDI file is not supported.';
       }
@@ -123,7 +130,7 @@ class MidiFile {
           messages.add(Message.commonSingle(lastStatus, first));
           ticks.add(tick);
         } else {
-          final data2 = reader.readByte();
+          final data2 = reader.readUInt8();
           messages.add(Message.common(lastStatus, first, data2, loopType));
           ticks.add(tick);
         }
@@ -139,9 +146,9 @@ class MidiFile {
           discardData(reader);
           break;
         case 0xFF: // Meta event
-          switch (reader.readByte()) {
+          switch (reader.readUInt8()) {
             case 0x2F: // End of track
-              reader.readByte();
+              reader.readUInt8();
               messages.add(Message.endOfTrack());
               ticks.add(tick);
 
@@ -164,12 +171,12 @@ class MidiFile {
         default:
           final command = first & 0xF0;
           if (command == 0xC0 || command == 0xD0) {
-            final data1 = reader.readByte();
+            final data1 = reader.readUInt8();
             messages.add(Message.commonSingle(first, data1));
             ticks.add(tick);
           } else {
-            final data1 = reader.readByte();
-            final data2 = reader.readByte();
+            final data1 = reader.readUInt8();
+            final data2 = reader.readUInt8();
             messages.add(Message.common(first, data1, data2, loopType));
             ticks.add(tick);
           }
@@ -197,7 +204,7 @@ class MidiFile {
 
     while (true) {
       // ignore: unused_local_variable
-      var minTick = INT_MAX_VALUE;
+      var minTick = 0x7fffffffffffffff;
       var minIndex = -1;
       for (var ch = 0; ch < tickLists.length; ch++) {
         if (indices[ch] < tickLists[ch].length) {
@@ -236,19 +243,19 @@ class MidiFile {
   }
 
   static int readTempo(BinaryReader reader) {
-    final size = reader.readIntVariableLength();
+    final size = reader.readMidiVariableLength();
     if (size != 3) {
       throw 'Failed to read the tempo value.';
     }
 
-    final b1 = reader.readByte();
-    final b2 = reader.readByte();
-    final b3 = reader.readByte();
+    final b1 = reader.readUInt8();
+    final b2 = reader.readUInt8();
+    final b3 = reader.readUInt8();
     return (b1 << 16) | (b2 << 8) | b3;
   }
 
   static void discardData(BinaryReader reader) {
-    final size = reader.readIntVariableLength();
+    final size = reader.readMidiVariableLength();
     reader.pos += size;
   }
 
@@ -286,113 +293,4 @@ class MergeTracksResult {
   String toString() {
     return 'MergeTracksResult{messages: ${messages.length}, times: ${times.length}}';
   }
-}
-
-/// @internal
-class Message {
-  final int channel; // byte
-  final int command; // byte
-  final int data1; // byte
-  final int data2; // byte
-
-  Message(this.channel, this.command, this.data1, this.data2);
-
-  static Message commonSingle(int status, int data1) {
-    final channel = castToByte(status & 0x0F);
-    final command = castToByte(status & 0xF0);
-    final data2 = 0;
-    return Message(channel, command, data1, data2);
-  }
-
-  static Message common(
-    int status,
-    int data1,
-    int data2,
-    MidiFileLoopType loopType,
-  ) {
-    final channel = castToByte(status & 0x0F);
-    final command = castToByte(status & 0xF0);
-
-    if (command == 0xB0) {
-      switch (loopType) {
-        case MidiFileLoopType.RpgMaker:
-          if (data1 == 111) return loopStart();
-          break;
-        case MidiFileLoopType.IncredibleMachine:
-          if (data1 == 110) return loopStart();
-          if (data1 == 111) return loopEnd();
-          break;
-        case MidiFileLoopType.FinalFantasy:
-          if (data1 == 116) return loopStart();
-          if (data1 == 117) return loopEnd();
-          break;
-        default:
-      }
-    }
-
-    return Message(channel, command, data1, data2);
-  }
-
-  static Message tempChange(int tempo) {
-    final command = castToByte(tempo >> 16);
-    final data1 = castToByte(tempo >> 8);
-    final data2 = castToByte(tempo);
-    return Message(MessageType.TempoChange.value, command, data1, data2);
-  }
-
-  static Message loopStart() {
-    return Message(MessageType.LoopStart.value, 0, 0, 0);
-  }
-
-  static Message loopEnd() {
-    return Message(MessageType.LoopEnd.value, 0, 0, 0);
-  }
-
-  static Message endOfTrack() {
-    return Message(MessageType.EndOfTrack.value, 0, 0, 0);
-  }
-
-  @override
-  String toString() {
-    switch (getMessageTypeFromInt(channel)) {
-      case MessageType.TempoChange:
-        return 'Tempo: ${tempo}';
-      case MessageType.LoopStart:
-        return 'LoopStart';
-      case MessageType.LoopEnd:
-        return 'LoopEnd';
-      case MessageType.EndOfTrack:
-        return 'EndOfTrack';
-      default:
-        return 'CH$channel: ${command.toRadixString(16)}, ${data1.toRadixString(16)}, ${data2.toRadixString(16)}';
-    }
-  }
-
-  MessageType get type {
-    final type = getMessageTypeFromInt(channel);
-    return type ?? MessageType.Normal;
-  }
-
-  double get tempo => 60000000.0 / ((command << 16) | (data1 << 8) | data2);
-}
-
-/// @internal
-enum MessageType {
-  Normal(0),
-  TempoChange(252),
-  LoopStart(253),
-  LoopEnd(254),
-  EndOfTrack(255);
-
-  const MessageType(this.value);
-  final int value;
-}
-
-MessageType? getMessageTypeFromInt(int status) {
-  for (final type in MessageType.values) {
-    if (type.value == status) {
-      return type;
-    }
-  }
-  return null;
 }

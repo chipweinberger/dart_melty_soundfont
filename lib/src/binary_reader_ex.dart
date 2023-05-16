@@ -75,7 +75,7 @@ extension BinaryReaderEx on BinaryReader {
     var acc = 0;
     var count = 0;
     while (true) {
-      var value = readByte();
+      var value = readUInt8();
       acc = (acc << 7) | (value & 127);
       if ((value & 128) == 0) {
         break;
@@ -86,15 +86,5 @@ extension BinaryReaderEx on BinaryReader {
       }
     }
     return acc;
-  }
-
-  int readByte() {
-    ByteData? data = read(1);
-
-    if (data == null) {
-      throw 'no more data';
-    }
-
-    return data.getUint8(0);
   }
 }
