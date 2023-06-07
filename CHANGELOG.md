@@ -1,3 +1,7 @@
+# 1.1.7
+
+- remove pubspec.lock and dart_tool/package_config.json and add them to gitignore
+
 # 1.1.6
 
 - Updated github repo name to match pub.dev name
