@@ -1,6 +1,6 @@
 # dart_melty_soundfont
 
-dart_melty_soundfont is a SoundFont synthesizer (i.e. '.sf2' player) written in pure Dart.
+`dart_melty_soundfont` is a SoundFont synthesizer (i.e. '.sf2' player) written in pure Dart.
 
 It is a port of MeltySynth (C#, MIT License) written by Nobuaki Tanaka, to Dart.
 
