@@ -31,7 +31,8 @@ class SoundFontParameters
             throw "The LIST chunk was not found.";
         }
 
-        int end = reader.pos + reader.readInt32();
+        int end = reader.readInt32();
+        end += reader.pos;
 
         var listType = reader.readFourCC();
 

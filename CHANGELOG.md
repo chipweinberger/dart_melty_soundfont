@@ -1,3 +1,8 @@
+# 1.1.6
+
+- Updated github repo name to match pub.dev name
+- Fixed potential issue where loading a file would fail (thanks @sinshu)
+
 # 1.1.5
 
 'setModulationFine' would not always work, due to typo.

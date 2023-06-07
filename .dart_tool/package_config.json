@@ -1,0 +1,14 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "dart_melty_soundfont",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    }
+  ],
+  "generated": "2023-06-07T21:42:35.857328Z",
+  "generator": "pub",
+  "generatorVersion": "3.0.3"
+}
