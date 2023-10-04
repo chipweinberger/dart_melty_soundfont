@@ -36,11 +36,11 @@ Synthesizer synth = Synthesizer.loadByteData(bytes,
         enableReverbAndChorus: true,
     ));
 
-// print available presets (aka instruments)
-for (int i = 0; i < _synth!.soundFont.presets.length; i++) {
-    Preset p = _synth!.soundFont.presets[i];
-    String instrument = p.regions.isNotEmpty ? p.regions[0].instrument.name : "N/A";
-    print('[preset $i] name: ${p.name} instrument: $instrument');
+// print available presets
+List<Preset> p = synth.soundFont.presets;
+for (int i = 0; i < p.length; i++) {
+  String instrumentName = p[i].regions.isNotEmpty ? p[i].regions[0].instrument.name : "N/A";
+  print('[preset $i] name: ${p[i].name} instrument: $instrumentName');
 }
 
 // select first preset (aka instrument)

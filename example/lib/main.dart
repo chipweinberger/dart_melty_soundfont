@@ -37,19 +37,20 @@ class _MyAppState extends State<MeltyApp> {
     super.initState();
 
     // DartMeltySoundfont
-    _loadSoundfont()
-    .then((_) {
+    _loadSoundfont().then((_) {
       _soundFontLoaded = true;
       setState(() {});
     });
 
     // RawSound
-    _rawSound.initialize(
+    _rawSound
+        .initialize(
       bufferSize: 4096 << 4,
       nChannels: 1,
       sampleRate: sampleRate,
       pcmType: RawSoundPCMType.PCMI16,
-    ).then((value) {
+    )
+        .then((value) {
       setState(() {});
     });
   }
@@ -94,10 +95,10 @@ class _MyAppState extends State<MeltyApp> {
     _synth!.noteOffAll();
 
     // print available preset instruments
-    for (int i = 0; i < _synth!.soundFont.presets.length; i++) {
-      Preset p = _synth!.soundFont.presets[i];
-      String instrumentName = p.regions.isNotEmpty ? p.regions[0].instrument.name : "N/A";
-      print('[preset $i] name: ${p.name} instrument: $instrumentName');
+    List<Preset> p = _synth!.soundFont.presets;
+    for (int i = 0; i < p.length; i++) {
+      String instrumentName = p[i].regions.isNotEmpty ? p[i].regions[0].instrument.name : "N/A";
+      print('[preset $i] name: ${p[i].name} instrument: $instrumentName');
     }
 
     // select preset (i.e. instrument)
@@ -151,10 +152,9 @@ class _MyAppState extends State<MeltyApp> {
       );
     }
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Soundfont')),
-        body: child,
-      )
-    );
+        home: Scaffold(
+      appBar: AppBar(title: const Text('Soundfont')),
+      body: child,
+    ));
   }
 }
