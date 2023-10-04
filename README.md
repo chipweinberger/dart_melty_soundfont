@@ -36,6 +36,13 @@ Synthesizer synth = Synthesizer.loadByteData(bytes,
         enableReverbAndChorus: true,
     ));
 
+// print available instruments
+for (int i = 0; i < _synth!.soundFont.presets.length; i++) {
+    Preset p = _synth!.soundFont.presets[i];
+    String instrument = p.regions.isNotEmpty ? p.regions[0].instrument.name : "N/A";
+    print('[preset $i] name: ${p.name} instrument: $instrument');
+}
+
 // you might want to select the patchNumber & bankNumber
 // of the instrument you want to play, if it's not 0.
 //
