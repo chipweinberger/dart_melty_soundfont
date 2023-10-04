@@ -1,3 +1,8 @@
+# 1.1.9
+- Fix: remove null characters from names
+- Synth: add selectPreset function for convenience
+- Example: make it more easily runnable
+
 # 1.1.8
 
 - added RawSound example
