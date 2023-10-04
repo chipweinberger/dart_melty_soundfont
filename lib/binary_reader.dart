@@ -151,6 +151,9 @@ class BinaryReader
 
       String out = String.fromCharCodes(byteList);
 
+      // remove null characters
+      out = String.fromCharCodes(out.codeUnits.where((code) => code != 0));
+
       return out;
   }
 
