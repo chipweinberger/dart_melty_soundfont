@@ -1,0 +1,14 @@
+name: example
+description: Example app for dart_melty_soundfont
+version: 1.0.0
+
+environment:
+  sdk: '>=2.12.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  dart_melty_soundfont: ^1.1.8
+  raw_sound: ^0.3.0+1
+
+assets: 
+  - assets/TimGM6mb_but_fixed__piano_.sf2

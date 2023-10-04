@@ -2,3 +2,9 @@
 .vscode
 .dart_tool/
 pubspec.lock
+example/*
+!example/assets/
+!example/lib/
+!example/assets/TimGM6mb_but_fixed__piano_.sf2
+!example/lib/main.dart
+!example/pubspec.yaml
