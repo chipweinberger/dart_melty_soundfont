@@ -100,8 +100,8 @@ class _MyAppState extends State<MeltyApp> {
       print('[preset $i] name: ${p.name} instrument: $instrumentName');
     }
 
-    // load instrument
-    selectInstrumentPreset(0);
+    // select preset (i.e. instrument)
+    _synth!.selectPreset(channel: 0, preset: 0);
 
     // c major scale
     List<int> notes = [60, 62, 64, 65, 67, 69, 71, 72];

@@ -7,8 +7,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dart_melty_soundfont: ^1.1.8
   raw_sound: ^0.3.0+1
+  dart_melty_soundfont:
+    path: ../
 
 assets: 
   - assets/TimGM6mb_but_fixed__piano_.sf2

@@ -36,39 +36,15 @@ Synthesizer synth = Synthesizer.loadByteData(bytes,
         enableReverbAndChorus: true,
     ));
 
-// print available instruments
+// print available presets (aka instruments)
 for (int i = 0; i < _synth!.soundFont.presets.length; i++) {
     Preset p = _synth!.soundFont.presets[i];
     String instrument = p.regions.isNotEmpty ? p.regions[0].instrument.name : "N/A";
     print('[preset $i] name: ${p.name} instrument: $instrument');
 }
 
-// you might want to select the patchNumber & bankNumber
-// of the instrument you want to play, if it's not 0.
-//
-// Look through synth.soundFont.presets[X].patchNumber & bankNumber
-// for all valid instrument choices.
-//
-// Example for setting patchNumer:
-//
-// int patchNumber = synth.soundFont.presets[0].patchNumber 
-// synth.processMidiMessage(
-//  channel:0, 
-//  command:0xC0, // 0xC0 = program changes
-//  data1:patchNumber, 
-//  data2:0
-// );
-//
-// Example for setting bankNumber:
-//
-// int bankNumber = synth.soundFont.presets[0].bankNumber 
-// synth.processMidiMessage(
-//  channel:0, 
-//  command:0xB0, // 0xB0 = control change
-//  data1:0x00,   // 0x00 = bank select
-//  data2:bankNumber,
-// );
-
+// select first preset (aka instrument)
+synth.selectPreset(channel: 0, preset: 0);
 
 // Turn on some notes
 synth.noteOn(channel: 0, key: 72, velocity: 120);
