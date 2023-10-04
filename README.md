@@ -78,11 +78,11 @@ synth.renderMonoInt16(buf16);
 
 ## Playing Sound
 
+See the [Example App](/example/lib/main.dart) for a RawSound + DartMeltySoundFont example.
+
 This library does not audibly make sound, it only generates the PCM waveform. 
 
 To actually hear something, you need to pass the generated PCM waveform to your device's speakers. I recommend using [raw_sound](https://pub.dev/packages/raw_sound) or [Web Audio](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) for that task, depending on your platform.
-
-See the [Example App](/example/lib/main.dart) for a RawSound + DartMeltySoundFont example.
 
 ## Features
 
