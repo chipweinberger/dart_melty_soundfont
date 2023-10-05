@@ -45,6 +45,7 @@ class Synthesizer {
   late VoiceCollection _voices;
 
   final Map<int, Preset> _presetLookup;
+  final Preset _defaultPreset;
 
   final List<double> _blockLeft;
   final List<double> _blockRight;
@@ -74,6 +75,7 @@ class Synthesizer {
     required this.minimumVoiceDuration,
     required this.masterVolume,
     required Map<int, Preset> presetLookup,
+    required Preset defaultPreset,
     required List<double> blockLeft,
     required List<double> blockRight,
     required double inverseBlockSize,
@@ -89,6 +91,7 @@ class Synthesizer {
     required List<double>? chorusOutputLeft,
     required List<double>? chorusOutputRight,
   })  : _presetLookup = presetLookup,
+        _defaultPreset = defaultPreset,
         _blockLeft = blockLeft,
         _blockRight = blockRight,
         _inverseBlockSize = inverseBlockSize,
@@ -118,10 +121,23 @@ class Synthesizer {
   factory Synthesizer.load(SoundFont soundFont, SynthesizerSettings settings) {
     Map<int, Preset> presetLookup = {};
 
+    Preset? defaultPreset;
+    int? minPresetId;
     for (Preset preset in soundFont.presets) {
+      // The preset ID is Int32, where the upper 16 bits represent the bank number
+      // and the lower 16 bits represent the patch number.
+      // This ID is used to search for presets by the combination of bank number
+      // and patch number.
       int presetId = (preset.bankNumber << 16) | preset.patchNumber;
 
       presetLookup[presetId] = preset;
+
+      // The preset with the minimum ID number will be default.
+      // If the SoundFont is GM compatible, the piano will be chosen.
+      if (minPresetId == null || presetId < minPresetId!) {
+        defaultPreset = preset;
+        minPresetId = presetId;
+      }
     }
 
     bool rc = settings.enableReverbAndChorus;
@@ -138,6 +154,7 @@ class Synthesizer {
       enableReverbAndChorus: settings.enableReverbAndChorus,
       minimumVoiceDuration: settings.sampleRate ~/ 500,
       presetLookup: presetLookup,
+      defaultPreset: defaultPreset!,
       blockLeft: List<double>.filled(settings.blockSize, 0),
       blockRight: List<double>.filled(settings.blockSize, 0),
       inverseBlockSize: 1.0 / settings.blockSize,
@@ -322,9 +339,14 @@ class Synthesizer {
 
     Preset? preset = _presetLookup[presetId];
 
-    if (preset == null) {
-      return;
-    }
+    // Try fallback to the GM sound set.
+    // Normally, the given patch number + the bank number 0 will work.
+    // For drums (bank number >= 128), it seems to be better to select the standard set (128:0).
+    var gmPresetId = channelInfo.bankNumber() < 128 ? channelInfo.patchNumber : (128 << 16);
+    preset ??= _presetLookup[gmPresetId];
+
+    // No corresponding preset was found. Use the default.
+    preset ??= _defaultPreset;
 
     for (PresetRegion presetRegion in preset.regions) {
       if (presetRegion.contains(key, velocity)) {
