@@ -240,21 +240,21 @@ class Channel
         _pitchBend = (1.0 / 8192.0) * ((value1 | (value2 << 7)) - 8192);
     }
 
-    int bankNumber() => _bankNumber;
-    int patchNumber() => _patchNumber;
+    int get bankNumber => _bankNumber;
+    int get patchNumber => _patchNumber;
 
-    double modulation() => (50.0 / 16383.0) * _modulation;
-    double volume() => (1.0 / 16383.0) * _volume;
-    double pan() => (100.0 / 16383.0) * _pan - 50.0;
-    double expression() => (1.0 / 16383.0) * _expression;
-    bool holdPedal() => _holdPedal;
+    double get modulation => (50.0 / 16383.0) * _modulation;
+    double get volume => (1.0 / 16383.0) * _volume;
+    double get pan => (100.0 / 16383.0) * _pan - 50.0;
+    double get expression => (1.0 / 16383.0) * _expression;
+    bool get holdPedal => _holdPedal;
 
-    double reverbSend() => (1.0 / 127.0) * _reverbSend;
-    double chorusSend() => (1.0 / 127.0) * _chorusSend;
+    double get reverbSend => (1.0 / 127.0) * _reverbSend;
+    double get chorusSend => (1.0 / 127.0) * _chorusSend;
 
-    double pitchBendRange() => (_pitchBendRange >> 7) + 0.01 * (_pitchBendRange & 0x7F);
-    double tune() => _coarseTune + (1.0 / 8192.0) * (_fineTune - 8192);
+    double get pitchBendRange => (_pitchBendRange >> 7) + 0.01 * (_pitchBendRange & 0x7F);
+    double get tune => _coarseTune + (1.0 / 8192.0) * (_fineTune - 8192);
 
-    double pitchBend() => pitchBendRange() * _pitchBend;
+    double get pitchBend => pitchBendRange * _pitchBend;
 }
 

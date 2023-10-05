@@ -335,14 +335,14 @@ class Synthesizer {
 
     var channelInfo = channels[channel];
 
-    var presetId = (channelInfo.bankNumber() << 16) | channelInfo.patchNumber();
+    var presetId = (channelInfo.bankNumber << 16) | channelInfo.patchNumber;
 
     Preset? preset = _presetLookup[presetId];
 
     // Try fallback to the GM sound set.
     // Normally, the given patch number + the bank number 0 will work.
     // For drums (bank number >= 128), it seems to be better to select the standard set (128:0).
-    var gmPresetId = channelInfo.bankNumber() < 128 ? channelInfo.patchNumber : (128 << 16);
+    var gmPresetId = channelInfo.bankNumber < 128 ? channelInfo.patchNumber : (128 << 16);
     preset ??= _presetLookup[gmPresetId];
 
     // No corresponding preset was found. Use the default.
