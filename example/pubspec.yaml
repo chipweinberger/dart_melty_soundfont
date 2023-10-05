@@ -2,6 +2,10 @@ name: example
 description: Example app for dart_melty_soundfont
 version: 1.0.0
 
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none'
+
 environment:
   sdk: '>=2.12.0 <4.0.0'
 dependencies:
@@ -11,5 +15,6 @@ dependencies:
   dart_melty_soundfont:
     path: ../
 
-assets: 
-  - assets/TimGM6mb_but_fixed__piano_.sf2
+flutter:
+  assets: 
+    - assets/TimGM6mbEdit.sf2

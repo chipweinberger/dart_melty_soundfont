@@ -13,7 +13,7 @@ import 'package:dart_melty_soundfont/synthesizer_settings.dart';
 import 'package:dart_melty_soundfont/audio_renderer_ex.dart';
 import 'package:dart_melty_soundfont/array_int16.dart';
 
-String asset = 'assets/TimGM6mb_but_fixed__piano_.sf2';
+String asset = 'assets/TimGM6mbEdit.sf2';
 int sampleRate = 44100;
 
 void main() => runApp(const MeltyApp());
@@ -137,18 +137,11 @@ class _MyAppState extends State<MeltyApp> {
       child = const Text("initializing...");
     } else {
       IconData icon = _rawSound.isPlaying ? Icons.stop : Icons.play_arrow;
-      child = Column(
-        children: [
-          Row(
-            children: [
-              IconButton(
-                icon: Icon(icon, color: Colors.black),
-                onPressed: () => _rawSound.isPlaying ? _stop() : _play(),
-              ),
-              const Text('Test PCMI16 (16-bit Integer)'),
-            ],
-          ),
-        ],
+      child = Center(
+        child: IconButton(
+          icon: Icon(icon, color: Colors.black),
+          onPressed: () => _rawSound.isPlaying ? _stop() : _play(),
+        ),
       );
     }
     return MaterialApp(
