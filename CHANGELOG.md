@@ -1,3 +1,6 @@
+# 1.1.10
+- Example: switch to flutter_pcm_sound
+
 # 1.1.9
 - Fix: remove null characters from names
 - Synth: add selectPreset function for convenience
