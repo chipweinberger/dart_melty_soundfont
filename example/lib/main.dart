@@ -6,7 +6,7 @@ import 'package:dart_melty_soundfont/preset.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:flutter/material.dart';
-import 'package:raw_sound/raw_sound_player.dart';
+import 'package:flutter_pcm_sound/flutter_pcm_sound.dart';
 
 import 'package:dart_melty_soundfont/synthesizer.dart';
 import 'package:dart_melty_soundfont/synthesizer_settings.dart';
@@ -26,11 +26,14 @@ class MeltyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MeltyApp> {
-  final _rawSound = RawSoundPlayer();
-
   Synthesizer? _synth;
 
+  bool _isPlaying = false;
+  bool _pcmSoundLoaded = false;
   bool _soundFontLoaded = false;
+  int _remainingFrames = 0;
+  int _fedCount = 0;
+  int _prevNote = 0;
 
   @override
   void initState() {
@@ -42,105 +45,102 @@ class _MyAppState extends State<MeltyApp> {
       setState(() {});
     });
 
-    // RawSound
-    _rawSound
-        .initialize(
-      bufferSize: 4096 << 4,
-      nChannels: 1,
-      sampleRate: sampleRate,
-      pcmType: RawSoundPCMType.PCMI16,
-    )
-        .then((value) {
+    // FlutterPcmSound
+    _loadPcmSound().then((_) {
+      _pcmSoundLoaded = true;
       setState(() {});
     });
+  }
+
+  Future<void> _loadPcmSound() async {
+    FlutterPcmSound.setFeedCallback(onFeed);
+    await FlutterPcmSound.setLogLevel(LogLevel.standard);
+    await FlutterPcmSound.setFeedThreshold(8000);
+    await FlutterPcmSound.setup(sampleRate: sampleRate, channelCount: 1);
   }
 
   Future<void> _loadSoundfont() async {
     ByteData bytes = await rootBundle.load(asset);
     _synth = Synthesizer.loadByteData(bytes, SynthesizerSettings());
-    return Future<void>.value(null);
-  }
 
-  @override
-  void dispose() {
-    _rawSound.release();
-    super.dispose();
-  }
-
-  void selectInstrumentPreset(int preset) {
-    _synth!.processMidiMessage(
-        channel: 0,
-        command: 0xC0, // program change
-        data1: _synth!.soundFont.presets[preset].patchNumber,
-        data2: 0);
-
-    _synth!.processMidiMessage(
-      channel: 0,
-      command: 0xB0, // control change
-      data1: 0x00, // bank select
-      data2: _synth!.soundFont.presets[preset].bankNumber,
-    );
-  }
-
-  Future<void> _play() async {
-    if (_rawSound.isPlaying) {
-      return;
-    }
-
-    // start playing audio
-    await _rawSound.play();
-    setState(() {});
-
-    // turnOff all notes
-    _synth!.noteOffAll();
-
-    // print available preset instruments
+    // print available instruments
     List<Preset> p = _synth!.soundFont.presets;
     for (int i = 0; i < p.length; i++) {
       String instrumentName = p[i].regions.isNotEmpty ? p[i].regions[0].instrument.name : "N/A";
       print('[preset $i] name: ${p[i].name} instrument: $instrumentName');
     }
 
-    // select preset (i.e. instrument)
-    _synth!.selectPreset(channel: 0, preset: 0);
-
-    // c major scale
-    List<int> notes = [60, 62, 64, 65, 67, 69, 71, 72];
-    int samplesPerNote = sampleRate ~/ 2;
-    ArrayInt16 buf16 = ArrayInt16.zeros(numShorts: samplesPerNote * notes.length);
-    for (int i = 0; i < notes.length; i++) {
-      if (i > 0) {
-        _synth!.noteOff(channel: 0, key: notes[i - 1]);
-      }
-      _synth!.noteOn(channel: 0, key: notes[i], velocity: 120);
-      _synth!.renderMonoInt16(buf16, length: samplesPerNote, offset: samplesPerNote * i);
-    }
-
-    int seconds = (buf16.bytes.lengthInBytes / 2) ~/ sampleRate;
-    await _rawSound.feed(buf16.bytes.buffer.asUint8List());
-    await Future.delayed(Duration(seconds: seconds));
-    await _stop();
+    return Future<void>.value(null);
   }
 
-  Future<void> _stop() async {
-    if (_rawSound.isPlaying == false) {
-      return;
+  @override
+  void dispose() {
+    FlutterPcmSound.release();
+    super.dispose();
+  }
+
+  void onFeed(int remainingFrames) async {
+    setState(() {
+      _remainingFrames = remainingFrames;
+    });
+    // c major scale
+    List<int> notes = [60, 62, 64, 65, 67, 69, 71, 72];
+    int step = (_fedCount ~/ 16) % notes.length;
+    int curNote = notes[step];
+    if (curNote != _prevNote) {
+      _synth!.noteOff(channel: 0, key: _prevNote);
+      _synth!.noteOn(channel: 0, key: curNote, velocity: 120);
     }
-    await _rawSound.stop();
-    setState(() {});
+    ArrayInt16 buf16 = ArrayInt16.zeros(numShorts: 1000);
+    _synth!.renderMonoInt16(buf16);
+    await FlutterPcmSound.feed(PcmArrayInt16(bytes: buf16.bytes));
+    _fedCount++;
+    _prevNote = curNote;
+  }
+
+  Future<void> _play() async {
+    // start playing audio
+    await FlutterPcmSound.play();
+
+    setState(() {
+      _isPlaying = true;
+    });
+
+    // turnOff all notes
+    _synth!.noteOffAll();
+
+    // select preset (i.e. instrument)
+    _synth!.selectPreset(channel: 0, preset: 0);
+  }
+
+  Future<void> _pause() async {
+    await FlutterPcmSound.pause();
+    setState(() {
+      _isPlaying = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Widget child;
-    if (!_rawSound.isInited || !_soundFontLoaded) {
+    if (!_pcmSoundLoaded || !_soundFontLoaded) {
       child = const Text("initializing...");
     } else {
-      IconData icon = _rawSound.isPlaying ? Icons.stop : Icons.play_arrow;
       child = Center(
-        child: IconButton(
-          icon: Icon(icon, color: Colors.black),
-          onPressed: () => _rawSound.isPlaying ? _stop() : _play(),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ElevatedButton(
+                child: Text(_isPlaying ? "Pause" : "Play"),
+                onPressed: () => _isPlaying ? _pause() : _play(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text("Remaining Frames $_remainingFrames"),
+            )
+          ],
         ),
       );
     }
