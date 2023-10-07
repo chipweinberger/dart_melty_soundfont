@@ -134,7 +134,7 @@ class Synthesizer {
 
       // The preset with the minimum ID number will be default.
       // If the SoundFont is GM compatible, the piano will be chosen.
-      if (minPresetId == null || presetId < minPresetId!) {
+      if (minPresetId == null || presetId < minPresetId) {
         defaultPreset = preset;
         minPresetId = presetId;
       }
