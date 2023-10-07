@@ -1,3 +1,6 @@
+# 1.1.11
+- fix: small warning
+
 # 1.1.10
 - Example: switch to flutter_pcm_sound
 
