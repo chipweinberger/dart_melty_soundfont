@@ -61,7 +61,7 @@ synth.renderMonoInt16(buf16);
 
 ## Playing Sound
 
-See the [Example App](/example/lib/main.dart) for a **raw_sound** + **dart_melty_soundfont** example.
+See the [Example App](/example/lib/main.dart) for a **flutter_pcm_sound** + **dart_melty_soundfont** example.
 
 This library does not audibly make sound, it only generates the PCM waveform. 
 
