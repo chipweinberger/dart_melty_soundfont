@@ -22,7 +22,7 @@ This package was written against Dart SDK 2.16.1.
 
 Synthesize a simple chord:
 
-```
+```dart
 // Necessary Imports
 import 'package:dart_melty_soundfont/dart_melty_soundfont.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -107,7 +107,7 @@ Feel free to port MIDI file support to Dart and make a pull request.
 
 Its usage would look like this when implemented:
 
-```
+```dart
 // Create the synthesizer.
 var sampleRate = 44100;
 var synthesizer = new Synthesizer("TimGM6mb.sf2", sampleRate);
