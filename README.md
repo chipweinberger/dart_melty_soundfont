@@ -1,4 +1,6 @@
-# dart_melty_soundfont
+<p align="center">
+<imgs rc="https://github.com/chipweinberger/dart_melty_soundfont/blob/main/logo.png?raw=true" />
+</p>
 
 **dart_melty_soundfont** is a SoundFont synthesizer (i.e. '.sf2' player) written in pure Dart.
 
