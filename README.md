@@ -27,9 +27,10 @@ Synthesize a simple chord:
 import 'package:dart_melty_soundfont/dart_melty_soundfont.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-// Create the synthesizer.
+// load sf2
 ByteData bytes = await rootBundle.load('assets/akai_steinway.sf2');
 
+// Create the synthesizer.
 Synthesizer synth = Synthesizer.loadByteData(bytes, 
     SynthesizerSettings(
         sampleRate: 44100, 
@@ -38,14 +39,14 @@ Synthesizer synth = Synthesizer.loadByteData(bytes,
         enableReverbAndChorus: true,
     ));
 
-// print available presets
+// optional: print available instruments (aka presets)
 List<Preset> p = synth.soundFont.presets;
 for (int i = 0; i < p.length; i++) {
   String instrumentName = p[i].regions.isNotEmpty ? p[i].regions[0].instrument.name : "N/A";
   print('[preset $i] name: ${p[i].name} instrument: $instrumentName');
 }
 
-// select first preset (aka instrument)
+//  optional: select first instrument (aka preset)
 synth.selectPreset(channel: 0, preset: 0);
 
 // Turn on some notes
@@ -54,10 +55,10 @@ synth.noteOn(channel: 0, key: 76, velocity: 120);
 synth.noteOn(channel: 0, key: 79, velocity: 120);
 synth.noteOn(channel: 0, key: 82, velocity: 120);
 
-
-// Render the waveform (3 seconds)
+// create a pcm buffer
 ArrayInt16 buf16 = ArrayInt16.zeros(numShorts: 44100 * 3);
 
+// Render the waveform (3 seconds)
 synth.renderMonoInt16(buf16);
 ```
 
