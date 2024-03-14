@@ -1,3 +1,6 @@
+# 1.1.12
+- docs: update readme
+
 # 1.1.11
 - fix: small warning
 
