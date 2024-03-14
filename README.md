@@ -99,36 +99,9 @@ See the [Example App](/example/lib/main.dart) for a **flutter_pcm_sound** + **da
     - [x] Loop extension support
     - [x] Performace optimization
 
-
-## Todo
-
-- MIDI file support. 
-
-Feel free to port MIDI file support to Dart and make a pull request. 
-
-Its usage would look like this when implemented:
-
-```dart
-// Create the synthesizer.
-var sampleRate = 44100;
-var synthesizer = new Synthesizer("TimGM6mb.sf2", sampleRate);
-
-// Read the MIDI file.
-var midiFile = MidiFile("flourish.mid");
-var sequencer = MidiFileSequencer(synthesizer);
-sequencer.play(midiFile, false);
-
-// Render the waveform (3 seconds)
-ArrayInt16 buf16 = ArrayInt16.zeros(numShorts: 44100 * 3);
-
-sequencer.renderMonoInt16(buf16);
-```
-
-
 ## License
 
 DartMeltySoundFont is available under [the MIT license](LICENSE.txt).
-
 
 
 ## References
