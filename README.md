@@ -49,7 +49,7 @@ for (int i = 0; i < p.length; i++) {
 //  optional: select first instrument (aka preset)
 synth.selectPreset(channel: 0, preset: 0);
 
-// Turn on some notes
+// turn on some notes
 synth.noteOn(channel: 0, key: 72, velocity: 120);
 synth.noteOn(channel: 0, key: 76, velocity: 120);
 synth.noteOn(channel: 0, key: 79, velocity: 120);
@@ -58,7 +58,13 @@ synth.noteOn(channel: 0, key: 82, velocity: 120);
 // create a pcm buffer
 ArrayInt16 buf16 = ArrayInt16.zeros(numShorts: 44100 * 3);
 
-// Render the waveform (3 seconds)
+// render the waveform (1 second)
+synth.renderMonoInt16(buf16);
+
+// turn off a note
+synth.noteOff(channel: 0, key: 72, velocity: 120);
+
+// render another second
 synth.renderMonoInt16(buf16);
 ```
 
