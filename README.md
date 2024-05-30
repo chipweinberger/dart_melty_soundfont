@@ -78,7 +78,7 @@ See the [Example App](/example/lib/main.dart) for a **flutter_pcm_sound** + **da
 
 ## Isolates
 
-It is recommended to do your audio rendering in isolates. This will keep your UI fast & prevent audio stuttering. 
+It is recommended to do your audio rendering in isolates or using [`compute`](https://api.flutter.dev/flutter/foundation/compute.html). This will keep your UI fast & prevent audio stuttering. 
 
 ## Features
 
