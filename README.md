@@ -76,6 +76,10 @@ To actually hear something, you need to pass the generated PCM waveform to your 
 
 See the [Example App](/example/lib/main.dart) for a **flutter_pcm_sound** + **dart_melty_soundfont** example.
 
+## Isolates
+
+It is recommended to do your audio rendering in isolates. This will keep your UI fast & prevent audio stuttering. 
+
 ## Features
 
 * No memory allocation in the rendering process.
