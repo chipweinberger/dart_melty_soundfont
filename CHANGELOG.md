@@ -1,3 +1,6 @@
+# 1.1.13
+- Fix: stereo rendering
+
 # 1.1.12
 - docs: update readme
 
