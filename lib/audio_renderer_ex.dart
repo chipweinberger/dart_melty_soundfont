@@ -103,7 +103,7 @@ extension AudioRenderEx on Synthesizer
         if (length != null) {
           sampleCount = length;
         } else {
-          sampleCount = destination.bytes.lengthInBytes ~/ 2;
+          sampleCount = destination.bytes.lengthInBytes ~/ 4;
           sampleCount -= offset;
         }
 
@@ -118,7 +118,7 @@ extension AudioRenderEx on Synthesizer
             var sampleRight = (32768 * right[t]).toInt();
 
             // these get automaticall casted to shorts in ArrayInt16[]
-            destination[offset + t * 2 + 1] = sampleLeft;
+            destination[offset + t * 2 + 0] = sampleLeft;
             destination[offset + t * 2 + 1] = sampleRight;
         }
     }
