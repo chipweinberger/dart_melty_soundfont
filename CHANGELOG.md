@@ -1,3 +1,6 @@
+# 1.1.14
+- Fix: sustained notes could have weird fade-out artifacts
+
 # 1.1.13
 - Fix: stereo rendering
 
