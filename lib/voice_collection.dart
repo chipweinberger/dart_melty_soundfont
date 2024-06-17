@@ -28,27 +28,11 @@ class VoiceCollection extends Iterable<Voice>
 
     Voice? requestNew(InstrumentRegion region, int channel)
     {
-        Voice? free;
-        Voice? low;
-
-        double lowestPriority = double.maxFinite;
-
+        // If the voice is an exclusive class, reuse the existing one so that only one note
+        // will be played at a time.
         int exclusiveClass = region.exclusiveClass();
 
-        if (exclusiveClass == 0)
-        {
-            for (var i = 0; i < _activeVoiceCount; i++)
-            {
-                var voice = voices[i];
-
-                if (voice.priority() < lowestPriority)
-                {
-                    lowestPriority = voice.priority();
-                    low = voice;
-                }
-            }
-        }
-        else
+        if (exclusiveClass != 0)
         {
             for (var i = 0; i < _activeVoiceCount; i++)
             {
@@ -56,32 +40,42 @@ class VoiceCollection extends Iterable<Voice>
 
                 if (voice.exclusiveClass() == exclusiveClass && voice.channel() == channel)
                 {
-                    voice.kill();
-                    free = voice;
-                }
-                if (voice.priority() < lowestPriority)
-                {
-                    lowestPriority = voice.priority();
-                    low = voice;
+                    return voice;
                 }
             }
         }
 
-        if (free != null)
-        {
-            return free;
-        }
-
         if (_activeVoiceCount < voices.length)
         {
-            free = voices[_activeVoiceCount];
+            var free = voices[_activeVoiceCount];
             _activeVoiceCount++;
             return free;
         }
-        else
+
+        // Too many active voices...
+        // Find one which has the lowest priority.
+        Voice? low = null;
+        var lowestPriority = double.maxFinite;
+        for (int i = 0; i < _activeVoiceCount; i++)
         {
-            return low;
+            var voice = voices[i];
+            var priority = voice.priority();
+            if (priority < lowestPriority)
+            {
+                lowestPriority = priority;
+                low = voice;
+            } 
+            else if (priority == lowestPriority)
+            {
+                // Same priority...
+                // The older one should be more suitable for reuse.
+                if (low == null || voice.voiceLength() > low.voiceLength())
+                {
+                    low = voice;
+                }
+            }
         }
+        return low;
     }
 
     void process()

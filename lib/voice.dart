@@ -317,5 +317,7 @@ class Voice
     int channel() => _channel;
     int key() => _key;
     int velocity() => _velocity;
+
+    int voiceLength() => _voiceLength;
 }
 
