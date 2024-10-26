@@ -47,6 +47,9 @@ class ModulationEnvelope
       _releaseEndTime = release;
       _sustainLevel = sustain.clamp(0.0, 1.0);
       _releaseLevel = 0;
+      _processedSampleCount = 0;
+      _stage = EnvelopeStage.delay;
+      _value = 0;
 
       _process(0);
     }
