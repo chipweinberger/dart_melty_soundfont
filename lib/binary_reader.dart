@@ -149,10 +149,14 @@ class BinaryReader
         byteList[i] = data.getUint8(i);
       }
 
-      String out = String.fromCharCodes(byteList);
+      // Find null terminator and trim the string until the first occurrence of it
+      int actualLength = byteList.indexOf(0);
+      if (actualLength == -1) {
+         // Take the whole string if not found
+        actualLength = length;
+      }
 
-      // remove null characters
-      out = String.fromCharCodes(out.codeUnits.where((code) => code != 0));
+      String out = String.fromCharCodes(byteList.getRange(0, actualLength));
 
       return out;
   }
