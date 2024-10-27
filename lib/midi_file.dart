@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:dart_melty_soundfont/binary_reader.dart';
-
+import 'binary_reader.dart';
 import 'midi_file_loop_type.dart';
 
 /// <summary>

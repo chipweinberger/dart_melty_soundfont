@@ -1,9 +1,10 @@
-import 'package:dart_melty_soundfont/audio_renderer.dart';
-import 'package:dart_melty_soundfont/list_slice.dart';
+import 'dart:math' as math;
 
 import 'midi_file.dart';
 import 'synthesizer.dart';
-import 'dart:math' as math;
+import 'audio_renderer.dart';
+import 'list_slice.dart';
+
 
 /// <summary>
 /// An instance of the MIDI file sequencer.
