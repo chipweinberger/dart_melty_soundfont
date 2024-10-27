@@ -12,22 +12,20 @@ class MidiFile {
   late List<Duration> _times;
 
   /// Loads a MIDI file from the file path.
-  factory MidiFile.fromFile(String path,
-      [int? loopPoint, MidiFileLoopType? loopType]) {
+  factory MidiFile.fromFile(String path, {int? loopPoint, MidiFileLoopType? loopType}) {
     BinaryReader reader = BinaryReader.fromFile(path);
 
-    return MidiFile(reader, loopPoint, loopType);
+    return MidiFile.fromBinaryReader(reader, loopPoint: loopPoint, loopType: loopType);
   }
 
   /// Loads a MIDI file from the byte data
-  factory MidiFile.fromByteData(ByteData bytes,
-      [int? loopPoint, MidiFileLoopType? loopType]) {
+  factory MidiFile.fromByteData(ByteData bytes, {int? loopPoint, MidiFileLoopType? loopType}) {
     BinaryReader reader = BinaryReader.fromByteData(bytes);
 
-    return MidiFile(reader, loopPoint, loopType);
+    return MidiFile.fromBinaryReader(reader, loopPoint: loopPoint, loopType: loopType);
   }
 
-  MidiFile(BinaryReader reader, [int? loopPoint, MidiFileLoopType? loopType]) {
+  MidiFile.fromBinaryReader(BinaryReader reader, {int? loopPoint, MidiFileLoopType? loopType}) {
     if (loopPoint != null && loopPoint < 0) {
       throw "The loop point must be a non-negative value.";
     }
