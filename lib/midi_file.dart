@@ -380,6 +380,8 @@ class MidiMessageType {
   const MidiMessageType(this.value);
 }
 
+// As Dart 2.x does not have tuples (records) yet, using classes as an alternative
+
 class _MidiMessagesAndTicks {
   final List<MidiMessage> messages;
   final List<int> ticks;

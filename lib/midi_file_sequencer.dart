@@ -166,7 +166,7 @@ class MidiFileSequencer implements AudioRenderer {
 
   set speed(double value) {
     if (value >= 0) {
-      speed = value;
+      _speed = value;
     } else {
       throw "The playback speed must be a non-negative value.";
     }
