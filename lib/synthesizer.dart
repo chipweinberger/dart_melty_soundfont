@@ -1,6 +1,7 @@
 ﻿import 'dart:math';
 import 'dart:typed_data';
 
+import 'audio_renderer.dart';
 import 'soundfont.dart';
 import 'channel.dart';
 import 'voice.dart';
@@ -19,7 +20,7 @@ import 'soundfont_math.dart';
 /// Note: that this class does not provide thread safety.
 /// If you want to send notes and render the waveform in separate threads,
 /// you must ensure that the methods will not be called simultaneously.
-class Synthesizer {
+class Synthesizer implements AudioRenderer {
   // Public:
 
   static const int channelCount = 16;

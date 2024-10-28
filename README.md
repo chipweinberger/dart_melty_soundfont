@@ -68,6 +68,37 @@ synth.noteOff(channel: 0, key: 72, velocity: 120);
 synth.renderMonoInt16(buf16);
 ```
 
+Synthesize notes from a MIDI file playback:
+
+```dart
+// Necessary imports
+import 'package:dart_melty_soundfont/dart_melty_soundfont.dart';
+import 'package:flutter/services.dart' show rootBundle;
+
+// Load the soundfont file
+ByteData bytes = await rootBundle.load('assets/akai_steinway.sf2');
+
+// Create the synthesizer
+Synthesizer synth = Synthesizer.loadByteData(bytes);
+
+// Load MIDI file from asset
+ByteData midiBytes = await rootBundle.load('assets/arabesque.mid');
+MidiFile midiFile = MidiFile.fromByteData(midiBytes);
+
+// Start MIDI playback
+MidiFileSequencer sequencer = MidiFileSequencer(synth);
+sequencer.play(midiFile, loop: false);
+
+// Change the playback speed.
+sequencer.speed = 1.5;
+
+// Render 10 seconds of playback into PCM buffer
+ArrayInt16 buf16 = ArrayInt16.zeros(numShorts: 44100 * 10);
+synth.renderMonoInt16(buf16);
+
+```
+
+
 ## Playing Sound
 
 This library does not audibly make sound, it only generates the PCM waveform. 
@@ -106,8 +137,9 @@ It is recommended to do your audio rendering in isolates or using [`compute`](ht
     - [x] Reverb
     - [x] Chorus
 * __Other things__
+    - [x] Standard MIDI file support
     - [x] Loop extension support
-    - [x] Performace optimization
+    - [x] Performance optimization
 
 ## License
 

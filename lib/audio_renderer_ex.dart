@@ -5,12 +5,12 @@
 
 
 
-import 'synthesizer.dart';
+import 'audio_renderer.dart';
 import 'array_int16.dart';
 
 
 /// Provides utility methods to convert the format of samples.
-extension AudioRenderEx on Synthesizer
+extension AudioRenderEx on AudioRenderer
 {
     /// <summary>
     /// Renders the waveform as a stereo interleaved signal.
