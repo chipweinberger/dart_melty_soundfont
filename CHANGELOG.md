@@ -1,3 +1,6 @@
+# 1.1.15
+- Feature: add sostenuto support
+
 # 1.1.14
 - Fix: sustained notes could have weird fade-out artifacts
 
