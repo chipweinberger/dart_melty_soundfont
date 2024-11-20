@@ -39,8 +39,8 @@ extension AudioRenderEx on AudioRenderer
           sampleCount -= offset;
         }
 
-        List<double> left = List<double>.filled(sampleCount, 0);
-        List<double> right = List<double>.filled(sampleCount, 0);
+        List<double> left = List<double>.filled(sampleCount, 0, growable: false);
+        List<double> right = List<double>.filled(sampleCount, 0, growable: false);
 
         render(left, right);
 
@@ -68,8 +68,8 @@ extension AudioRenderEx on AudioRenderer
 
         sampleCount -= offset;
 
-        List<double> left = List<double>.filled(sampleCount, 0);
-        List<double> right = List<double>.filled(sampleCount, 0);
+        List<double> left = List<double>.filled(sampleCount, 0, growable: false);
+        List<double> right = List<double>.filled(sampleCount, 0, growable: false);
 
         render(left, right);
 
@@ -107,15 +107,15 @@ extension AudioRenderEx on AudioRenderer
           sampleCount -= offset;
         }
 
-        List<double> left = List<double>.filled(sampleCount, 0);
-        List<double> right = List<double>.filled(sampleCount, 0);
+        List<double> left = List<double>.filled(sampleCount, 0, growable: false);
+        List<double> right = List<double>.filled(sampleCount, 0, growable: false);
 
         render(left, right);
 
         for (var t = 0; t < sampleCount; t++)
         {
             int sampleLeft = (32768 * left[t]).toInt();
-            var sampleRight = (32768 * right[t]).toInt();
+            int sampleRight = (32768 * right[t]).toInt();
 
             // these get automaticall casted to shorts in ArrayInt16[]
             destination[offset + t * 2 + 0] = sampleLeft;
@@ -151,8 +151,8 @@ extension AudioRenderEx on AudioRenderer
           sampleCount -= offset;
         }
 
-        List<double> left = List<double>.filled(sampleCount, 0);
-        List<double> right = List<double>.filled(sampleCount, 0);
+        List<double> left = List<double>.filled(sampleCount, 0, growable: false);
+        List<double> right = List<double>.filled(sampleCount, 0, growable: false);
 
         render(left, right);
 
