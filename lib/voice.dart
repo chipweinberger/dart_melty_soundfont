@@ -80,6 +80,8 @@ class Voice
     VoiceState _voiceState = VoiceState.playing;
     int _voiceLength = 0;
 
+    bool _isSostenutoTarget = false;
+
     Voice(this.synthesizer) :
         _volEnv = VolumeEnvelope(synthesizer),
         _modEnv = ModulationEnvelope(synthesizer),
@@ -146,6 +148,13 @@ class Voice
 
         _voiceState = VoiceState.playing;
         _voiceLength = 0;
+
+        _isSostenutoTarget = false;
+    }
+
+    void startSostenuto()
+    {
+        _isSostenutoTarget = true;
     }
 
     void end()
@@ -279,7 +288,17 @@ class Voice
             return;
         }
 
-        if (_voiceState == VoiceState.releaseRequested && !channelInfo.holdPedal)
+        if (channelInfo.holdPedal)
+        {
+            return;
+        }
+
+        if (channelInfo.sostenuto && _isSostenutoTarget)
+        {
+            return;
+        }
+
+        if (_voiceState == VoiceState.releaseRequested)
         {
             _volEnv.release();
             _modEnv.release();

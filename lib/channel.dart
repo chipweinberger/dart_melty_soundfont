@@ -18,6 +18,7 @@ class Channel
     int _pan;        // short
     int _expression; // short
     bool _holdPedal;
+    bool _sostenuto;
 
     int _reverbSend; // byte
     int _chorusSend; // byte
@@ -40,6 +41,7 @@ class Channel
              required int pan,
              required int expression,
              required bool holdPedal,
+             required bool sostento,
              required int reverbSend,
              required int chorusSend,
              required int rpn,
@@ -54,6 +56,7 @@ class Channel
              _pan = pan,
              _expression = expression,
              _holdPedal = holdPedal,
+             _sostenuto = sostento,
              _reverbSend = reverbSend,
              _chorusSend = chorusSend,
              _rpn = rpn,
@@ -76,6 +79,7 @@ class Channel
               pan : 0,
               expression : 0,
               holdPedal : false,
+              sostento: false,
               reverbSend : 0,
               chorusSend : 0,
               rpn: 0,
@@ -100,6 +104,7 @@ class Channel
         _pan = 64 << 7;
         _expression = 127 << 7;
         _holdPedal = false;
+        _sostenuto = false;
 
         _reverbSend = 40;
         _chorusSend = 0;
@@ -183,6 +188,11 @@ class Channel
         _holdPedal = value >= 64;
     }
 
+    void setSostenuto(int value)
+    {
+        _sostenuto = value >= 64;
+    }
+
     void setReverbSend(int value)
     {
         _reverbSend = castToByte(value);
@@ -248,6 +258,7 @@ class Channel
     double get pan => (100.0 / 16383.0) * _pan - 50.0;
     double get expression => (1.0 / 16383.0) * _expression;
     bool get holdPedal => _holdPedal;
+    bool get sostenuto => _sostenuto;
 
     double get reverbSend => (1.0 / 127.0) * _reverbSend;
     double get chorusSend => (1.0 / 127.0) * _chorusSend;

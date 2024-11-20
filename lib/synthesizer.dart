@@ -272,6 +272,17 @@ class Synthesizer implements AudioRenderer {
             channelInfo.setHoldPedal(data2);
             break;
 
+          case 0x42: // Sostenuto
+            channelInfo.setSostenuto(data2);
+            for (var voice in _voices)
+            {
+                if (voice.channel() == channel)
+                {
+                    voice.startSostenuto();
+                }
+            }
+            break;
+
           case 0x5B: // Reverb Send
             channelInfo.setReverbSend(data2);
             break;
