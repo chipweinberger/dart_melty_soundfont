@@ -11,22 +11,27 @@ class MidiFile {
   late List<Duration> _times;
 
   /// Loads a MIDI file from the file path.
-  factory MidiFile.fromFile(String path, {int? loopPoint, MidiFileLoopType? loopType}) {
+  factory MidiFile.fromFile(String path,
+      {int? loopPoint, MidiFileLoopType? loopType,}) {
     BinaryReader reader = BinaryReader.fromFile(path);
 
-    return MidiFile.fromBinaryReader(reader, loopPoint: loopPoint, loopType: loopType);
+    return MidiFile.fromBinaryReader(reader,
+        loopPoint: loopPoint, loopType: loopType,);
   }
 
   /// Loads a MIDI file from the byte data
-  factory MidiFile.fromByteData(ByteData bytes, {int? loopPoint, MidiFileLoopType? loopType}) {
+  factory MidiFile.fromByteData(ByteData bytes,
+      {int? loopPoint, MidiFileLoopType? loopType,}) {
     BinaryReader reader = BinaryReader.fromByteData(bytes);
 
-    return MidiFile.fromBinaryReader(reader, loopPoint: loopPoint, loopType: loopType);
+    return MidiFile.fromBinaryReader(reader,
+        loopPoint: loopPoint, loopType: loopType,);
   }
 
-  MidiFile.fromBinaryReader(BinaryReader reader, {int? loopPoint, MidiFileLoopType? loopType}) {
+  MidiFile.fromBinaryReader(BinaryReader reader,
+      {int? loopPoint, MidiFileLoopType? loopType,}) {
     if (loopPoint != null && loopPoint < 0) {
-      throw "The loop point must be a non-negative value.";
+      throw 'The loop point must be a non-negative value.';
     }
 
     _load(reader, loopPoint ?? 0, loopType ?? MidiFileLoopType.none);
@@ -34,29 +39,31 @@ class MidiFile {
 
   static Duration getTimeSpanFromSeconds(double value) {
     return Duration(
-        microseconds: (value * Duration.microsecondsPerSecond).round());
+      microseconds: (value * Duration.microsecondsPerSecond).round(),
+    );
   }
 
   void _load(BinaryReader reader, int loopPoint, MidiFileLoopType loopType) {
     final chunkType = reader.readFourCC();
-    if (chunkType != "MThd") {
+    if (chunkType != 'MThd') {
       throw "The chunk type must be 'MThd', but was '$chunkType'.";
     }
 
     final size = reader.readInt32BigEndian();
     if (size != 6) {
-      throw "The MThd chunk has invalid data.";
+      throw 'The MThd chunk has invalid data.';
     }
 
     final format = reader.readInt16BigEndian();
     if (!(format == 0 || format == 1)) {
-      throw "The format {format} is not supported.";
+      throw 'The format {format} is not supported.';
     }
 
     final trackCount = reader.readInt16BigEndian();
     final resolution = reader.readInt16BigEndian();
 
-    final messageLists = List<List<MidiMessage>>.filled(trackCount, [], growable: false);
+    final messageLists =
+        List<List<MidiMessage>>.filled(trackCount, [], growable: false);
     final tickLists = List<List<int>>.filled(trackCount, [], growable: false);
 
     for (int i = 0; i < trackCount; i++) {
@@ -88,9 +95,11 @@ class MidiFile {
   }
 
   static _MidiMessagesAndTicks _readTrack(
-      BinaryReader reader, MidiFileLoopType loopType) {
+    BinaryReader reader,
+    MidiFileLoopType loopType,
+  ) {
     final chunkType = reader.readFourCC();
-    if (chunkType != "MTrk") {
+    if (chunkType != 'MTrk') {
       throw "The chunk type must be 'MTrk', but was '$chunkType'.";
     }
 
@@ -110,7 +119,7 @@ class MidiFile {
       try {
         tick = tick + delta;
       } catch (OverflowException) {
-        throw "Long MIDI file is not supported.";
+        throw 'Long MIDI file is not supported.';
       }
 
       if ((first & 128) == 0) {
@@ -182,9 +191,10 @@ class MidiFile {
   }
 
   static _MidiMessagesAndTimes _mergeTracks(
-      List<List<MidiMessage>> messageLists,
-      List<List<int>> tickLists,
-      int resolution) {
+    List<List<MidiMessage>> messageLists,
+    List<List<int>> tickLists,
+    int resolution,
+  ) {
     final mergedMessages = <MidiMessage>[];
     final mergedTimes = <Duration>[];
 
@@ -215,7 +225,7 @@ class MidiFile {
       final nextTick = tickLists[minIndex][indices[minIndex]];
       final deltaTick = nextTick - currentTick;
       final deltaTime =
-      getTimeSpanFromSeconds(60.0 / (resolution * tempo) * deltaTick);
+          getTimeSpanFromSeconds(60.0 / (resolution * tempo) * deltaTick);
 
       currentTick += deltaTick;
       currentTime += deltaTime;
@@ -237,7 +247,7 @@ class MidiFile {
   static int _readTempo(BinaryReader reader) {
     final size = reader.readMidiVariablelength();
     if (size != 3) {
-      throw "Failed to read the tempo value.";
+      throw 'Failed to read the tempo value.';
     }
 
     final b1 = reader.readUInt8();
@@ -269,8 +279,12 @@ class MidiMessage {
 
   MidiMessage._(this.channel, this.command, this.data1, this.data2);
 
-  factory MidiMessage.common(int status, int data1,
-      [int data2 = 0, MidiFileLoopType loopType = MidiFileLoopType.none]) {
+  factory MidiMessage.common(
+    int status,
+    int data1, [
+    int data2 = 0,
+    MidiFileLoopType loopType = MidiFileLoopType.none,
+  ]) {
     final channel = status & 0x0F;
     final command = status & 0xF0;
 
@@ -312,7 +326,11 @@ class MidiMessage {
     final data1 = tempo >> 8;
     final data2 = tempo;
     return MidiMessage._(
-        MidiMessageType.tempoChange.value, command, data1, data2);
+      MidiMessageType.tempoChange.value,
+      command,
+      data1,
+      data2,
+    );
   }
 
   factory MidiMessage.loopStart() {
@@ -331,15 +349,15 @@ class MidiMessage {
   String toString() {
     switch (type) {
       case MidiMessageType.tempoChange:
-        return "Tempo: $tempo";
+        return 'Tempo: $tempo';
       case MidiMessageType.loopStart:
-        return "LoopStart";
+        return 'LoopStart';
       case MidiMessageType.loopEnd:
-        return "LoopEnd";
+        return 'LoopEnd';
       case MidiMessageType.endOfTrack:
-        return "EndOfTrack";
+        return 'EndOfTrack';
       default:
-        return "CH$channel: ${_toHexString(command)}, ${_toHexString(data1)}, ${_toHexString(data2)}";
+        return 'CH$channel: ${_toHexString(command)}, ${_toHexString(data1)}, ${_toHexString(data2)}';
     }
   }
 

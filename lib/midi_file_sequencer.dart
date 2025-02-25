@@ -1,10 +1,9 @@
 import 'dart:math' as math;
+import 'dart:typed_data';
 
+import 'audio_renderer.dart';
 import 'midi_file.dart';
 import 'synthesizer.dart';
-import 'audio_renderer.dart';
-import 'list_slice.dart';
-
 
 /// <summary>
 /// An instance of the MIDI file sequencer.
@@ -64,9 +63,10 @@ class MidiFileSequencer implements AudioRenderer {
   }
 
   /// <inheritdoc/>
-  void render(List<double> left, List<double> right) {
+  @override
+  void render(Float32List left, Float32List right) {
     if (left.length != right.length) {
-      throw "The output buffers for the left and right must be the same length.";
+      throw 'The output buffers for the left and right must be the same length.';
     }
 
     var wrote = 0;
@@ -75,14 +75,18 @@ class MidiFileSequencer implements AudioRenderer {
         _processEvents();
         _blockWrote = 0;
         _currentTime += MidiFile.getTimeSpanFromSeconds(
-            _speed * synthesizer.blockSize / synthesizer.sampleRate);
+          _speed * synthesizer.blockSize / synthesizer.sampleRate,
+        );
       }
 
       var srcRem = synthesizer.blockSize - _blockWrote;
       var dstRem = left.length - wrote;
       var rem = math.min(srcRem, dstRem);
 
-      synthesizer.render(left.slice(wrote, rem), right.slice(wrote, rem));
+      // Create Float32List views for the slices
+      var leftSlice = Float32List.view(left.buffer, wrote * 4, rem);
+      var rightSlice = Float32List.view(right.buffer, wrote * 4, rem);
+      synthesizer.render(leftSlice, rightSlice);
 
       _blockWrote += rem;
       wrote += rem;
@@ -101,13 +105,19 @@ class MidiFileSequencer implements AudioRenderer {
         if (msg.type == MidiMessageType.normal) {
           if (onSendMessage == null) {
             synthesizer.processMidiMessage(
-                channel: msg.channel,
-                command: msg.command,
-                data1: msg.data1,
-                data2: msg.data2);
+              channel: msg.channel,
+              command: msg.command,
+              data1: msg.data1,
+              data2: msg.data2,
+            );
           } else {
             onSendMessage!(
-                synthesizer, msg.channel, msg.command, msg.data1, msg.data2);
+              synthesizer,
+              msg.channel,
+              msg.command,
+              msg.data1,
+              msg.data2,
+            );
           }
         } else if (_loop == true) {
           if (msg.type == MidiMessageType.loopStart) {
@@ -169,7 +179,7 @@ class MidiFileSequencer implements AudioRenderer {
     if (value >= 0) {
       _speed = value;
     } else {
-      throw "The playback speed must be a non-negative value.";
+      throw 'The playback speed must be a non-negative value.';
     }
   }
 }

@@ -1,8 +1,8 @@
-﻿import 'soundfont_math.dart';
-import 'loop_mode.dart';
 import 'generator_type.dart';
-import 'preset_region.dart';
 import 'instrument_region.dart';
+import 'loop_mode.dart';
+import 'preset_region.dart';
+import 'soundfont_math.dart';
 
 class RegionPair {
   final PresetRegion preset;
@@ -38,7 +38,8 @@ class RegionPair {
       getGen(GeneratorType.modulationEnvelopeToPitch);
 
   double initialFilterCutoffFrequency() => SoundFontMath.centsToHertz(
-      getGen(GeneratorType.initialFilterCutoffFrequency).toDouble());
+        getGen(GeneratorType.initialFilterCutoffFrequency).toDouble(),
+      );
 
   double initialFilterQ() => 0.1 * getGen(GeneratorType.initialFilterQ);
 
@@ -58,34 +59,43 @@ class RegionPair {
   double pan() => 0.1 * getGen(GeneratorType.pan);
 
   double delayModulationLfo() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.delayModulationLfo).toDouble());
+        getGen(GeneratorType.delayModulationLfo).toDouble(),
+      );
 
   double frequencyModulationLfo() => SoundFontMath.centsToHertz(
-      getGen(GeneratorType.frequencyModulationLfo).toDouble());
+        getGen(GeneratorType.frequencyModulationLfo).toDouble(),
+      );
 
   double delayVibratoLfo() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.delayVibratoLfo).toDouble());
+        getGen(GeneratorType.delayVibratoLfo).toDouble(),
+      );
 
   double frequencyVibratoLfo() => SoundFontMath.centsToHertz(
-      getGen(GeneratorType.frequencyVibratoLfo).toDouble());
+        getGen(GeneratorType.frequencyVibratoLfo).toDouble(),
+      );
 
   double delayModulationEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.delayModulationEnvelope).toDouble());
+        getGen(GeneratorType.delayModulationEnvelope).toDouble(),
+      );
 
   double attackModulationEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.attackModulationEnvelope).toDouble());
+        getGen(GeneratorType.attackModulationEnvelope).toDouble(),
+      );
 
   double holdModulationEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.holdModulationEnvelope).toDouble());
+        getGen(GeneratorType.holdModulationEnvelope).toDouble(),
+      );
 
   double decayModulationEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.decayModulationEnvelope).toDouble());
+        getGen(GeneratorType.decayModulationEnvelope).toDouble(),
+      );
 
   double sustainModulationEnvelope() =>
       0.1 * getGen(GeneratorType.sustainModulationEnvelope);
 
   double releaseModulationEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.releaseModulationEnvelope).toDouble());
+        getGen(GeneratorType.releaseModulationEnvelope).toDouble(),
+      );
 
   int keyNumberToModulationEnvelopeHold() =>
       getGen(GeneratorType.keyNumberToModulationEnvelopeHold);
@@ -94,22 +104,27 @@ class RegionPair {
       getGen(GeneratorType.keyNumberToModulationEnvelopeDecay);
 
   double delayVolumeEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.delayVolumeEnvelope).toDouble());
+        getGen(GeneratorType.delayVolumeEnvelope).toDouble(),
+      );
 
   double attackVolumeEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.attackVolumeEnvelope).toDouble());
+        getGen(GeneratorType.attackVolumeEnvelope).toDouble(),
+      );
 
   double holdVolumeEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.holdVolumeEnvelope).toDouble());
+        getGen(GeneratorType.holdVolumeEnvelope).toDouble(),
+      );
 
   double decayVolumeEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.decayVolumeEnvelope).toDouble());
+        getGen(GeneratorType.decayVolumeEnvelope).toDouble(),
+      );
 
   double sustainVolumeEnvelope() =>
       0.1 * getGen(GeneratorType.sustainVolumeEnvelope);
 
   double releaseVolumeEnvelope() => SoundFontMath.timecentsToSeconds(
-      getGen(GeneratorType.releaseVolumeEnvelope).toDouble());
+        getGen(GeneratorType.releaseVolumeEnvelope).toDouble(),
+      );
 
   int keyNumberToVolumeEnvelopeHold() =>
       getGen(GeneratorType.keyNumberToVolumeEnvelopeHold);
