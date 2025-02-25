@@ -274,12 +274,10 @@ class Synthesizer implements AudioRenderer {
 
           case 0x42: // Sostenuto
             channelInfo.setSostenuto(data2);
-            for (var voice in _voices)
-            {
-                if (voice.channel() == channel)
-                {
-                    voice.startSostenuto();
-                }
+            for (var voice in _voices) {
+              if (voice.channel() == channel) {
+                voice.startSostenuto();
+              }
             }
             break;
 

@@ -33,7 +33,6 @@ class ListSlice<E> extends ListBase<E> {
   }
 }
 
-
 extension ListSliceExtension<E> on List<E> {
   ListSlice<E> slice(int start, int length) {
     return ListSlice(this, start, length);

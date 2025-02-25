@@ -2,7 +2,6 @@
 /// Defines a common interface for audio rendering.
 /// </summary>
 abstract class AudioRenderer {
-
   /// <summary>
   /// Renders the waveform.
   /// </summary>

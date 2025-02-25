@@ -1,15 +1,8 @@
-
-
-
-
-
 import 'dart:typed_data';
 
 import 'binary_reader.dart';
 
-
 class ArrayInt16 {
-
   final ByteData bytes;
 
   ArrayInt16({required this.bytes});
@@ -39,6 +32,6 @@ class ArrayInt16 {
   }
 
   operator []=(int idx, int value) {
-    return bytes.setInt16( idx * 2, value, Endian.little);
+    return bytes.setInt16(idx * 2, value, Endian.little);
   }
 }

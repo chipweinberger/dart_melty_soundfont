@@ -33,8 +33,7 @@ class MidiFile {
   }
 
   static Duration getTimeSpanFromSeconds(double value) {
-    return Duration(
-        microseconds: (value * Duration.microsecondsPerSecond).round());
+    return Duration(microseconds: (value * Duration.microsecondsPerSecond).round());
   }
 
   void _load(BinaryReader reader, int loopPoint, MidiFileLoopType loopType) {
@@ -87,8 +86,7 @@ class MidiFile {
     _times = mergedTracks.times;
   }
 
-  static _MidiMessagesAndTicks _readTrack(
-      BinaryReader reader, MidiFileLoopType loopType) {
+  static _MidiMessagesAndTicks _readTrack(BinaryReader reader, MidiFileLoopType loopType) {
     final chunkType = reader.readFourCC();
     if (chunkType != "MTrk") {
       throw "The chunk type must be 'MTrk', but was '$chunkType'.";
@@ -182,9 +180,7 @@ class MidiFile {
   }
 
   static _MidiMessagesAndTimes _mergeTracks(
-      List<List<MidiMessage>> messageLists,
-      List<List<int>> tickLists,
-      int resolution) {
+      List<List<MidiMessage>> messageLists, List<List<int>> tickLists, int resolution) {
     final mergedMessages = <MidiMessage>[];
     final mergedTimes = <Duration>[];
 
@@ -214,8 +210,7 @@ class MidiFile {
 
       final nextTick = tickLists[minIndex][indices[minIndex]];
       final deltaTick = nextTick - currentTick;
-      final deltaTime =
-      getTimeSpanFromSeconds(60.0 / (resolution * tempo) * deltaTick);
+      final deltaTime = getTimeSpanFromSeconds(60.0 / (resolution * tempo) * deltaTick);
 
       currentTick += deltaTick;
       currentTime += deltaTime;
@@ -311,8 +306,7 @@ class MidiMessage {
     final command = tempo >> 16;
     final data1 = tempo >> 8;
     final data2 = tempo;
-    return MidiMessage._(
-        MidiMessageType.tempoChange.value, command, data1, data2);
+    return MidiMessage._(MidiMessageType.tempoChange.value, command, data1, data2);
   }
 
   factory MidiMessage.loopStart() {

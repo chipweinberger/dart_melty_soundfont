@@ -5,7 +5,6 @@ import 'synthesizer.dart';
 import 'audio_renderer.dart';
 import 'list_slice.dart';
 
-
 /// <summary>
 /// An instance of the MIDI file sequencer.
 /// </summary>
@@ -74,8 +73,7 @@ class MidiFileSequencer implements AudioRenderer {
       if (_blockWrote == synthesizer.blockSize) {
         _processEvents();
         _blockWrote = 0;
-        _currentTime += MidiFile.getTimeSpanFromSeconds(
-            _speed * synthesizer.blockSize / synthesizer.sampleRate);
+        _currentTime += MidiFile.getTimeSpanFromSeconds(_speed * synthesizer.blockSize / synthesizer.sampleRate);
       }
 
       var srcRem = synthesizer.blockSize - _blockWrote;
@@ -101,13 +99,9 @@ class MidiFileSequencer implements AudioRenderer {
         if (msg.type == MidiMessageType.normal) {
           if (onSendMessage == null) {
             synthesizer.processMidiMessage(
-                channel: msg.channel,
-                command: msg.command,
-                data1: msg.data1,
-                data2: msg.data2);
+                channel: msg.channel, command: msg.command, data1: msg.data1, data2: msg.data2);
           } else {
-            onSendMessage!(
-                synthesizer, msg.channel, msg.command, msg.data1, msg.data2);
+            onSendMessage!(synthesizer, msg.channel, msg.command, msg.data1, msg.data2);
           }
         } else if (_loop == true) {
           if (msg.type == MidiMessageType.loopStart) {
