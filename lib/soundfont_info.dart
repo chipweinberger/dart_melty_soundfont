@@ -1,9 +1,8 @@
-﻿import 'binary_reader.dart';
+import 'binary_reader.dart';
 import 'soundfont_version.dart';
 
 /// The information of a SoundFont.
 class SoundFontInfo {
-
   final SoundFontVersion version;
   final String targetSoundEngine;
   final String bankName;
@@ -27,20 +26,20 @@ class SoundFontInfo {
     required this.targetProduct,
     required this.copyright,
     required this.comments,
-    required this.tools});
+    required this.tools,
+  });
 
   factory SoundFontInfo.fromReader(BinaryReader reader) {
-
     String chunkId = reader.readFourCC();
-    if (chunkId != "LIST") {
-      throw "The LIST chunk was not found.";
+    if (chunkId != 'LIST') {
+      throw 'The LIST chunk was not found.';
     }
 
     int end = reader.readInt32();
     end += reader.pos;
 
     String listType = reader.readFourCC();
-    if (listType != "INFO") {
+    if (listType != 'INFO') {
       throw "The type of the LIST chunk must be 'INFO', but was '$listType'.";
     }
 
@@ -61,37 +60,37 @@ class SoundFontInfo {
       int size = reader.readInt32();
 
       switch (id) {
-        case "ifil":
+        case 'ifil':
           version = SoundFontVersion.fromReader(reader);
           break;
-        case "isng":
+        case 'isng':
           targetSoundEngine = reader.readFixedLengthString(size);
           break;
-        case "INAM":
+        case 'INAM':
           bankName = reader.readFixedLengthString(size);
           break;
-        case "irom":
+        case 'irom':
           romName = reader.readFixedLengthString(size);
           break;
-        case "iver":
+        case 'iver':
           romVersion = SoundFontVersion.fromReader(reader);
           break;
-        case "ICRD":
+        case 'ICRD':
           creationDate = reader.readFixedLengthString(size);
           break;
-        case "IENG":
+        case 'IENG':
           author = reader.readFixedLengthString(size);
           break;
-        case "IPRD":
+        case 'IPRD':
           targetProduct = reader.readFixedLengthString(size);
           break;
-        case "ICOP":
+        case 'ICOP':
           copyright = reader.readFixedLengthString(size);
           break;
-        case "ICMT":
+        case 'ICMT':
           comments = reader.readFixedLengthString(size);
           break;
-        case "ISFT":
+        case 'ISFT':
           tools = reader.readFixedLengthString(size);
           break;
         default:
@@ -99,7 +98,7 @@ class SoundFontInfo {
       }
     }
 
-    return   SoundFontInfo(
+    return SoundFontInfo(
       version: version,
       targetSoundEngine: targetSoundEngine,
       bankName: bankName,
@@ -110,7 +109,7 @@ class SoundFontInfo {
       targetProduct: targetProduct,
       copyright: copyright,
       comments: comments,
-      tools: tools
+      tools: tools,
     );
   }
 

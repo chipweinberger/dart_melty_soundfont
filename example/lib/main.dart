@@ -1,17 +1,14 @@
 // ignore_for_file: avoid_print
 
-import 'dart:typed_data'; // for Uint8List
+import 'dart:typed_data';
 
+import 'package:dart_melty_soundfont/audio_renderer_ex.dart';
 import 'package:dart_melty_soundfont/preset.dart';
-import 'package:flutter/services.dart' show rootBundle;
-
-import 'package:flutter/material.dart';
-import 'package:flutter_pcm_sound/flutter_pcm_sound.dart';
-
 import 'package:dart_melty_soundfont/synthesizer.dart';
 import 'package:dart_melty_soundfont/synthesizer_settings.dart';
-import 'package:dart_melty_soundfont/audio_renderer_ex.dart';
-import 'package:dart_melty_soundfont/array_int16.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_pcm_sound/flutter_pcm_sound.dart';
 
 String asset = 'assets/TimGM6mbEdit.sf2';
 int sampleRate = 44100;
@@ -66,7 +63,8 @@ class _MyAppState extends State<MeltyApp> {
     // print available instruments
     List<Preset> p = _synth!.soundFont.presets;
     for (int i = 0; i < p.length; i++) {
-      String instrumentName = p[i].regions.isNotEmpty ? p[i].regions[0].instrument.name : "N/A";
+      String instrumentName =
+          p[i].regions.isNotEmpty ? p[i].regions[0].instrument.name : "N/A";
       print('[preset $i] name: ${p[i].name} instrument: $instrumentName');
     }
 
@@ -91,9 +89,9 @@ class _MyAppState extends State<MeltyApp> {
       _synth!.noteOff(channel: 0, key: _prevNote);
       _synth!.noteOn(channel: 0, key: curNote, velocity: 120);
     }
-    ArrayInt16 buf16 = ArrayInt16.zeros(numShorts: 1000);
+    final buf16 = Int16List(1000);
     _synth!.renderMonoInt16(buf16);
-    await FlutterPcmSound.feed(PcmArrayInt16(bytes: buf16.bytes));
+    await FlutterPcmSound.feed(PcmArrayInt16(bytes: buf16.buffer.asByteData()));
     _fedCount++;
     _prevNote = curNote;
   }
@@ -139,15 +137,16 @@ class _MyAppState extends State<MeltyApp> {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Text("Remaining Frames $_remainingFrames"),
-            )
+            ),
           ],
         ),
       );
     }
     return MaterialApp(
-        home: Scaffold(
-      appBar: AppBar(title: const Text('Soundfont')),
-      body: child,
-    ));
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Soundfont')),
+        body: child,
+      ),
+    );
   }
 }

@@ -1,8 +1,9 @@
+import 'dart:typed_data';
+
 /// <summary>
 /// Defines a common interface for audio rendering.
 /// </summary>
 abstract class AudioRenderer {
-
   /// <summary>
   /// Renders the waveform.
   /// </summary>
@@ -11,5 +12,5 @@ abstract class AudioRenderer {
   /// <remarks>
   /// The output buffers for the left and right must be the same length.
   /// </remarks>
-  void render(List<double> left, List<double> right);
+  void render(Float32List left, Float32List right);
 }

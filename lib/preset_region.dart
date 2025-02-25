@@ -1,8 +1,8 @@
-﻿import 'zone.dart';
-import 'soundfont_math.dart';
 import 'generator.dart';
 import 'generator_type.dart';
 import 'instrument.dart';
+import 'soundfont_math.dart';
+import 'zone.dart';
 
 /// Represents a preset region.
 /// A preset region indicates how the parameters of the instrument should be modified in the preset.
@@ -17,11 +17,11 @@ class PresetRegion {
     return PresetRegion(instrument: Instrument.defaultInstrument(), gs: {});
   }
 
-  factory PresetRegion.fromLists(
-      {required List<Generator> global,
-      required List<Generator> local,
-      required List<Instrument> instruments})
-  {
+  factory PresetRegion.fromLists({
+    required List<Generator> global,
+    required List<Generator> local,
+    required List<Instrument> instruments,
+  }) {
     // initialize default values
     Map<GeneratorType, int> gs = {};
     for (GeneratorType gType in GeneratorType.values) {
@@ -41,7 +41,6 @@ class PresetRegion {
     Instrument inst;
 
     if (instruments.isNotEmpty) {
-
       int? id = gs[GeneratorType.instrument];
 
       if (id == null || id < 0 || id >= instruments.length) {
@@ -49,9 +48,7 @@ class PresetRegion {
       }
 
       inst = instruments[id];
-
     } else {
-
       inst = Instrument.defaultInstrument();
     }
 
@@ -59,34 +56,34 @@ class PresetRegion {
   }
 
   static List<PresetRegion> create(
-      List<Zone> zones, List<Instrument> instruments) 
-  {
+    List<Zone> zones,
+    List<Instrument> instruments,
+  ) {
     Zone? global;
 
     // Is the first one the global zone?
     if (zones[0].generators.isEmpty ||
         zones[0].generators.last.type != GeneratorType.instrument) {
-
       // The first one is the global zone.
       global = zones[0];
-
     }
 
     if (global != null) {
-
       // The global zone is regarded as the base setting of subsequent zones.
       List<PresetRegion> regions = [];
 
       int count = zones.length - 1;
 
       for (var i = 0; i < count; i++) {
-        regions.add(PresetRegion.fromLists(
+        regions.add(
+          PresetRegion.fromLists(
             global: global.generators,
             local: zones[i + 1].generators,
-            instruments: instruments));
+            instruments: instruments,
+          ),
+        );
       }
       return regions;
-
     } else {
       // No global zone.
       List<PresetRegion> regions = [];
@@ -94,10 +91,13 @@ class PresetRegion {
       int count = zones.length;
 
       for (var i = 0; i < count; i++) {
-        regions.add(PresetRegion.fromLists(
+        regions.add(
+          PresetRegion.fromLists(
             global: [],
             local: zones[i].generators,
-            instruments: instruments));
+            instruments: instruments,
+          ),
+        );
       }
       return regions;
     }
@@ -116,8 +116,8 @@ class PresetRegion {
 
   @override
   String toString() {
-    String s1 = "${instrument.name} (Key: ${keyRangeStart()}-${keyRangeEnd()},";
-    String s2 = " Velocity: ${velocityRangeStart()}-${velocityRangeEnd()}";
+    String s1 = '${instrument.name} (Key: ${keyRangeStart()}-${keyRangeEnd()},';
+    String s2 = ' Velocity: ${velocityRangeStart()}-${velocityRangeEnd()}';
     return s1 + s2;
   }
 
@@ -134,7 +134,8 @@ class PresetRegion {
 
   double initialFilterCutoffFrequency() =>
       SoundFontMath.centsToMultiplyingFactor(
-          gs[GeneratorType.initialFilterCutoffFrequency]!.toDouble());
+        gs[GeneratorType.initialFilterCutoffFrequency]!.toDouble(),
+      );
 
   double initialFilterQ() => 0.1 * gs[GeneratorType.initialFilterQ]!;
 
@@ -154,34 +155,43 @@ class PresetRegion {
   double pan() => 0.1 * gs[GeneratorType.pan]!;
 
   double delayModulationLfo() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.delayModulationLfo]!.toDouble());
+        gs[GeneratorType.delayModulationLfo]!.toDouble(),
+      );
 
   double frequencyModulationLfo() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.frequencyModulationLfo]!.toDouble());
+        gs[GeneratorType.frequencyModulationLfo]!.toDouble(),
+      );
 
   double delayVibratoLfo() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.delayVibratoLfo]!.toDouble());
+        gs[GeneratorType.delayVibratoLfo]!.toDouble(),
+      );
 
   double frequencyVibratoLfo() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.frequencyVibratoLfo]!.toDouble());
+        gs[GeneratorType.frequencyVibratoLfo]!.toDouble(),
+      );
 
   double delayModulationEnvelope() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.delayModulationEnvelope]!.toDouble());
+        gs[GeneratorType.delayModulationEnvelope]!.toDouble(),
+      );
 
   double attackModulationEnvelope() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.attackModulationEnvelope]!.toDouble());
+        gs[GeneratorType.attackModulationEnvelope]!.toDouble(),
+      );
 
   double holdModulationEnvelope() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.holdModulationEnvelope]!.toDouble());
+        gs[GeneratorType.holdModulationEnvelope]!.toDouble(),
+      );
 
   double decayModulationEnvelope() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.decayModulationEnvelope]!.toDouble());
+        gs[GeneratorType.decayModulationEnvelope]!.toDouble(),
+      );
 
   double sustainModulationEnvelope() =>
       0.1 * gs[GeneratorType.sustainModulationEnvelope]!;
 
   double releaseModulationEnvelope() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.releaseModulationEnvelope]!.toDouble());
+        gs[GeneratorType.releaseModulationEnvelope]!.toDouble(),
+      );
 
   int keyNumberToModulationEnvelopeHold() =>
       gs[GeneratorType.keyNumberToModulationEnvelopeHold]!;
@@ -190,22 +200,27 @@ class PresetRegion {
       gs[GeneratorType.keyNumberToModulationEnvelopeDecay]!;
 
   double delayVolumeEnvelope() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.delayVolumeEnvelope]!.toDouble());
+        gs[GeneratorType.delayVolumeEnvelope]!.toDouble(),
+      );
 
   double attackVolumeEnvelope() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.attackVolumeEnvelope]!.toDouble());
+        gs[GeneratorType.attackVolumeEnvelope]!.toDouble(),
+      );
 
   double holdVolumeEnvelope() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.holdVolumeEnvelope]!.toDouble());
+        gs[GeneratorType.holdVolumeEnvelope]!.toDouble(),
+      );
 
   double decayVolumeEnvelope() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.decayVolumeEnvelope]!.toDouble());
+        gs[GeneratorType.decayVolumeEnvelope]!.toDouble(),
+      );
 
   double sustainVolumeEnvelope() =>
       0.1 * gs[GeneratorType.sustainVolumeEnvelope]!;
 
   double releaseVolumeEnvelope() => SoundFontMath.centsToMultiplyingFactor(
-      gs[GeneratorType.releaseVolumeEnvelope]!.toDouble());
+        gs[GeneratorType.releaseVolumeEnvelope]!.toDouble(),
+      );
 
   int keyNumberToVolumeEnvelopeHold() =>
       gs[GeneratorType.keyNumberToVolumeEnvelopeHold]!;
@@ -253,5 +268,4 @@ class PresetRegion {
   // int EndLoopAddressOffset =>
   //  32768 * gs[GeneratorType.EndLoopAddressCoarseOffset] +
   //  gs[GeneratorType.EndLoopAddressOffset];
-
 }
