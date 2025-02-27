@@ -1,4 +1,4 @@
-﻿import 'dart:math';
+import 'dart:math';
 import 'synthesizer.dart';
 
 class BiQuadFilter {
@@ -22,7 +22,8 @@ class BiQuadFilter {
 
   BiQuadFilter(this.synthesizer);
 
-  void _setCoefficients(double a0, double a1, double a2, double b0, double b1, double b2) {
+  void _setCoefficients(
+      double a0, double a1, double a2, double b0, double b1, double b2) {
     _a0 = b0 / a0;
     _a1 = b1 / a0;
     _a2 = b2 / a0;
@@ -66,7 +67,11 @@ class BiQuadFilter {
     if (_active) {
       for (var t = 0; t < block.length; t++) {
         var input = block[t];
-        var output = (_a0 * input) + (_a1 * _x1) + (_a2 * _x2) - (_a3 * _y1) - (_a4 * _y2);
+        var output = (_a0 * input) +
+            (_a1 * _x1) +
+            (_a2 * _x2) -
+            (_a3 * _y1) -
+            (_a4 * _y2);
 
         _x2 = _x1;
         _x1 = input;

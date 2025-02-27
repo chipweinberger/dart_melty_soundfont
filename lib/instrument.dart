@@ -1,4 +1,4 @@
-﻿import 'instrument_region.dart';
+import 'instrument_region.dart';
 import 'sample_header.dart';
 import 'instrument_info.dart';
 import 'zone.dart';
@@ -14,20 +14,23 @@ class Instrument {
     return Instrument(name: "Default", regions: []);
   }
 
-  factory Instrument.fromInfo(InstrumentInfo info, List<Zone> zones, List<SampleHeader> samples) {
+  factory Instrument.fromInfo(
+      InstrumentInfo info, List<Zone> zones, List<SampleHeader> samples) {
     int zoneCount = info.zoneEndIndex - info.zoneStartIndex + 1;
     if (zoneCount <= 0) {
       throw "The instrument '${info.name}' has no zone.";
     }
 
-    List<Zone> zoneSpan = zones.sublist(info.zoneStartIndex, info.zoneStartIndex + zoneCount);
+    List<Zone> zoneSpan =
+        zones.sublist(info.zoneStartIndex, info.zoneStartIndex + zoneCount);
 
     List<InstrumentRegion> regions = InstrumentRegion.create(zoneSpan, samples);
 
     return Instrument(name: info.name, regions: regions);
   }
 
-  static List<Instrument> create(List<InstrumentInfo> infos, List<Zone> zones, List<SampleHeader> samples) {
+  static List<Instrument> create(List<InstrumentInfo> infos, List<Zone> zones,
+      List<SampleHeader> samples) {
     if (infos.length <= 1) {
       throw "No valid instrument was found.";
     }

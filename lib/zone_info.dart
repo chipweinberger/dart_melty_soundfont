@@ -1,4 +1,4 @@
-﻿import 'binary_reader.dart';
+import 'binary_reader.dart';
 
 class ZoneInfo {
   final int generatorIndex;
@@ -25,7 +25,11 @@ class ZoneInfo {
       int genIdx = reader.readUInt16();
       int modIdx = reader.readUInt16();
 
-      z.add(ZoneInfo(generatorIndex: genIdx, modulatorIndex: modIdx, generatorCount: 0, modulatorCount: 0));
+      z.add(ZoneInfo(
+          generatorIndex: genIdx,
+          modulatorIndex: modIdx,
+          generatorCount: 0,
+          modulatorCount: 0));
     }
 
     List<ZoneInfo> zones = [];

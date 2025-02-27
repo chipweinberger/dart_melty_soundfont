@@ -1,4 +1,4 @@
-﻿import 'generator.dart';
+import 'generator.dart';
 import 'zone_info.dart';
 
 class Zone {
@@ -19,7 +19,9 @@ class Zone {
     for (var i = 0; i < count; i++) {
       ZoneInfo f = infos[i];
 
-      zones.add(Zone(generators: generators.sublist(f.generatorIndex, f.generatorIndex + f.generatorCount)));
+      zones.add(Zone(
+          generators: generators.sublist(
+              f.generatorIndex, f.generatorIndex + f.generatorCount)));
     }
 
     return zones;

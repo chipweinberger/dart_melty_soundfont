@@ -1,4 +1,4 @@
-﻿import 'modulation_envelope.dart';
+import 'modulation_envelope.dart';
 import 'volume_envelope.dart';
 import 'lfo.dart';
 import 'oscillator.dart';
@@ -96,7 +96,9 @@ class Voice {
       var sampleAttenuation = 0.4 * region.initialAttenuation();
       var filterAttenuation = 0.5 * region.initialFilterQ();
 
-      var decibels = 2 * SoundFontMath.linearToDecibels(velocity / 127.0) - sampleAttenuation - filterAttenuation;
+      var decibels = 2 * SoundFontMath.linearToDecibels(velocity / 127.0) -
+          sampleAttenuation -
+          filterAttenuation;
 
       _noteGain = SoundFontMath.decibelsToLinear(decibels);
     } else {
@@ -171,8 +173,10 @@ class Voice {
     _vibLfo.process();
     _modLfo.process();
 
-    var vibPitchChange = (0.01 * channelInfo.modulation + _vibLfoToPitch) * _vibLfo.value();
-    var modPitchChange = _modLfoToPitch * _modLfo.value() + _modEnvToPitch * _modEnv.value();
+    var vibPitchChange =
+        (0.01 * channelInfo.modulation + _vibLfoToPitch) * _vibLfo.value();
+    var modPitchChange =
+        _modLfoToPitch * _modLfo.value() + _modEnvToPitch * _modEnv.value();
     var channelPitchChange = channelInfo.tune + channelInfo.pitchBend;
 
     var pitch = _key + vibPitchChange + modPitchChange + channelPitchChange;
@@ -182,7 +186,8 @@ class Voice {
     }
 
     if (_dynamicCutoff) {
-      var cents = _modLfoToCutoff * _modLfo.value() + _modEnvToCutoff * _modEnv.value();
+      var cents =
+          _modLfoToCutoff * _modLfo.value() + _modEnvToCutoff * _modEnv.value();
       var factor = SoundFontMath.centsToMultiplyingFactor(cents);
       var newCutoff = factor * _cutoff;
 
@@ -232,8 +237,10 @@ class Voice {
       _currentMixGainRight = mixGain * sin(angle);
     }
 
-    _currentReverbSend = (channelInfo.reverbSend + _instrumentReverb).clamp(0, 1);
-    _currentChorusSend = (channelInfo.chorusSend + _instrumentChorus).clamp(0, 1);
+    _currentReverbSend =
+        (channelInfo.reverbSend + _instrumentReverb).clamp(0, 1);
+    _currentChorusSend =
+        (channelInfo.chorusSend + _instrumentChorus).clamp(0, 1);
 
     if (_voiceLength == 0) {
       _previousMixGainLeft = _currentMixGainLeft;

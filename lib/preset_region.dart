@@ -1,4 +1,4 @@
-﻿import 'zone.dart';
+import 'zone.dart';
 import 'soundfont_math.dart';
 import 'generator.dart';
 import 'generator_type.dart';
@@ -18,7 +18,9 @@ class PresetRegion {
   }
 
   factory PresetRegion.fromLists(
-      {required List<Generator> global, required List<Generator> local, required List<Instrument> instruments}) {
+      {required List<Generator> global,
+      required List<Generator> local,
+      required List<Instrument> instruments}) {
     // initialize default values
     Map<GeneratorType, int> gs = {};
     for (GeneratorType gType in GeneratorType.values) {
@@ -52,11 +54,13 @@ class PresetRegion {
     return PresetRegion(instrument: inst, gs: gs);
   }
 
-  static List<PresetRegion> create(List<Zone> zones, List<Instrument> instruments) {
+  static List<PresetRegion> create(
+      List<Zone> zones, List<Instrument> instruments) {
     Zone? global;
 
     // Is the first one the global zone?
-    if (zones[0].generators.isEmpty || zones[0].generators.last.type != GeneratorType.instrument) {
+    if (zones[0].generators.isEmpty ||
+        zones[0].generators.last.type != GeneratorType.instrument) {
       // The first one is the global zone.
       global = zones[0];
     }
@@ -69,7 +73,9 @@ class PresetRegion {
 
       for (var i = 0; i < count; i++) {
         regions.add(PresetRegion.fromLists(
-            global: global.generators, local: zones[i + 1].generators, instruments: instruments));
+            global: global.generators,
+            local: zones[i + 1].generators,
+            instruments: instruments));
       }
       return regions;
     } else {
@@ -79,7 +85,8 @@ class PresetRegion {
       int count = zones.length;
 
       for (var i = 0; i < count; i++) {
-        regions.add(PresetRegion.fromLists(global: [], local: zones[i].generators, instruments: instruments));
+        regions.add(PresetRegion.fromLists(
+            global: [], local: zones[i].generators, instruments: instruments));
       }
       return regions;
     }
@@ -91,7 +98,8 @@ class PresetRegion {
   /// return true if the region covers the given key and velocity.
   bool contains(int key, int velocity) {
     bool containsKey = keyRangeStart() <= key && key <= keyRangeEnd();
-    bool containsVelocity = velocityRangeStart() <= velocity && velocity <= velocityRangeEnd();
+    bool containsVelocity =
+        velocityRangeStart() <= velocity && velocity <= velocityRangeEnd();
     return containsKey && containsVelocity;
   }
 
@@ -110,18 +118,23 @@ class PresetRegion {
 
   int vibratoLfoToPitch() => gs[GeneratorType.vibratoLfoToPitch]!;
 
-  int modulationEnvelopeToPitch() => gs[GeneratorType.modulationEnvelopeToPitch]!;
+  int modulationEnvelopeToPitch() =>
+      gs[GeneratorType.modulationEnvelopeToPitch]!;
 
   double initialFilterCutoffFrequency() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.initialFilterCutoffFrequency]!.toDouble());
+      SoundFontMath.centsToMultiplyingFactor(
+          gs[GeneratorType.initialFilterCutoffFrequency]!.toDouble());
 
   double initialFilterQ() => 0.1 * gs[GeneratorType.initialFilterQ]!;
 
-  int modulationLfoToFilterCutoffFrequency() => gs[GeneratorType.modulationLfoToFilterCutoffFrequency]!;
+  int modulationLfoToFilterCutoffFrequency() =>
+      gs[GeneratorType.modulationLfoToFilterCutoffFrequency]!;
 
-  int modulationEnvelopeToFilterCutoffFrequency() => gs[GeneratorType.modulationEnvelopeToFilterCutoffFrequency]!;
+  int modulationEnvelopeToFilterCutoffFrequency() =>
+      gs[GeneratorType.modulationEnvelopeToFilterCutoffFrequency]!;
 
-  double modulationLfoToVolume() => 0.1 * gs[GeneratorType.modulationLfoToVolume]!;
+  double modulationLfoToVolume() =>
+      0.1 * gs[GeneratorType.modulationLfoToVolume]!;
 
   double chorusEffectsSend() => 0.1 * gs[GeneratorType.chorusEffectsSend]!;
 
@@ -129,58 +142,65 @@ class PresetRegion {
 
   double pan() => 0.1 * gs[GeneratorType.pan]!;
 
-  double delayModulationLfo() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.delayModulationLfo]!.toDouble());
+  double delayModulationLfo() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.delayModulationLfo]!.toDouble());
 
-  double frequencyModulationLfo() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.frequencyModulationLfo]!.toDouble());
+  double frequencyModulationLfo() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.frequencyModulationLfo]!.toDouble());
 
-  double delayVibratoLfo() => SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.delayVibratoLfo]!.toDouble());
+  double delayVibratoLfo() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.delayVibratoLfo]!.toDouble());
 
-  double frequencyVibratoLfo() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.frequencyVibratoLfo]!.toDouble());
+  double frequencyVibratoLfo() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.frequencyVibratoLfo]!.toDouble());
 
-  double delayModulationEnvelope() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.delayModulationEnvelope]!.toDouble());
+  double delayModulationEnvelope() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.delayModulationEnvelope]!.toDouble());
 
-  double attackModulationEnvelope() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.attackModulationEnvelope]!.toDouble());
+  double attackModulationEnvelope() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.attackModulationEnvelope]!.toDouble());
 
-  double holdModulationEnvelope() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.holdModulationEnvelope]!.toDouble());
+  double holdModulationEnvelope() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.holdModulationEnvelope]!.toDouble());
 
-  double decayModulationEnvelope() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.decayModulationEnvelope]!.toDouble());
+  double decayModulationEnvelope() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.decayModulationEnvelope]!.toDouble());
 
-  double sustainModulationEnvelope() => 0.1 * gs[GeneratorType.sustainModulationEnvelope]!;
+  double sustainModulationEnvelope() =>
+      0.1 * gs[GeneratorType.sustainModulationEnvelope]!;
 
-  double releaseModulationEnvelope() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.releaseModulationEnvelope]!.toDouble());
+  double releaseModulationEnvelope() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.releaseModulationEnvelope]!.toDouble());
 
-  int keyNumberToModulationEnvelopeHold() => gs[GeneratorType.keyNumberToModulationEnvelopeHold]!;
+  int keyNumberToModulationEnvelopeHold() =>
+      gs[GeneratorType.keyNumberToModulationEnvelopeHold]!;
 
-  int keyNumberToModulationEnvelopeDecay() => gs[GeneratorType.keyNumberToModulationEnvelopeDecay]!;
+  int keyNumberToModulationEnvelopeDecay() =>
+      gs[GeneratorType.keyNumberToModulationEnvelopeDecay]!;
 
-  double delayVolumeEnvelope() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.delayVolumeEnvelope]!.toDouble());
+  double delayVolumeEnvelope() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.delayVolumeEnvelope]!.toDouble());
 
-  double attackVolumeEnvelope() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.attackVolumeEnvelope]!.toDouble());
+  double attackVolumeEnvelope() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.attackVolumeEnvelope]!.toDouble());
 
-  double holdVolumeEnvelope() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.holdVolumeEnvelope]!.toDouble());
+  double holdVolumeEnvelope() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.holdVolumeEnvelope]!.toDouble());
 
-  double decayVolumeEnvelope() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.decayVolumeEnvelope]!.toDouble());
+  double decayVolumeEnvelope() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.decayVolumeEnvelope]!.toDouble());
 
-  double sustainVolumeEnvelope() => 0.1 * gs[GeneratorType.sustainVolumeEnvelope]!;
+  double sustainVolumeEnvelope() =>
+      0.1 * gs[GeneratorType.sustainVolumeEnvelope]!;
 
-  double releaseVolumeEnvelope() =>
-      SoundFontMath.centsToMultiplyingFactor(gs[GeneratorType.releaseVolumeEnvelope]!.toDouble());
+  double releaseVolumeEnvelope() => SoundFontMath.centsToMultiplyingFactor(
+      gs[GeneratorType.releaseVolumeEnvelope]!.toDouble());
 
-  int keyNumberToVolumeEnvelopeHold() => gs[GeneratorType.keyNumberToVolumeEnvelopeHold]!;
+  int keyNumberToVolumeEnvelopeHold() =>
+      gs[GeneratorType.keyNumberToVolumeEnvelopeHold]!;
 
-  int keyNumberToVolumeEnvelopeDecay() => gs[GeneratorType.keyNumberToVolumeEnvelopeDecay]!;
+  int keyNumberToVolumeEnvelopeDecay() =>
+      gs[GeneratorType.keyNumberToVolumeEnvelopeDecay]!;
 
   int keyRangeStart() => gs[GeneratorType.keyRange]! & 0xFF;
 

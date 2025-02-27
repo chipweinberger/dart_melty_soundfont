@@ -1,4 +1,4 @@
-﻿import 'oscillator.dart';
+import 'oscillator.dart';
 import 'volume_envelope.dart';
 import 'modulation_envelope.dart';
 import 'lfo.dart';
@@ -11,7 +11,8 @@ import 'dart:math';
 
 extension OscillatorRegionEx on Oscillator {
   void start1(ArrayInt16 data, InstrumentRegion region) {
-    var regionPair = RegionPair(preset: PresetRegion.defaultPresetRegion(), instrument: region);
+    var regionPair = RegionPair(
+        preset: PresetRegion.defaultPresetRegion(), instrument: region);
     start2(data, regionPair);
   }
 
@@ -33,7 +34,8 @@ extension OscillatorRegionEx on Oscillator {
 
 extension VolumeEnvelopeRegionEx on VolumeEnvelope {
   void start1(InstrumentRegion region, int key, int velocity) {
-    var regionPair = RegionPair(preset: PresetRegion.defaultPresetRegion(), instrument: region);
+    var regionPair = RegionPair(
+        preset: PresetRegion.defaultPresetRegion(), instrument: region);
     start2(regionPair, key, velocity);
   }
 
@@ -41,10 +43,12 @@ extension VolumeEnvelopeRegionEx on VolumeEnvelope {
     // If the release time is shorter than 10 ms, it will be clamped to 10 ms to avoid pop noise.
 
     var hold = region.holdVolumeEnvelope() *
-        SoundFontMath.keyNumberToMultiplyingFactor(region.keyNumberToVolumeEnvelopeHold(), key);
+        SoundFontMath.keyNumberToMultiplyingFactor(
+            region.keyNumberToVolumeEnvelopeHold(), key);
 
     var decay = region.decayVolumeEnvelope() *
-        SoundFontMath.keyNumberToMultiplyingFactor(region.keyNumberToVolumeEnvelopeDecay(), key);
+        SoundFontMath.keyNumberToMultiplyingFactor(
+            region.keyNumberToVolumeEnvelopeDecay(), key);
 
     start(
       delay: region.delayVolumeEnvelope(),
@@ -59,7 +63,8 @@ extension VolumeEnvelopeRegionEx on VolumeEnvelope {
 
 extension ModulationEnvelopeRegionEx on ModulationEnvelope {
   void start1(InstrumentRegion region, int key, int velocity) {
-    var regionPair = RegionPair(preset: PresetRegion.defaultPresetRegion(), instrument: region);
+    var regionPair = RegionPair(
+        preset: PresetRegion.defaultPresetRegion(), instrument: region);
     start2(regionPair, key, velocity);
   }
 
@@ -67,14 +72,17 @@ extension ModulationEnvelopeRegionEx on ModulationEnvelope {
     // According to the implementation of TinySoundFont,
     // the attack time should be adjusted by the velocity.
     var hold = region.holdModulationEnvelope() *
-        SoundFontMath.keyNumberToMultiplyingFactor(region.keyNumberToModulationEnvelopeHold(), key);
+        SoundFontMath.keyNumberToMultiplyingFactor(
+            region.keyNumberToModulationEnvelopeHold(), key);
 
     var decay = region.decayModulationEnvelope() *
-        SoundFontMath.keyNumberToMultiplyingFactor(region.keyNumberToModulationEnvelopeDecay(), key);
+        SoundFontMath.keyNumberToMultiplyingFactor(
+            region.keyNumberToModulationEnvelopeDecay(), key);
 
     start(
         delay: region.delayModulationEnvelope(),
-        attack: region.attackModulationEnvelope() * ((145.0 - velocity) / 144.0),
+        attack:
+            region.attackModulationEnvelope() * ((145.0 - velocity) / 144.0),
         hold: hold,
         decay: decay,
         sustain: 1.0 - region.sustainModulationEnvelope() / 100.0,
@@ -84,7 +92,8 @@ extension ModulationEnvelopeRegionEx on ModulationEnvelope {
 
 extension LfoRegionEx on Lfo {
   void startVibrato1(InstrumentRegion region, int key, int velocity) {
-    var regionPair = RegionPair(preset: PresetRegion.defaultPresetRegion(), instrument: region);
+    var regionPair = RegionPair(
+        preset: PresetRegion.defaultPresetRegion(), instrument: region);
     startVibrato2(regionPair, key, velocity);
   }
 
@@ -93,7 +102,8 @@ extension LfoRegionEx on Lfo {
   }
 
   void startModulation1(InstrumentRegion region, int key, int velocity) {
-    var regionPair = RegionPair(preset: PresetRegion.defaultPresetRegion(), instrument: region);
+    var regionPair = RegionPair(
+        preset: PresetRegion.defaultPresetRegion(), instrument: region);
     startModulation2(regionPair, key, velocity);
   }
 

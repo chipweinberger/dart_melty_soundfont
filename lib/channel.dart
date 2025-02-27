@@ -1,4 +1,4 @@
-﻿import 'soundfont_math.dart';
+import 'soundfont_math.dart';
 import 'synthesizer.dart';
 
 class Channel {
@@ -236,7 +236,8 @@ class Channel {
   double get reverbSend => (1.0 / 127.0) * _reverbSend;
   double get chorusSend => (1.0 / 127.0) * _chorusSend;
 
-  double get pitchBendRange => (_pitchBendRange >> 7) + 0.01 * (_pitchBendRange & 0x7F);
+  double get pitchBendRange =>
+      (_pitchBendRange >> 7) + 0.01 * (_pitchBendRange & 0x7F);
   double get tune => _coarseTune + (1.0 / 8192.0) * (_fineTune - 8192);
 
   double get pitchBend => pitchBendRange * _pitchBend;

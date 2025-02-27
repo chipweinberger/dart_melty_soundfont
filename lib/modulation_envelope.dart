@@ -1,4 +1,4 @@
-﻿import 'soundfont_math.dart';
+import 'soundfont_math.dart';
 import 'synthesizer.dart';
 import 'envelope_stage.dart';
 
@@ -108,11 +108,14 @@ class ModulationEnvelope {
         return true;
 
       case EnvelopeStage.decay:
-        _value = max(_decaySlope * (_decayEndTime - currentTime), _sustainLevel);
+        _value =
+            max(_decaySlope * (_decayEndTime - currentTime), _sustainLevel);
         return _value > SoundFontMath.nonAudible;
 
       case EnvelopeStage.release:
-        _value = max(_releaseLevel * _releaseSlope * (_releaseEndTime - currentTime), 0.0);
+        _value = max(
+            _releaseLevel * _releaseSlope * (_releaseEndTime - currentTime),
+            0.0);
         return _value > SoundFontMath.nonAudible;
 
       default:

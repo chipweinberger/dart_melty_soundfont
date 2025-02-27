@@ -1,4 +1,4 @@
-﻿/// Specifies a set of parameters for synthesis.
+/// Specifies a set of parameters for synthesis.
 class SynthesizerSettings {
   final int sampleRate;
   final int blockSize;
@@ -6,7 +6,10 @@ class SynthesizerSettings {
   final bool enableReverbAndChorus;
 
   SynthesizerSettings(
-      {int sampleRate = 44100, int blockSize = 64, int maximumPolyphony = 64, this.enableReverbAndChorus = true})
+      {int sampleRate = 44100,
+      int blockSize = 64,
+      int maximumPolyphony = 64,
+      this.enableReverbAndChorus = true})
       : sampleRate = checkSampleRate(sampleRate),
         blockSize = checkBlockSize(blockSize),
         maximumPolyphony = checkMaximumPolyphony(maximumPolyphony);

@@ -66,7 +66,8 @@ class _MyAppState extends State<MeltyApp> {
     // print available instruments
     List<Preset> p = _synth!.soundFont.presets;
     for (int i = 0; i < p.length; i++) {
-      String instrumentName = p[i].regions.isNotEmpty ? p[i].regions[0].instrument.name : "N/A";
+      String instrumentName =
+          p[i].regions.isNotEmpty ? p[i].regions[0].instrument.name : "N/A";
       print('[preset $i] name: ${p[i].name} instrument: $instrumentName');
     }
 

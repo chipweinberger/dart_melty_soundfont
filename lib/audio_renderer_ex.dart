@@ -1,4 +1,4 @@
-﻿import 'audio_renderer.dart';
+import 'audio_renderer.dart';
 import 'array_int16.dart';
 
 /// Provides utility methods to convert the format of samples.
@@ -14,7 +14,8 @@ extension AudioRenderEx on AudioRenderer {
   /// To completely avoid memory allocation,
   /// use <see cref="IAudioRenderer.Render(Span{float}, Span{float})"/>.
   /// </remarks>
-  void renderInterleaved(List<double> destination, {int offset = 0, int? length}) {
+  void renderInterleaved(List<double> destination,
+      {int offset = 0, int? length}) {
     if (destination.length % 2 != 0) {
       throw "The length of the destination buffer must be even.";
     }
@@ -77,7 +78,8 @@ extension AudioRenderEx on AudioRenderer {
   /// To completely avoid memory allocation,
   /// use <see cref="IAudioRenderer.Render(Span{float}, Span{float})"/>.
   /// </remarks>
-  void renderInterleavedInt16(ArrayInt16 destination, {int offset = 0, int? length}) {
+  void renderInterleavedInt16(ArrayInt16 destination,
+      {int offset = 0, int? length}) {
     if (destination.bytes.lengthInBytes % 4 != 0) {
       throw "Invalid destination length";
     }

@@ -1,4 +1,4 @@
-﻿import 'dart:math';
+import 'dart:math';
 
 class Chorus {
   final List<double> _bufferL;
@@ -29,8 +29,12 @@ class Chorus {
         _delayTableIndexR = delayTableIndexR;
 
   factory Chorus.create(
-      {required int sampleRate, required double delay, required double depth, required double frequency}) {
-    List<double> delayTable = List<double>.filled((sampleRate / frequency).round(), 0);
+      {required int sampleRate,
+      required double delay,
+      required double depth,
+      required double frequency}) {
+    List<double> delayTable =
+        List<double>.filled((sampleRate / frequency).round(), 0);
 
     for (var t = 0; t < delayTable.length; t++) {
       var phase = 2 * pi * t / delayTable.length;

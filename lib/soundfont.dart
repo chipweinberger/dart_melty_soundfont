@@ -1,4 +1,4 @@
-﻿import 'dart:typed_data';
+import 'dart:typed_data';
 
 import 'instrument_region.dart';
 import 'array_int16.dart';
@@ -116,11 +116,13 @@ class SoundFont {
 
     for (Instrument instrument in instruments) {
       for (InstrumentRegion region in instrument.regions) {
-        if (!(0 <= region.sampleStart() && region.sampleStart() < sampleCount)) {
+        if (!(0 <= region.sampleStart() &&
+            region.sampleStart() < sampleCount)) {
           throw "'sampleStart' is out of range. '${region.sample.name}'.'${instrument.name}'.";
         }
 
-        if (!(0 <= region.sampleStartLoop() && region.sampleStartLoop() < sampleCount)) {
+        if (!(0 <= region.sampleStartLoop() &&
+            region.sampleStartLoop() < sampleCount)) {
           throw "'sampleStartLoop' is out of range. '${region.sample.name}'.'${instrument.name}'.";
         }
 
@@ -128,7 +130,8 @@ class SoundFont {
           throw "'sampleEnd' is out of range. '${region.sample.name}'.'${instrument.name}'.";
         }
 
-        if (!(0 <= region.sampleEndLoop() && region.sampleEndLoop() <= sampleCount)) {
+        if (!(0 <= region.sampleEndLoop() &&
+            region.sampleEndLoop() <= sampleCount)) {
           throw "'sampleEndLoop' is out of range. '${region.sample.name}'.'${instrument.name}'.";
         }
 

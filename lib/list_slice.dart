@@ -8,13 +8,15 @@ class ListSlice<E> extends ListBase<E> {
   final int _length;
 
   ListSlice(this._list, this.start, int length)
-      : assert(start + length <= _list.length, "Slice length must be less than list length"),
+      : assert(start + length <= _list.length,
+            "Slice length must be less than list length"),
         _length = length;
 
   @override
   int get length => _length;
 
-  set length(int value) => throw UnsupportedError('Setting length is not supported on list slice');
+  set length(int value) =>
+      throw UnsupportedError('Setting length is not supported on list slice');
 
   @override
   E operator [](int index) {

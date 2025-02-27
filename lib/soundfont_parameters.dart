@@ -1,4 +1,4 @@
-﻿import 'sample_header.dart';
+import 'sample_header.dart';
 import 'preset.dart';
 import 'instrument.dart';
 import 'binary_reader.dart';
@@ -14,7 +14,10 @@ class SoundFontParameters {
   final List<Preset> presets;
   final List<Instrument> instruments;
 
-  SoundFontParameters({required this.sampleHeaders, required this.presets, required this.instruments});
+  SoundFontParameters(
+      {required this.sampleHeaders,
+      required this.presets,
+      required this.instruments});
 
   factory SoundFontParameters.fromReader(BinaryReader reader) {
     String chunkId = reader.readFourCC();
@@ -85,14 +88,19 @@ class SoundFontParameters {
     if (instrumentGenerators.isEmpty) throw "The IGEN sub-chunk was not found.";
     if (sampleHeaders.isEmpty) throw "The SHDR sub-chunk was not found.";
 
-    List<Zone> instrumentZones = Zone.create(instrumentBag, instrumentGenerators);
+    List<Zone> instrumentZones =
+        Zone.create(instrumentBag, instrumentGenerators);
 
-    List<Instrument> instruments = Instrument.create(instrumentInfos, instrumentZones, sampleHeaders);
+    List<Instrument> instruments =
+        Instrument.create(instrumentInfos, instrumentZones, sampleHeaders);
 
     List<Zone> presetZones = Zone.create(presetBag, presetGenerators);
 
     List<Preset> presets = Preset.create(presetInfos, presetZones, instruments);
 
-    return SoundFontParameters(sampleHeaders: sampleHeaders, presets: presets, instruments: instruments);
+    return SoundFontParameters(
+        sampleHeaders: sampleHeaders,
+        presets: presets,
+        instruments: instruments);
   }
 }
