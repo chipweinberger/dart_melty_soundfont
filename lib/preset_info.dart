@@ -21,7 +21,7 @@ class PresetInfo {
       required this.morphology});
 
   static List<PresetInfo> readFromChunk(BinaryReader reader, int size) {
-    if (size % 38 != 0) {
+    if (size == 0 || size % 38 != 0) {
       throw "The preset list is invalid.";
     }
 
