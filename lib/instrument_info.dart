@@ -12,7 +12,7 @@ class InstrumentInfo {
   }
 
   static List<InstrumentInfo> readFromChunk(BinaryReader reader, int size) {
-    if (size % 22 != 0) {
+    if (size == 0 || size % 22 != 0) {
       throw "The instrument list is invalid.";
     }
 
