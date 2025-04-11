@@ -115,10 +115,16 @@ class Channel {
 
   void resetAllControllers() {
     _modulation = 0;
+    _volume = 100 << 7;
+    _pan = 64 << 7;
     _expression = 127 << 7;
     _holdPedal = false;
+    _sostenuto = false;
 
     _rpn = -1;
+    _pitchBendRange = 2 << 7;
+    _coarseTune = 0;
+    _fineTune = 8192;
 
     _pitchBend = 0.0;
   }
