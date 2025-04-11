@@ -1,3 +1,6 @@
+# 1.1.16
+- Fix: resetAllControllers should also reset volume, pan, sostenuto, pitch bend range, tuning
+
 # 1.1.15
 - Feature: add sostenuto support
 
