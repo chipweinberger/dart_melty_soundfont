@@ -166,7 +166,29 @@ class MidiFileSequencer implements AudioRenderer {
       throw "The playback speed must be a non-negative value.";
     }
   }
+
+  /// <summary>
+  /// Gets or sets the current playback time.
+  /// </summary>
+  /// <remarks>
+  /// This can be used to fast forward or rewind the playback.
+  /// In the case of rewinding, the sequencer will have to internally reset and 
+  /// reprocess all notes from the beginning.
+  /// </remarks>
+  Duration get time => _currentTime;
+
+  set time(Duration time) {
+    if (time < _currentTime) {
+      _msgIndex = 0;
+      synthesizer.reset();
+    }
+    
+    _currentTime = time;
+
+    _processEvents();
+  }
 }
+
 
 /// <summary>
 /// Represents the method that is called each time a MIDI message is processed during playback.
