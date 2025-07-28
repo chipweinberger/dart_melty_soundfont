@@ -48,23 +48,23 @@ class Synthesizer implements AudioRenderer {
   final Map<int, Preset> _presetLookup;
   final Preset _defaultPreset;
 
-  final List<double> _blockLeft;
-  final List<double> _blockRight;
+  final Float32List _blockLeft;
+  final Float32List _blockRight;
 
   final double _inverseBlockSize;
 
   final bool _enableReverbAndChorus;
 
   final Reverb? _reverb;
-  final List<double>? _reverbInput;
-  final List<double>? _reverbOutputLeft;
-  final List<double>? _reverbOutputRight;
+  final Float32List? _reverbInput;
+  final Float32List? _reverbOutputLeft;
+  final Float32List? _reverbOutputRight;
 
   final Chorus? _chorus;
-  final List<double>? _chorusInputLeft;
-  final List<double>? _chorusInputRight;
-  final List<double>? _chorusOutputLeft;
-  final List<double>? _chorusOutputRight;
+  final Float32List? _chorusInputLeft;
+  final Float32List? _chorusInputRight;
+  final Float32List? _chorusOutputLeft;
+  final Float32List? _chorusOutputRight;
 
   int _blockRead;
 
@@ -77,20 +77,20 @@ class Synthesizer implements AudioRenderer {
     required this.masterVolume,
     required Map<int, Preset> presetLookup,
     required Preset defaultPreset,
-    required List<double> blockLeft,
-    required List<double> blockRight,
+    required Float32List blockLeft,
+    required Float32List blockRight,
     required double inverseBlockSize,
     required int blockRead,
     required bool enableReverbAndChorus,
     required Reverb? reverb,
-    required List<double>? reverbInput,
-    required List<double>? reverbOutputLeft,
-    required List<double>? reverbOutputRight,
+    required Float32List? reverbInput,
+    required Float32List? reverbOutputLeft,
+    required Float32List? reverbOutputRight,
     required Chorus? chorus,
-    required List<double>? chorusInputLeft,
-    required List<double>? chorusInputRight,
-    required List<double>? chorusOutputLeft,
-    required List<double>? chorusOutputRight,
+    required Float32List? chorusInputLeft,
+    required Float32List? chorusInputRight,
+    required Float32List? chorusOutputLeft,
+    required Float32List? chorusOutputRight,
   })  : _presetLookup = presetLookup,
         _defaultPreset = defaultPreset,
         _blockLeft = blockLeft,
@@ -156,19 +156,19 @@ class Synthesizer implements AudioRenderer {
       minimumVoiceDuration: settings.sampleRate ~/ 500,
       presetLookup: presetLookup,
       defaultPreset: defaultPreset!,
-      blockLeft: List<double>.filled(settings.blockSize, 0),
-      blockRight: List<double>.filled(settings.blockSize, 0),
+      blockLeft: Float32List(settings.blockSize),
+      blockRight: Float32List(settings.blockSize),
       inverseBlockSize: 1.0 / settings.blockSize,
       blockRead: settings.blockSize,
       reverb: !rc ? null : Reverb.withSampleRate(settings.sampleRate),
-      reverbInput: !rc ? null : List<double>.filled(settings.blockSize, 0),
-      reverbOutputLeft: !rc ? null : List<double>.filled(settings.blockSize, 0),
-      reverbOutputRight: !rc ? null : List<double>.filled(settings.blockSize, 0),
+      reverbInput: !rc ? null : Float32List(settings.blockSize),
+      reverbOutputLeft: !rc ? null : Float32List(settings.blockSize),
+      reverbOutputRight: !rc ? null : Float32List(settings.blockSize),
       chorus: chorus,
-      chorusInputLeft: !rc ? null : List<double>.filled(settings.blockSize, 0),
-      chorusInputRight: !rc ? null : List<double>.filled(settings.blockSize, 0),
-      chorusOutputLeft: !rc ? null : List<double>.filled(settings.blockSize, 0),
-      chorusOutputRight: !rc ? null : List<double>.filled(settings.blockSize, 0),
+      chorusInputLeft: !rc ? null : Float32List(settings.blockSize),
+      chorusInputRight: !rc ? null : Float32List(settings.blockSize),
+      chorusOutputLeft: !rc ? null : Float32List(settings.blockSize),
+      chorusOutputRight: !rc ? null : Float32List(settings.blockSize),
       masterVolume: 0.5,
     );
 
@@ -420,7 +420,7 @@ class Synthesizer implements AudioRenderer {
   }
 
   /// <inheritdoc/>
-  void render(List<double> left, List<double> right) {
+  void render(Float32List left, Float32List right) {
     if (left.length != right.length) {
       throw "The output buffers must be the same length.";
     }
@@ -510,7 +510,7 @@ class Synthesizer implements AudioRenderer {
     }
   }
 
-  void _writeBlock(double previousGain, double currentGain, List<double> source, List<double> destination) {
+  void _writeBlock(double previousGain, double currentGain, Float32List source, Float32List destination) {
     if (max(previousGain, currentGain) < SoundFontMath.nonAudible) {
       return;
     }

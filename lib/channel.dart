@@ -1,12 +1,14 @@
-﻿import 'soundfont_math.dart';
+﻿import 'dart:typed_data';
+
+import 'soundfont_math.dart';
 import 'synthesizer.dart';
 
 class Channel {
   final Synthesizer synthesizer;
   final bool isPercussionChannel;
 
-  final List<double> blockLeft;
-  final List<double> blockRight;
+  final Float32List blockLeft;
+  final Float32List blockRight;
 
   int _bankNumber;
   int _patchNumber;
@@ -68,8 +70,8 @@ class Channel {
     Channel c = Channel(
         synthesizer: synthesizer,
         isPercussionChannel: isPercussionChannel,
-        blockLeft: List<double>.filled(synthesizer.blockSize, 0.0),
-        blockRight: List<double>.filled(synthesizer.blockSize, 0.0),
+        blockLeft: Float32List(synthesizer.blockSize),
+        blockRight: Float32List(synthesizer.blockSize),
         bankNumber: 0,
         patchNumber: 0,
         modulation: 0,

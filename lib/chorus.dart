@@ -1,10 +1,11 @@
 ﻿import 'dart:math';
+import 'dart:typed_data';
 
 class Chorus {
-  final List<double> _bufferL;
-  final List<double> _bufferR;
+  final Float32List _bufferL;
+  final Float32List _bufferR;
 
-  final List<double> _delayTable;
+  final Float32List _delayTable;
 
   int _bufferIndexL;
   int _bufferIndexR;
@@ -13,9 +14,9 @@ class Chorus {
   int _delayTableIndexR;
 
   Chorus(
-      {required List<double> bufferL,
-      required List<double> bufferR,
-      required List<double> delayTable,
+      {required Float32List bufferL,
+      required Float32List bufferR,
+      required Float32List delayTable,
       required int bufferIndexL,
       required int bufferIndexR,
       required int delayTableIndexL,
@@ -30,7 +31,7 @@ class Chorus {
 
   factory Chorus.create(
       {required int sampleRate, required double delay, required double depth, required double frequency}) {
-    List<double> delayTable = List<double>.filled((sampleRate / frequency).round(), 0);
+    Float32List delayTable = Float32List((sampleRate / frequency).round());
 
     for (var t = 0; t < delayTable.length; t++) {
       var phase = 2 * pi * t / delayTable.length;
@@ -40,8 +41,8 @@ class Chorus {
     int sampleCount = ((sampleRate * (delay + depth)) + 2).toInt();
 
     return Chorus(
-        bufferL: List<double>.filled(sampleCount, 0),
-        bufferR: List<double>.filled(sampleCount, 0),
+        bufferL: Float32List(sampleCount),
+        bufferR: Float32List(sampleCount),
         delayTable: delayTable,
         bufferIndexL: 0,
         bufferIndexR: 0,
@@ -50,10 +51,10 @@ class Chorus {
   }
 
   void process(
-      {required List<double> inputLeft,
-      required List<double> inputRight,
-      required List<double> outputLeft,
-      required List<double> outputRight}) {
+      {required Float32List inputLeft,
+      required Float32List inputRight,
+      required Float32List outputLeft,
+      required Float32List outputRight}) {
     for (int t = 0; t < outputLeft.length; t++) {
       double position = _bufferIndexL - _delayTable[_delayTableIndexL];
       if (position < 0.0) {
