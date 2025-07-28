@@ -95,7 +95,7 @@ class VoiceCollection extends Iterable<Voice> {
   int activeVoiceCount() => _activeVoiceCount;
 }
 
-class VoiceIterator extends Iterator<Voice> {
+class VoiceIterator implements Iterator<Voice> {
   final VoiceCollection collection;
 
   int _index = 0;
