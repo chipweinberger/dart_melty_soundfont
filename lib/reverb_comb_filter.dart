@@ -1,7 +1,8 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 class CombFilter {
-  final List<double> buffer;
+  final Float32List buffer;
 
   int _bufferIndex;
   double _filterStore;
@@ -11,7 +12,7 @@ class CombFilter {
   double _damp2;
 
   CombFilter({required int bufferSize})
-      : buffer = List<double>.filled(bufferSize, 0.0),
+      : buffer = Float32List(bufferSize),
         _bufferIndex = 0,
         _filterStore = 0.0,
         feedback = 0.0,
@@ -30,7 +31,7 @@ class CombFilter {
     _damp2 = 1.0 - v;
   }
 
-  void process(List<double> inputBlock, List<double> outputBlock) {
+  void process(Float32List inputBlock, Float32List outputBlock) {
     int blockIndex = 0;
     while (blockIndex < outputBlock.length) {
       if (_bufferIndex == buffer.length) {

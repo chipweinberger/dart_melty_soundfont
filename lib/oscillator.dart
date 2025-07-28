@@ -1,4 +1,5 @@
 ﻿import 'dart:math';
+import 'dart:typed_data';
 
 import 'array_int16.dart';
 import 'synthesizer.dart';
@@ -62,13 +63,13 @@ class Oscillator {
     }
   }
 
-  bool process(List<double> block, double pitch) {
+  bool process(Float32List block, double pitch) {
     double pitchChange = _pitchChangeScale * (pitch - _rootKey) + _tune;
     double pitchRatio = _sampleRateRatio * pow(2, pitchChange / 12);
     return _fillBlock(block, pitchRatio);
   }
 
-  bool _fillBlock(List<double> block, double pitchRatio) {
+  bool _fillBlock(Float32List block, double pitchRatio) {
     if (_looping) {
       return _fillBlockContinuous(block, pitchRatio);
     } else {
@@ -76,7 +77,7 @@ class Oscillator {
     }
   }
 
-  bool _fillBlockNoLoop(List<double> block, double pitchRatio) {
+  bool _fillBlockNoLoop(Float32List block, double pitchRatio) {
     for (var t = 0; t < block.length; t++) {
       int index = _position.toInt();
 
@@ -105,7 +106,7 @@ class Oscillator {
     return true;
   }
 
-  bool _fillBlockContinuous(List<double> block, double pitchRatio) {
+  bool _fillBlockContinuous(Float32List block, double pitchRatio) {
     double endLoopPosition = _endLoop.toDouble();
 
     int loopLength = _endLoop - _startLoop;

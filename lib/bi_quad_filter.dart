@@ -1,4 +1,5 @@
 ﻿import 'dart:math';
+import 'dart:typed_data';
 import 'synthesizer.dart';
 
 class BiQuadFilter {
@@ -62,7 +63,7 @@ class BiQuadFilter {
     }
   }
 
-  void process(List<double> block) {
+  void process(Float32List block) {
     if (_active) {
       for (var t = 0; t < block.length; t++) {
         var input = block[t];

@@ -1,7 +1,8 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 class AllPassFilter {
-  final List<double> buffer;
+  final Float32List buffer;
 
   int _bufferIndex;
 
@@ -9,7 +10,7 @@ class AllPassFilter {
   double feedback;
 
   AllPassFilter({required int bufferSize})
-      : buffer = List<double>.filled(bufferSize, 0.0),
+      : buffer = Float32List(bufferSize),
         _bufferIndex = 0,
         feedback = 0.0;
 
@@ -17,7 +18,7 @@ class AllPassFilter {
     buffer.fillRange(0, buffer.length, 0.0);
   }
 
-  void process(List<double> block) {
+  void process(Float32List block) {
     int blockIndex = 0;
     while (blockIndex < block.length) {
       if (_bufferIndex == buffer.length) {

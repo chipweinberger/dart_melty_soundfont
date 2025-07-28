@@ -1,4 +1,6 @@
-﻿import 'audio_renderer.dart';
+﻿import 'dart:typed_data';
+
+import 'audio_renderer.dart';
 import 'array_int16.dart';
 
 /// Provides utility methods to convert the format of samples.
@@ -14,7 +16,7 @@ extension AudioRenderEx on AudioRenderer {
   /// To completely avoid memory allocation,
   /// use <see cref="IAudioRenderer.Render(Span{float}, Span{float})"/>.
   /// </remarks>
-  void renderInterleaved(List<double> destination, {int offset = 0, int? length}) {
+  void renderInterleaved(Float32List destination, {int offset = 0, int? length}) {
     if (destination.length % 2 != 0) {
       throw "The length of the destination buffer must be even.";
     }
@@ -28,8 +30,8 @@ extension AudioRenderEx on AudioRenderer {
       sampleCount -= offset;
     }
 
-    List<double> left = List<double>.filled(sampleCount, 0, growable: false);
-    List<double> right = List<double>.filled(sampleCount, 0, growable: false);
+    final left = Float32List(sampleCount);
+    final right = Float32List(sampleCount);
 
     render(left, right);
 
@@ -50,13 +52,13 @@ extension AudioRenderEx on AudioRenderer {
   /// To completely avoid memory allocation,
   /// use <see cref="IAudioRenderer.Render(Span{float}, Span{float})"/>.
   /// </remarks>
-  void renderMono(List<double> destination, {int offset = 0}) {
+  void renderMono(Float32List destination, {int offset = 0}) {
     int sampleCount = destination.length ~/ 2;
 
     sampleCount -= offset;
 
-    List<double> left = List<double>.filled(sampleCount, 0, growable: false);
-    List<double> right = List<double>.filled(sampleCount, 0, growable: false);
+    final left = Float32List(sampleCount);
+    final right = Float32List(sampleCount);
 
     render(left, right);
 
@@ -91,8 +93,8 @@ extension AudioRenderEx on AudioRenderer {
       sampleCount -= offset;
     }
 
-    List<double> left = List<double>.filled(sampleCount, 0, growable: false);
-    List<double> right = List<double>.filled(sampleCount, 0, growable: false);
+    final left = Float32List(sampleCount);
+    final right = Float32List(sampleCount);
 
     render(left, right);
 
@@ -132,8 +134,8 @@ extension AudioRenderEx on AudioRenderer {
       sampleCount -= offset;
     }
 
-    List<double> left = List<double>.filled(sampleCount, 0, growable: false);
-    List<double> right = List<double>.filled(sampleCount, 0, growable: false);
+    final left = Float32List(sampleCount);
+    final right = Float32List(sampleCount);
 
     render(left, right);
 

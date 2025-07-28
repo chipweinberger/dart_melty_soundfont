@@ -1,4 +1,6 @@
-﻿import 'reverb_comb_filter.dart';
+﻿import 'dart:typed_data';
+
+import 'reverb_comb_filter.dart';
 import 'reverb_all_pass_filter.dart';
 
 // This reverb implementation is based on Freeverb, a domain reverb
@@ -117,7 +119,7 @@ class Reverb {
     return r;
   }
 
-  void process(List<double> input, List<double> outputLeft, List<double> outputRight) {
+  void process(Float32List input, Float32List outputLeft, Float32List outputRight) {
     outputLeft.fillRange(0, outputLeft.length, 0.0);
     outputRight.fillRange(0, outputRight.length, 0.0);
 

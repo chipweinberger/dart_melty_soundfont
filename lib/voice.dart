@@ -1,4 +1,6 @@
-﻿import 'modulation_envelope.dart';
+﻿import 'dart:typed_data';
+
+import 'modulation_envelope.dart';
 import 'volume_envelope.dart';
 import 'lfo.dart';
 import 'oscillator.dart';
@@ -24,7 +26,7 @@ class Voice {
   final Oscillator _oscillator;
   final BiQuadFilter _filter;
 
-  final List<double> _block;
+  final Float32List _block;
 
   // A sudden change in the mix gain will cause pop noise.
   // To avoid this, we save the mix gain of the previous block,
@@ -82,7 +84,7 @@ class Voice {
         _modLfo = Lfo(synthesizer),
         _oscillator = Oscillator(synthesizer),
         _filter = BiQuadFilter(synthesizer),
-        _block = List<double>.filled(synthesizer.blockSize, 0.0);
+        _block = Float32List(synthesizer.blockSize);
 
   void start(RegionPair region, int channel, int key, int velocity) {
     _exclusiveClass = region.exclusiveClass();
@@ -277,7 +279,7 @@ class Voice {
     }
   }
 
-  List<double> block() => _block;
+  Float32List block() => _block;
 
   double previousMixGainLeft() => _previousMixGainLeft;
   double previousMixGainRight() => _previousMixGainRight;

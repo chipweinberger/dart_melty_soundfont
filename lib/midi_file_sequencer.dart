@@ -1,9 +1,9 @@
 import 'dart:math' as math;
+import 'dart:typed_data';
 
 import 'midi_file.dart';
 import 'synthesizer.dart';
 import 'audio_renderer.dart';
-import 'list_slice.dart';
 
 /// <summary>
 /// An instance of the MIDI file sequencer.
@@ -63,7 +63,7 @@ class MidiFileSequencer implements AudioRenderer {
   }
 
   /// <inheritdoc/>
-  void render(List<double> left, List<double> right) {
+  void render(Float32List left, Float32List right) {
     if (left.length != right.length) {
       throw "The output buffers for the left and right must be the same length.";
     }
@@ -80,7 +80,10 @@ class MidiFileSequencer implements AudioRenderer {
       var dstRem = left.length - wrote;
       var rem = math.min(srcRem, dstRem);
 
-      synthesizer.render(left.slice(wrote, rem), right.slice(wrote, rem));
+      // Create Float32List views for the slices
+      var leftSlice = Float32List.view(left.buffer, wrote * 4, rem);
+      var rightSlice = Float32List.view(right.buffer, wrote * 4, rem);
+      synthesizer.render(leftSlice, rightSlice);
 
       _blockWrote += rem;
       wrote += rem;
