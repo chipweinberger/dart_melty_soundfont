@@ -1,3 +1,6 @@
+# 2.0.0
+- Perf: use Float32List instead of List<double>
+
 # 1.1.16
 - Fix: resetAllControllers should also reset volume, pan, sostenuto, pitch bend range, tuning
 
