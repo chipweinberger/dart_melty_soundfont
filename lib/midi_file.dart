@@ -347,9 +347,9 @@ class MidiMessage {
       return MidiMessageType.tempoChange;
     } else if (channel == MidiMessageType.loopStart.value) {
       return MidiMessageType.loopStart;
-    } else if (channel == MidiMessageType.loopEnd) {
+    } else if (channel == MidiMessageType.loopEnd.value) {
       return MidiMessageType.loopEnd;
-    } else if (channel == MidiMessageType.endOfTrack) {
+    } else if (channel == MidiMessageType.endOfTrack.value) {
       return MidiMessageType.endOfTrack;
     } else {
       return MidiMessageType.normal;
