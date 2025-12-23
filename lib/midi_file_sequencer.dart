@@ -24,7 +24,6 @@ class MidiFileSequencer implements AudioRenderer {
   int _blockWrote = 0;
 
   Duration _currentTime = Duration.zero;
-  double _currentTimeUs = 0.0;
   int _msgIndex = 0;
   int _loopIndex = 0;
 
@@ -48,7 +47,6 @@ class MidiFileSequencer implements AudioRenderer {
     _blockWrote = synthesizer.blockSize;
 
     _currentTime = Duration.zero;
-    _currentTimeUs = 0.0;
     _msgIndex = 0;
     _loopIndex = 0;
 
@@ -75,9 +73,7 @@ class MidiFileSequencer implements AudioRenderer {
       if (_blockWrote == synthesizer.blockSize) {
         _processEvents();
         _blockWrote = 0;
-        // Track time accurately with double to prevent accumulation of rounding errors
-        _currentTimeUs += (_speed * synthesizer.blockSize * Duration.microsecondsPerSecond / synthesizer.sampleRate);
-        _currentTime = Duration(microseconds: _currentTimeUs.round());
+        _currentTime += MidiFile.getTimeSpanFromSeconds(_speed * synthesizer.blockSize / synthesizer.sampleRate);
       }
 
       var srcRem = synthesizer.blockSize - _blockWrote;
@@ -115,7 +111,6 @@ class MidiFileSequencer implements AudioRenderer {
             _loopIndex = _msgIndex;
           } else if (msg.type == MidiMessageType.loopEnd) {
             _currentTime = _midiFile!.times[_loopIndex];
-            _currentTimeUs = _currentTime.inMicroseconds.toDouble();
             _msgIndex = _loopIndex;
             synthesizer.noteOffAll();
           }
@@ -128,7 +123,6 @@ class MidiFileSequencer implements AudioRenderer {
 
     if (_msgIndex == _midiFile!.messages.length && _loop == true) {
       _currentTime = _midiFile!.times[_loopIndex];
-      _currentTimeUs = _currentTime.inMicroseconds.toDouble();
       _msgIndex = _loopIndex;
       synthesizer.noteOffAll();
     }
