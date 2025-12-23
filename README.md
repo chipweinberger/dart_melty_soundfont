@@ -94,7 +94,7 @@ sequencer.speed = 1.5;
 
 // Render 10 seconds of playback into PCM buffer
 ArrayInt16 buf16 = ArrayInt16.zeros(numShorts: 44100 * 10);
-synth.renderMonoInt16(buf16);
+sequencer.renderMonoInt16(buf16);
 
 ```
 
