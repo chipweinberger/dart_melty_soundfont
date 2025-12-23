@@ -23,7 +23,7 @@ class MidiFileSequencer implements AudioRenderer {
 
   int _blockWrote = 0;
 
-  Duration _currentTime = Duration.zero;
+  int _samplesRendered = 0;
   int _msgIndex = 0;
   int _loopIndex = 0;
 
@@ -46,7 +46,7 @@ class MidiFileSequencer implements AudioRenderer {
 
     _blockWrote = synthesizer.blockSize;
 
-    _currentTime = Duration.zero;
+    _samplesRendered = 0;
     _msgIndex = 0;
     _loopIndex = 0;
 
@@ -73,7 +73,7 @@ class MidiFileSequencer implements AudioRenderer {
       if (_blockWrote == synthesizer.blockSize) {
         _processEvents();
         _blockWrote = 0;
-        _currentTime += MidiFile.getTimeSpanFromSeconds(_speed * synthesizer.blockSize / synthesizer.sampleRate);
+        _samplesRendered += synthesizer.blockSize;
       }
 
       var srcRem = synthesizer.blockSize - _blockWrote;
@@ -95,10 +95,11 @@ class MidiFileSequencer implements AudioRenderer {
       return;
     }
 
+    final currentTime = _samplesToDuration(_samplesRendered);
     while (_msgIndex < _midiFile!.messages.length) {
       var time = _midiFile!.times[_msgIndex];
       var msg = _midiFile!.messages[_msgIndex];
-      if (time <= _currentTime) {
+      if (time <= currentTime) {
         if (msg.type == MidiMessageType.normal) {
           if (onSendMessage == null) {
             synthesizer.processMidiMessage(
@@ -110,7 +111,7 @@ class MidiFileSequencer implements AudioRenderer {
           if (msg.type == MidiMessageType.loopStart) {
             _loopIndex = _msgIndex;
           } else if (msg.type == MidiMessageType.loopEnd) {
-            _currentTime = _midiFile!.times[_loopIndex];
+            _samplesRendered = _durationToSamples(_midiFile!.times[_loopIndex]);
             _msgIndex = _loopIndex;
             synthesizer.noteOffAll();
           }
@@ -122,10 +123,19 @@ class MidiFileSequencer implements AudioRenderer {
     }
 
     if (_msgIndex == _midiFile!.messages.length && _loop == true) {
-      _currentTime = _midiFile!.times[_loopIndex];
+      _samplesRendered = _durationToSamples(_midiFile!.times[_loopIndex]);
       _msgIndex = _loopIndex;
       synthesizer.noteOffAll();
     }
+  }
+
+  
+  Duration _samplesToDuration(int samples) {
+    return Duration(microseconds: (samples * _speed * Duration.microsecondsPerSecond / synthesizer.sampleRate).round());
+  }
+
+  int _durationToSamples(Duration duration) {
+    return (duration.inMicroseconds * synthesizer.sampleRate / (_speed * Duration.microsecondsPerSecond)).round();
   }
 
   /// <summary>
@@ -136,7 +146,7 @@ class MidiFileSequencer implements AudioRenderer {
   /// <summary>
   /// Gets the current playback position.
   /// </summary>
-  Duration get position => _currentTime;
+  Duration get position => _samplesToDuration(_samplesRendered);
 
   /// <summary>
   /// Gets a value that indicates whether the current playback position is at the end of the sequence.
