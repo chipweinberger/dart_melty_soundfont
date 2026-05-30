@@ -192,7 +192,11 @@ class MidiFile {
     double tempo = 120.0;
 
     while (true) {
-      int minTick = 0x7fffffffffffffff; // int max value
+      // Use a JS-safe sentinel (2^53 - 1) instead of the 64-bit int max
+      // (0x7fffffffffffffff), which dart2js cannot represent and fails to
+      // compile for the web. MIDI ticks never approach this magnitude, so the
+      // "find the minimum tick" logic below is unaffected.
+      int minTick = 0x1fffffffffffff; // == 9007199254740991 (maxSafeInteger)
       int minIndex = -1;
       for (int ch = 0; ch < tickLists.length; ch++) {
         if (indices[ch] < tickLists[ch].length) {
